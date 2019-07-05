@@ -236,6 +236,7 @@ target_link_libraries(pioneer3at
 	${catkin_LIBRARIES}
 )
 
+
 #############
 ## Install ##
 #############
@@ -249,7 +250,6 @@ install(TARGETS e_puck_line
 install(TARGETS complete_test
         RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 
-
 install(TARGETS robot_information_parser
         RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 
@@ -261,3 +261,6 @@ install(TARGETS panoramic_view_recorder
 
 install(TARGETS pioneer3at
         RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+
+install(DIRECTORY launch
+        DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
