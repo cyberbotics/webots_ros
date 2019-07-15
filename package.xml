@@ -6,6 +6,7 @@
 
   <url>http://wiki.ros.org/webots_ros</url>
   <maintainer email="support@cyberbotics.com">Cyberbotics</maintainer>
+  <author>Cyberbotics</author>
 
   <license>Apache 2.0</license>
 
