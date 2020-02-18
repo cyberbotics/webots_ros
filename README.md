@@ -1,3 +1,4 @@
+[![Build Status](http://build.ros.org/buildStatus/icon?job=Kbin_uX64__webots_ros__ubuntu_xenial_amd64__binary&subject=Kinetic)](http://build.ros.org/job/Kbin_uX64__webots_ros__ubuntu_xenial_amd64__binary/) [![Build Status](http://build.ros.org/buildStatus/icon?job=Mbin_uB64__webots_ros__ubuntu_bionic_amd64__binary&subject=Melodic)](http://build.ros.org/job/Mbin_uB64__webots_ros__ubuntu_bionic_amd64__binary/)
 ## webots_ros
 
 The webots_ros package contains examples for interfacing ROS nodes with the standard ROS controller of Webots.
