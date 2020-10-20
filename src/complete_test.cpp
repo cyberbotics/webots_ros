@@ -733,6 +733,29 @@ int main(int argc, char **argv) {
   get_info_client.shutdown();
   time_step_client.call(time_step_srv);
 
+  // camera_get_exposure
+  camera_set_client = n.serviceClient<webots_ros::get_float>(model_name + "/camera/get_exposure");
+  webots_ros::get_float camera_get_exposure_srv;
+  if (camera_set_client.call(camera_get_exposure_srv) && camera_get_exposure_srv.response.value == 1.0)
+    ROS_INFO("Camera exposure is %lf.", camera_get_exposure_srv.response.value);
+  else
+    ROS_ERROR("Failed to call service camera_get_exposure.");
+
+  camera_set_client.shutdown();
+  time_step_client.call(time_step_srv);
+
+  // camera_set_exposure
+  camera_set_client = n.serviceClient<webots_ros::set_float>(model_name + "/camera/set_exposure");
+  webots_ros::set_float camera_set_exposure_srv;
+  camera_set_exposure_srv.request.value = 1.0;
+  if (camera_set_client.call(camera_set_exposure_srv) && camera_set_exposure_srv.response.success)
+    ROS_INFO("Camera exposure set to %lf.", camera_set_exposure_srv.request.value);
+  else
+    ROS_ERROR("Failed to call service camera_set_exposure.");
+
+  camera_set_client.shutdown();
+  time_step_client.call(time_step_srv);
+
   // check presence of recognition capability
   get_info_client = n.serviceClient<webots_ros::get_bool>(model_name + "/camera/has_recognition");
   webots_ros::get_bool camera_has_recognition_srv;
