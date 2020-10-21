@@ -5,7 +5,6 @@ WorldInfo {
   ]
   title "ROS Python"
   basicTimeStep 20
-  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material2 "thymio body"
@@ -16,8 +15,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.3650235088419984 -0.9018337571390201 -0.2312005892665386 5.0279702
-  position 0.85252477 0.55969193 0.54871339
+  orientation 0.6529831740954333 -0.39586888863896347 -0.6456785557504638 1.5078231853591149
+  position -0.7726419993246917 -0.39385691252855365 0.4050418385644192
   follow "Thymio II"
 }
 TexturedBackground {
@@ -25,10 +24,11 @@ TexturedBackground {
 TexturedBackgroundLight {
 }
 CircleArena {
+  rotation 1 0 0 1.5707963267948966
   wallThickness 0.05
 }
 DEF THYMIO2 Thymio2 {
-  rotation 1 0 0 0
+  rotation 1 0 0 1.570796326794897
   controller "<extern>"
   controllerArgs []
 }
