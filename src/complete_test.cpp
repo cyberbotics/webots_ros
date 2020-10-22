@@ -96,6 +96,7 @@
 #include <webots_ros/node_add_force_with_offset.h>
 #include <webots_ros/node_get_center_of_mass.h>
 #include <webots_ros/node_get_contact_point.h>
+#include <webots_ros/node_get_contact_point_node.h>
 #include <webots_ros/node_get_field.h>
 #include <webots_ros/node_get_id.h>
 #include <webots_ros/node_get_name.h>
@@ -2921,6 +2922,7 @@ int main(int argc, char **argv) {
     model_name + "/supervisor/node/get_number_of_contact_points");
 
   supervisor_node_get_number_of_contact_points_srv.request.node = from_def_node;
+  supervisor_node_get_number_of_contact_points_srv.request.includeDescendants = false;
   supervisor_node_get_number_of_contact_points_client.call(supervisor_node_get_number_of_contact_points_srv);
   ROS_INFO("From_def node got %d contact points.",
            supervisor_node_get_number_of_contact_points_srv.response.numberOfContactPoints);
@@ -2936,11 +2938,23 @@ int main(int argc, char **argv) {
   supervisor_node_get_contact_point_srv.request.node = from_def_node;
   supervisor_node_get_contact_point_srv.request.index = 0;
   supervisor_node_get_contact_point_client.call(supervisor_node_get_contact_point_srv);
-  ROS_INFO("From_def_node first contact point is at x = %f, y = %f z = %f.",
-           supervisor_node_get_contact_point_srv.response.point.x, supervisor_node_get_contact_point_srv.response.point.y,
-           supervisor_node_get_contact_point_srv.response.point.z);
+  ROS_INFO("First contact point is at x = %f, y = %f z = %f.", supervisor_node_get_contact_point_srv.response.point.x,
+           supervisor_node_get_contact_point_srv.response.point.y, supervisor_node_get_contact_point_srv.response.point.z);
 
   supervisor_node_get_contact_point_client.shutdown();
+  time_step_client.call(time_step_srv);
+
+  ros::ServiceClient supervisor_node_get_contact_point_node_client;
+  webots_ros::node_get_contact_point_node supervisor_node_get_contact_point_node_srv;
+  supervisor_node_get_contact_point_node_client =
+    n.serviceClient<webots_ros::node_get_contact_point_node>(model_name + "/supervisor/node/get_contact_point_node");
+
+  supervisor_node_get_contact_point_node_srv.request.node = from_def_node;
+  supervisor_node_get_contact_point_node_srv.request.index = 0;
+  supervisor_node_get_contact_point_node_client.call(supervisor_node_get_contact_point_node_srv);
+  ROS_INFO("First contact point belong to node '%lu'", supervisor_node_get_contact_point_node_srv.response.node);
+
+  supervisor_node_get_contact_point_node_client.shutdown();
   time_step_client.call(time_step_srv);
 
   // test get_static_balance
