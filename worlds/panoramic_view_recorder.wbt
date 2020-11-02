@@ -1,24 +1,21 @@
 #VRML_SIM R2020b utf8
 WorldInfo {
+  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.9025254903181316 0.24492967299989196 0.35419937127299106 1.3075596896495663
-  position 1.8867140916805858 -2.8075493031260303 1.5289373381411842
+  orientation 0 1 0 0
+  position 0 0.35 1.5
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
 Robot {
-  rotation 1 0 0 1.5707963267948966
   controller "ros"
   supervisor TRUE
 }
 Floor {
-  rotation 1 0 0 1.5707963267948966
 }
 Nao {
-  translation 0 0.334 0.33
-  rotation 1 0 0 4.692820414042842e-06
   controller "void"
 }
