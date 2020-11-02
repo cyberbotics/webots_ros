@@ -6,5 +6,5 @@ maximizedDockId: -1
 centralWidgetVisible: 1
 orthographicViewHeight: 1
 textFiles: 1 "scripts/ros_python.py" "scripts/ros_controller.py"
-globalOptionalRendering: DistanceSensorRays::CoordinateSystem
+globalOptionalRendering: DistanceSensorRays
 consoles: Console:All:All

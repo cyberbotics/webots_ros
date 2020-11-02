@@ -6,6 +6,7 @@ maximizedDockId: -1
 centralWidgetVisible: 1
 orthographicViewHeight: 1
 textFiles: -1
+robotWindow: full_supervisor	
 consoles: Console:All:All
 renderingDevicePerspectives: full_supervisor:camera;1;1;0;0
 renderingDevicePerspectives: full_supervisor:display;1;1;0;0
