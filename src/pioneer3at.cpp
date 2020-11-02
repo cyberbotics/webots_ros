@@ -21,7 +21,7 @@
 #include <sensor_msgs/Image.h>
 #include <sensor_msgs/Imu.h>
 #include <sensor_msgs/LaserScan.h>
-#include <sensor_msgs/NavSatFix.h>
+#include <geometry_msgs/Point.h>
 #include <signal.h>
 #include <std_msgs/String.h>
 #include <tf/transform_broadcaster.h>
@@ -49,7 +49,7 @@ webots_ros::set_int timeStepSrv;
 
 static const char *motorNames[NMOTORS] = {"front_left_wheel", "front_right_wheel", "back_left_wheel", "back_right_wheel"};
 
-static double GPSValues[3] = {0, 0, 0};
+static double GPSValues[3] = {0, 0};
 static double inertialUnitValues[4] = {0, 0, 0, 0};
 
 static int lms291Resolution = 0;
@@ -108,19 +108,18 @@ void updateSpeed() {
 void broadcastTransform() {
   static tf::TransformBroadcaster br;
   tf::Transform transform;
-  transform.setOrigin(tf::Vector3(-GPSValues[2], GPSValues[0], GPSValues[1]));
+  transform.setOrigin(tf::Vector3(GPSValues[0], GPSValues[1], 0));
   tf::Quaternion q(inertialUnitValues[0], inertialUnitValues[1], inertialUnitValues[2], inertialUnitValues[3]);
-  q = q.inverse();
   transform.setRotation(q);
   br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "odom", "base_link"));
+
   transform.setIdentity();
   br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "base_link", "pioneer3at/Sick_LMS_291"));
 }
 
-void GPSCallback(const sensor_msgs::NavSatFix::ConstPtr &values) {
-  GPSValues[0] = values->latitude;
-  GPSValues[1] = values->altitude;
-  GPSValues[2] = values->longitude;
+void GPSCallback(const geometry_msgs::Point::ConstPtr &values) {
+  GPSValues[0] = values->x;
+  GPSValues[1] = values->y;
   broadcastTransform();
 }
 
