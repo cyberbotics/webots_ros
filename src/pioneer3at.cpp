@@ -108,12 +108,16 @@ void updateSpeed() {
 void broadcastTransform() {
   static tf::TransformBroadcaster br;
   tf::Transform transform;
+
+  // Publish odometry transform
   transform.setOrigin(tf::Vector3(GPSValues[0], GPSValues[1], 0));
   tf::Quaternion q(inertialUnitValues[0], inertialUnitValues[1], inertialUnitValues[2], inertialUnitValues[3]);
   transform.setRotation(q);
   br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "odom", "base_link"));
 
+  // Publish Lidar transform (inverted to match ENU)
   transform.setIdentity();
+  transform.setRotation(tf::Quaternion(tf::Vector3(1, 0, 0), M_PI));
   br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "base_link", "pioneer3at/Sick_LMS_291"));
 }
 
