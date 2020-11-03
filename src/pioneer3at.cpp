@@ -281,7 +281,7 @@ int main(int argc, char **argv) {
   set_inertial_unit_client = n->serviceClient<webots_ros::set_int>("pioneer3at/inertial_unit/enable");
   inertial_unit_srv.request.value = 32;
   if (set_inertial_unit_client.call(inertial_unit_srv) && inertial_unit_srv.response.success) {
-    sub_inertial_unit = n->subscribe("pioneer3at/inertial_unit/roll_pitch_yaw", 1, inertialUnitCallback);
+    sub_inertial_unit = n->subscribe("pioneer3at/inertial_unit/quaternion", 1, inertialUnitCallback);
     while (sub_inertial_unit.getNumPublishers() == 0) {
     }
     ROS_INFO("Inertial unit enabled.");

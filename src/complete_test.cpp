@@ -1753,17 +1753,15 @@ int main(int argc, char **argv) {
 
   sub_inertial_unit_32.shutdown();
 
-  ros::ServiceClient lookup_table_inertial_unit_client;
-  webots_ros::get_float_array lookup_table_inertial_unit_srv;
-  lookup_table_inertial_unit_client =
-    n.serviceClient<webots_ros::get_float_array>(model_name + "/inertial_unit/get_lookup_table");
-  if (lookup_table_inertial_unit_client.call(lookup_table_inertial_unit_srv))
-    ROS_INFO("Inertial unit lookup table size = %lu.", lookup_table_inertial_unit_srv.response.value.size());
+  ros::ServiceClient noise_inertial_unit_client;
+  webots_ros::get_float noise_inertial_unit_srv;
+  noise_inertial_unit_client =
+    n.serviceClient<webots_ros::get_float_array>(model_name + "/inertial_unit/get_noise");
+  if (noise_inertial_unit_client.call(noise_inertial_unit_srv))
+    ROS_INFO("Noise value is %f.", noise_inertial_unit_srv.response.value);
   else
-    ROS_ERROR("Failed to get the lookup table of 'inertial_unit'.");
-  if (lookup_table_inertial_unit_srv.response.value.size() != 0)
-    ROS_ERROR("Size of lookup table of 'inertial_unit' is wrong.");
-  lookup_table_inertial_unit_client.shutdown();
+    ROS_ERROR("Failed to get noise value for 'inertial_unit'.");
+  noise_inertial_unit_client.shutdown();
 
   time_step_client.call(time_step_srv);
 
