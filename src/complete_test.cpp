@@ -246,10 +246,10 @@ void distance_sensorCallback(const sensor_msgs::Range::ConstPtr &value) {
   callbackCalled = true;
 }
 
-void GPSCallback(const sensor_msgs::NavSatFix::ConstPtr &values) {
-  GPSValues[0] = values->latitude;
-  GPSValues[1] = values->altitude;
-  GPSValues[2] = values->longitude;
+void GPSCallback(const geometry_msgs::Point::ConstPtr &values) {
+  GPSValues[0] = values[0];
+  GPSValues[1] = values[1];
+  GPSValues[2] = values[2];
 
   ROS_INFO("GPS values are x=%f y=%f z=%f (time: %d:%d).", GPSValues[0], GPSValues[1], GPSValues[2], values->header.stamp.sec,
            values->header.stamp.nsec);
