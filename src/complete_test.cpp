@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include <geometry_msgs/Twist.h>
+#include <geometry_msgs/PointStamped.h>
 #include <geometry_msgs/WrenchStamped.h>
 #include <sensor_msgs/Illuminance.h>
 #include <sensor_msgs/Image.h>
@@ -246,10 +247,10 @@ void distance_sensorCallback(const sensor_msgs::Range::ConstPtr &value) {
   callbackCalled = true;
 }
 
-void GPSCallback(const geometry_msgs::Point::ConstPtr &values) {
-  GPSValues[0] = values[0];
-  GPSValues[1] = values[1];
-  GPSValues[2] = values[2];
+void GPSCallback(const geometry_msgs::PointStamped::ConstPtr &values) {
+  GPSValues[0] = values->point.x;
+  GPSValues[1] = values->point.y;
+  GPSValues[2] = values->point.z;
 
   ROS_INFO("GPS values are x=%f y=%f z=%f (time: %d:%d).", GPSValues[0], GPSValues[1], GPSValues[2], values->header.stamp.sec,
            values->header.stamp.nsec);
