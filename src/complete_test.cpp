@@ -1757,7 +1757,7 @@ int main(int argc, char **argv) {
   ros::ServiceClient noise_inertial_unit_client;
   webots_ros::get_float noise_inertial_unit_srv;
   noise_inertial_unit_client =
-    n.serviceClient<webots_ros::get_float_array>(model_name + "/inertial_unit/get_noise");
+    n.serviceClient<webots_ros::get_float>(model_name + "/inertial_unit/get_noise");
   if (noise_inertial_unit_client.call(noise_inertial_unit_srv))
     ROS_INFO("Noise value is %f.", noise_inertial_unit_srv.response.value);
   else
