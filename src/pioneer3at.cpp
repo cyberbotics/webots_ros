@@ -49,7 +49,7 @@ webots_ros::set_int timeStepSrv;
 
 static const char *motorNames[NMOTORS] = {"front_left_wheel", "front_right_wheel", "back_left_wheel", "back_right_wheel"};
 
-static double GPSValues[3] = {0, 0};
+static double GPSValues[2] = {0, 0};
 static double inertialUnitValues[4] = {0, 0, 0, 0};
 
 static int lms291Resolution = 0;
