@@ -829,15 +829,30 @@ int main(int argc, char **argv) {
     n.serviceClient<webots_ros::get_bool>(model_name + "/camera/recognition_enable_segmentation");
   webots_ros::get_bool enable_segmentation_srv;
   if (enable_segmentation_client.call(enable_segmentation_srv) && enable_segmentation_srv.response.value)
-    ROS_INFO("Segmentation correctly enabled.");
+    ROS_INFO("Segmentation correctly available.");
   else {
     if (!enable_segmentation_srv.response.value)
-      ROS_ERROR("Segmentation value could not be enabled.");
-    ROS_ERROR("Failed to set segmentation.");
+      ROS_ERROR("Segmentation value could not be retrieved correctly.");
+    ROS_ERROR("Failed to retrieve segmentation value.");
     return 1;
   }
 
   enable_segmentation_client.shutdown();
+  time_step_client.call(time_step_srv);
+
+  ros::ServiceClient is_segmentation_enabled_client =
+    n.serviceClient<webots_ros::get_bool>(model_name + "/camera/recognition_is_segmentation_enabled");
+  webots_ros::get_bool is_segmentation_enabled_srv;
+  if (is_segmentation_enabled_client.call(is_segmentation_enabled_srv) && is_segmentation_enabled_srv.response.value)
+    ROS_INFO("Segmentation correctly enabled.");
+  else {
+    if (!enable_segmentation_srv.response.value)
+      ROS_ERROR("Failed to enable segmentation.");
+    ROS_ERROR("Failed to query segmentation enabled status.");
+    return 1;
+  }
+
+  is_segmentation_enabled_client.shutdown();
   time_step_client.call(time_step_srv);
 
   ros::Subscriber sub_segmentation =
@@ -867,7 +882,6 @@ int main(int argc, char **argv) {
   else
     ROS_ERROR("Failed to call save segmentation image.");
 
-  
   // camera recognition disable segmentation
   ros::ServiceClient disable_segmentation_client =
     n.serviceClient<webots_ros::get_bool>(model_name + "/camera/recognition_disable_segmentation");
