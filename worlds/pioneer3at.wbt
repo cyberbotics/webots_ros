@@ -1,4 +1,4 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   info [
     "Pioneer 3AT robot (Adept MobileRobots)."
@@ -10,8 +10,8 @@ WorldInfo {
   lineScale 0.5
 }
 Viewpoint {
-  orientation -0.9998746704111705 0.010987887687598594 -0.011397797783707198 0.8335816938124668
-  position 8.637520000000002 43.2864 39.212999999999994
+  orientation 0.6048725324586682 -0.3314370339599948 -0.7240709302249597 1.3087820015805856
+  position -17.80765643952763 -17.337681284618117 17.747185747675804
   follow "Pioneer 3-AT"
 }
 TexturedBackground {
@@ -707,6 +707,7 @@ DEF PIONEER_3AT Pioneer3at {
     GPS {
     }
     InertialUnit {
+      rotation -0.577349935856137 0.577349935856137 0.5773509358560258 2.09439
     }
   ]
 }
