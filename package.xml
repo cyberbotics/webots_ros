@@ -2,7 +2,7 @@
 <package>
   <name>webots_ros</name>
   <!-- Version matches Webots version this way: (major - 2018).minor.maintenance -->
-  <version>3.0.0</version>
+  <version>4.1.0</version>
   <description>The ROS package containing examples for interfacing ROS with the standard ROS controller of Webots</description>
 
   <url>http://wiki.ros.org/webots_ros</url>
