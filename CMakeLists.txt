@@ -93,6 +93,7 @@ find_package(catkin REQUIRED COMPONENTS roscpp rospy std_msgs sensor_msgs messag
     node_add_force_with_offset.srv
     node_get_center_of_mass.srv
     node_get_contact_point.srv
+    node_get_contact_point_node.srv
     node_get_field.srv
     node_get_id.srv
     node_get_number_of_contact_points.srv
@@ -131,6 +132,7 @@ find_package(catkin REQUIRED COMPONENTS roscpp rospy std_msgs sensor_msgs messag
     speaker_play_sound.srv
     supervisor_get_from_def.srv
     supervisor_get_from_id.srv
+    supervisor_get_from_string.srv
     supervisor_movie_start_recording.srv
     supervisor_set_label.srv
     supervisor_virtual_reality_headset_get_orientation.srv
