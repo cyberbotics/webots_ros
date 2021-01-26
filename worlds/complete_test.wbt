@@ -1,4 +1,4 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -50,6 +50,9 @@ DEF CONE Solid {
     }
   ]
   name "solid(1)"
+  recognitionColors [
+    0.988235 0.913725 0.309804
+  ]
 }
 DEF RADAR_TARGET Solid {
   translation 0 0 -1.86
@@ -176,6 +179,7 @@ Robot {
         minFieldOfView 0.49
       }
       recognition Recognition {
+        segmentation TRUE
       }
     }
     RangeFinder {
@@ -215,6 +219,7 @@ Robot {
     }
     InertialUnit {
       name "inertial_unit"
+      noise 0.00001
     }
     LED {
       translation 0.1 0.05 0.1
@@ -267,6 +272,9 @@ Robot {
   boundingObject Box {
     size 0.2 0.2 0.2
   }
+  recognitionColors [
+    0.678431 0.498039 0.658824
+  ]
   controller "ros"
   controllerArgs [
     "--name=my_robot"
@@ -276,7 +284,7 @@ Robot {
   customData "INITIAL"
   supervisor TRUE
   battery [
-    10, 10, 2
+    50, 50, 2
   ]
   window "info"
 }

@@ -1,10 +1,10 @@
-#VRML_SIM R2020b utf8
+#VRML_SIM R2021a utf8
 WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0 1 0 0
-  position 0 0.35 1.5
+  orientation 0.6025650947976529 0.4034508611086422 0.688580212613019 1.542782453757079
+  position 3.0654600943488766 -0.7557187756441026 2.0753041667700227
 }
 TexturedBackground {
 }
@@ -17,5 +17,7 @@ Robot {
 Floor {
 }
 Nao {
+  translation 0 0 0.33
+  rotation 1 0 0 4.692820414042842e-06
   controller "void"
 }
