@@ -1,7 +1,27 @@
-<div>
-  <h2>Info window</h2>
+<html>
+
+<head>
+  <script>
+    window.onload = () => {
+      webots.window('info').receive = function (message, robot) {
+        if (message.startsWith('test')) {
+          document.querySelector("#text-display").innerHTML = message;
+          this.send("Answer: " + message, robot);
+        } else
+          console.log("Received unknown message for robot '" + robot + "': '" + message + "'");
+      }
+    }
+  </script>
+</head>
+
+<body>
   <div>
-    <p>Show message received from the controller:</p>
-    <span id='text-display'></span>
+    <h2>Info window</h2>
+    <div>
+      <p>Show message received from the controller:</p>
+      <span id='text-display'></span>
+    </div>
   </div>
-</div>
+</body>
+
+</html>
