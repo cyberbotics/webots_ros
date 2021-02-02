@@ -21,7 +21,7 @@
 #include <sensor_msgs/Image.h>
 #include <sensor_msgs/Imu.h>
 #include <sensor_msgs/LaserScan.h>
-#include <geometry_msgs/Point.h>
+#include <geometry_msgs/PointStamped.h>
 #include <signal.h>
 #include <std_msgs/String.h>
 #include <tf/transform_broadcaster.h>
@@ -121,9 +121,9 @@ void broadcastTransform() {
   br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "base_link", "pioneer3at/Sick_LMS_291"));
 }
 
-void GPSCallback(const geometry_msgs::Point::ConstPtr &values) {
-  GPSValues[0] = values->x;
-  GPSValues[1] = values->y;
+void GPSCallback(const geometry_msgs::PointStamped::ConstPtr &values) {
+  GPSValues[0] = values->point.x;
+  GPSValues[1] = values->point.y;
   broadcastTransform();
 }
 

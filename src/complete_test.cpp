@@ -1837,7 +1837,7 @@ int main(int argc, char **argv) {
   inertial_unit_srv.request.value = 32;
   if (set_inertial_unit_client.call(inertial_unit_srv) && inertial_unit_srv.response.success) {
     ROS_INFO("Inertial_unit enabled.");
-    sub_inertial_unit_32 = n.subscribe(model_name + "/inertial_unit/quaternion", 1, inertialUnitCallback);
+    sub_inertial_unit_32 = n.subscribe(model_name + "/inertial_unit/roll_pitch_yaw", 1, inertialUnitCallback);
     callbackCalled = false;
     while (sub_inertial_unit_32.getNumPublishers() == 0 && !callbackCalled) {
       ros::spinOnce();
@@ -3535,3 +3535,4 @@ int main(int argc, char **argv) {
   printf("\nTest Completed\n");
   return 0;
 }
+

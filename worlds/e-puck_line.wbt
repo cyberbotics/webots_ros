@@ -1,16 +1,16 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 WorldInfo {
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.8817326747174138 0.4433808364310757 0.16112394055929466 5.50129
-  position -0.45881 0.996783 1.25076
+  orientation 0.886846591609518 -0.24544200950097636 -0.39148606989611184 1.2307403414482054
+  position -0.9554408008528787 -1.8017812565874936 0.9933059870384544
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
 RectangleArena {
+  rotation 1 0 0 1.5707963267948966
   floorSize 0.9 0.9
   floorTileSize 0.9 0.9
   floorAppearance PBRAppearance {
@@ -25,7 +25,8 @@ RectangleArena {
   wallHeight 0.05
 }
 DEF OBSTACLE1 Solid {
-  translation 0.0871577 0.025 -0.192401
+  translation 0.0871577 0.192401 0.025
+  rotation 1 0 0 1.5707963267948966
   children [
     Shape {
       appearance PBRAppearance {
@@ -42,8 +43,8 @@ DEF OBSTACLE1 Solid {
   boundingObject USE BOX1
 }
 DEF OBSTACLE2 Solid {
-  translation -0.0677406 0.025 -0.0327153
-  rotation 0 1 0 4.08383
+  translation -0.0677406 0.0327153 0.025
+  rotation -0.338870904039348 0.665269310278009 0.665269310278009 3.795044776069445
   children [
     Shape {
       appearance PBRAppearance {
@@ -60,8 +61,8 @@ DEF OBSTACLE2 Solid {
   boundingObject USE BOX2
 }
 DEF OBSTACLE3 Solid {
-  translation 0.31759 0.025 0.250604
-  rotation 0 1 0 13.7261
+  translation 0.31759 -0.250604 0.025
+  rotation 0.733633125129165 0.48051141386715 0.48051141386715 1.875705136699914
   children [
     Shape {
       appearance PBRAppearance {
@@ -78,8 +79,8 @@ DEF OBSTACLE3 Solid {
   boundingObject USE BOX3
 }
 DEF EPUCK E-puck {
-  translation 0.080305 0 0.171886
-  rotation 0 1 0 1.5
+  translation 0.080305 -0.171886 0
+  rotation 0.604591835333834 0.563235613508089 0.563235613508089 2.054014631559264
   controller "ros"
   groundSensorsSlot [
     E-puckGroundSensors {
