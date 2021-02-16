@@ -1,4 +1,4 @@
 uint64 node
-bool value
+bool recursive
 ---
 bool success
