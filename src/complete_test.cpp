@@ -113,6 +113,7 @@
 #include <webots_ros/node_remove.h>
 #include <webots_ros/node_reset_functions.h>
 #include <webots_ros/node_reset_physics.h>
+#include <webots_ros/node_set_string.h>
 #include <webots_ros/node_set_velocity.h>
 #include <webots_ros/node_set_visibility.h>
 #include <webots_ros/pen_set_ink_color.h>
@@ -3084,6 +3085,38 @@ int main(int argc, char **argv) {
     ROS_ERROR("Failed to call service node_reset_physics.");
 
   supervisor_node_reset_physics_client.shutdown();
+  time_step_client.call(time_step_srv);
+
+  // test node_save_state
+  ros::ServiceClient supervisor_node_save_state_client =
+    n.serviceClient<webots_ros::node_set_string>(model_name + "/supervisor/node/save_state");
+  webots_ros::node_set_string supervisor_node_save_state_srv;
+
+  supervisor_node_save_state_srv.request.node = from_def_node;
+  supervisor_node_save_state_srv.request.state_name = "dummy_state";
+  if (supervisor_node_save_state_client.call(supervisor_node_save_state_srv) &&
+      supervisor_node_save_state_srv.response.success == 1)
+    ROS_INFO("Node state has been saved successfully.");
+  else
+    ROS_ERROR("Failed to call service node_save_state.");
+
+  supervisor_node_save_state_client.shutdown();
+  time_step_client.call(time_step_srv);
+
+  // test node_load_state
+  ros::ServiceClient supervisor_node_load_state_client =
+    n.serviceClient<webots_ros::node_set_string>(model_name + "/supervisor/node/load_state");
+  webots_ros::node_set_string supervisor_node_load_state_srv;
+
+  supervisor_node_load_state_srv.request.node = from_def_node;
+  supervisor_node_load_state_srv.request.state_name = "dummy_state";
+  if (supervisor_node_load_state_client.call(supervisor_node_load_state_srv) &&
+      supervisor_node_load_state_srv.response.success == 1)
+    ROS_INFO("Node state has been loaded successfully.");
+  else
+    ROS_ERROR("Failed to call service node_load_state.");
+
+  supervisor_node_load_state_client.shutdown();
   time_step_client.call(time_step_srv);
 
   // test restart_controller
