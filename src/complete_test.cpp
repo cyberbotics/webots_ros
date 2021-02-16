@@ -112,6 +112,7 @@
 #include <webots_ros/node_get_velocity.h>
 #include <webots_ros/node_remove.h>
 #include <webots_ros/node_reset_functions.h>
+#include <webots_ros/node_reset_physics.h>
 #include <webots_ros/node_set_velocity.h>
 #include <webots_ros/node_set_visibility.h>
 #include <webots_ros/pen_set_ink_color.h>
@@ -3235,8 +3236,8 @@ int main(int argc, char **argv)
   // test reset_physics
   // if the node isn't a top Solid webots will throw a warning but still return true to ros
   ros::ServiceClient supervisor_node_reset_physics_client =
-      n.serviceClient<webots_ros::node_set_bool>(model_name + "/supervisor/node/reset_physics");
-  webots_ros::node_set_bool supervisor_node_reset_physics_srv;
+      n.serviceClient<webots_ros::node_reset_physics>(model_name + "/supervisor/node/reset_physics");
+  webots_ros::node_reset_physics supervisor_node_reset_physics_srv;
 
   supervisor_node_reset_physics_srv.request.node = from_def_node;
   supervisor_node_reset_physics_srv.request.recursive = true;
