@@ -108,6 +108,7 @@
 #include <webots_ros/node_get_static_balance.h>
 #include <webots_ros/node_get_status.h>
 #include <webots_ros/node_get_type.h>
+#include <webots_ros/node_get_string.h>
 #include <webots_ros/node_get_velocity.h>
 #include <webots_ros/node_remove.h>
 #include <webots_ros/node_reset_functions.h>
@@ -150,64 +151,75 @@ static bool callbackCalled = false;
 ros::ServiceClient time_step_client;
 webots_ros::set_int time_step_srv;
 
-void modelNameCallback(const std_msgs::String::ConstPtr &name) {
+void modelNameCallback(const std_msgs::String::ConstPtr &name)
+{
   model_count++;
   model_list.push_back(name->data);
   ROS_INFO("Model #%d: %s.", model_count, model_list.back().c_str());
   callbackCalled = true;
 }
 
-void cameraCallback(const sensor_msgs::Image::ConstPtr &values) {
+void cameraCallback(const sensor_msgs::Image::ConstPtr &values)
+{
   int i = 0;
   imageColor.resize(values->step * values->height);
-  for (std::vector<unsigned char>::const_iterator it = values->data.begin(); it != values->data.end(); ++it) {
+  for (std::vector<unsigned char>::const_iterator it = values->data.begin(); it != values->data.end(); ++it)
+  {
     imageColor[i] = *it;
     i++;
   }
   callbackCalled = true;
 }
 
-void cameraRecognitionCallback(const webots_ros::RecognitionObject::ConstPtr &object) {
+void cameraRecognitionCallback(const webots_ros::RecognitionObject::ConstPtr &object)
+{
   ROS_INFO("Camera recognition saw a '%s' (time: %d:%d).", object->model.c_str(), object->header.stamp.sec,
            object->header.stamp.nsec);
   callbackCalled = true;
 }
 
-void segmentationCallback(const sensor_msgs::Image::ConstPtr &values) {
+void segmentationCallback(const sensor_msgs::Image::ConstPtr &values)
+{
   ROS_INFO("Segmentation callback called.");
   int i = 0;
   imageColor.resize(values->step * values->height);
-  for (std::vector<unsigned char>::const_iterator it = values->data.begin(); it != values->data.end(); ++it) {
+  for (std::vector<unsigned char>::const_iterator it = values->data.begin(); it != values->data.end(); ++it)
+  {
     imageColor[i] = *it;
     i++;
   }
   callbackCalled = true;
 }
 
-void joystickCallback(const webots_ros::Int8Stamped::ConstPtr &value) {
+void joystickCallback(const webots_ros::Int8Stamped::ConstPtr &value)
+{
   ROS_INFO("Joystick button pressed: %d (time: %d:%d).", value->data, value->header.stamp.sec, value->header.stamp.nsec);
   callbackCalled = true;
 }
 
-void keyboardCallback(const webots_ros::Int32Stamped::ConstPtr &value) {
+void keyboardCallback(const webots_ros::Int32Stamped::ConstPtr &value)
+{
   ROS_INFO("Keyboard key pressed: %d (time: %d:%d).", value->data, value->header.stamp.sec, value->header.stamp.nsec);
   callbackCalled = true;
 }
 
-void radarTargetsCallback(const webots_ros::RadarTarget::ConstPtr &target) {
+void radarTargetsCallback(const webots_ros::RadarTarget::ConstPtr &target)
+{
   ROS_INFO("Received a radar target with distance=%lf received power=%lf speed=%lf azimuth=%lf (time: %d:%d).",
            target->distance, target->receivedPower, target->speed, target->azimuth, target->header.stamp.sec,
            target->header.stamp.nsec);
   callbackCalled = true;
 }
 
-void radarTargetsNumberCallback(const webots_ros::Int8Stamped::ConstPtr &value) {
+void radarTargetsNumberCallback(const webots_ros::Int8Stamped::ConstPtr &value)
+{
   ROS_INFO("Number of target seen by the radar: %d (time: %d:%d).", value->data, value->header.stamp.sec,
            value->header.stamp.nsec);
   callbackCalled = true;
 }
 
-void rangeFinderCallback(const sensor_msgs::Image::ConstPtr &image) {
+void rangeFinderCallback(const sensor_msgs::Image::ConstPtr &image)
+{
   int size = image->width * image->height;
   imageRangeFinder.resize(size);
 
@@ -217,18 +229,21 @@ void rangeFinderCallback(const sensor_msgs::Image::ConstPtr &image) {
   callbackCalled = true;
 }
 
-void lidarCallback(const sensor_msgs::Image::ConstPtr &image) {
+void lidarCallback(const sensor_msgs::Image::ConstPtr &image)
+{
   callbackCalled = true;
 }
 
-void connectorCallback(const webots_ros::Int8Stamped::ConstPtr &value) {
+void connectorCallback(const webots_ros::Int8Stamped::ConstPtr &value)
+{
   connectorPresence = value->data;
 
   ROS_INFO("Connector presence: %d (time: %d:%d).", connectorPresence, value->header.stamp.sec, value->header.stamp.nsec);
   callbackCalled = true;
 }
 
-void accelerometerCallback(const sensor_msgs::Imu::ConstPtr &values) {
+void accelerometerCallback(const sensor_msgs::Imu::ConstPtr &values)
+{
   accelerometerValues[0] = values->linear_acceleration.x;
   accelerometerValues[1] = values->linear_acceleration.y;
   accelerometerValues[2] = values->linear_acceleration.z;
@@ -238,12 +253,14 @@ void accelerometerCallback(const sensor_msgs::Imu::ConstPtr &values) {
   callbackCalled = true;
 }
 
-void battery_sensorCallback(const webots_ros::Float64Stamped::ConstPtr &value) {
+void battery_sensorCallback(const webots_ros::Float64Stamped::ConstPtr &value)
+{
   ROS_INFO("Battery level is %f (time: %d:%d).", value->data, value->header.stamp.sec, value->header.stamp.nsec);
   callbackCalled = true;
 }
 
-void compassCallback(const sensor_msgs::MagneticField::ConstPtr &values) {
+void compassCallback(const sensor_msgs::MagneticField::ConstPtr &values)
+{
   compassValues[0] = values->magnetic_field.x;
   compassValues[1] = values->magnetic_field.y;
   compassValues[2] = values->magnetic_field.z;
@@ -253,12 +270,14 @@ void compassCallback(const sensor_msgs::MagneticField::ConstPtr &values) {
   callbackCalled = true;
 }
 
-void distance_sensorCallback(const sensor_msgs::Range::ConstPtr &value) {
+void distance_sensorCallback(const sensor_msgs::Range::ConstPtr &value)
+{
   ROS_INFO("Distance from object is %f (time: %d:%d).", value->range, value->header.stamp.sec, value->header.stamp.nsec);
   callbackCalled = true;
 }
 
-void GPSCallback(const geometry_msgs::PointStamped::ConstPtr &values) {
+void GPSCallback(const geometry_msgs::PointStamped::ConstPtr &values)
+{
   GPSValues[0] = values->point.x;
   GPSValues[1] = values->point.y;
   GPSValues[2] = values->point.z;
@@ -268,12 +287,14 @@ void GPSCallback(const geometry_msgs::PointStamped::ConstPtr &values) {
   callbackCalled = true;
 }
 
-void GPSSpeedCallback(const webots_ros::Float64Stamped::ConstPtr &value) {
+void GPSSpeedCallback(const webots_ros::Float64Stamped::ConstPtr &value)
+{
   ROS_INFO("GPS speed is: %fkm/h (time: %d:%d).", value->data, value->header.stamp.sec, value->header.stamp.nsec);
   callbackCalled = true;
 }
 
-void gyroCallback(const sensor_msgs::Imu::ConstPtr &values) {
+void gyroCallback(const sensor_msgs::Imu::ConstPtr &values)
+{
   GyroValues[0] = values->angular_velocity.x;
   GyroValues[1] = values->angular_velocity.y;
   GyroValues[2] = values->angular_velocity.z;
@@ -283,7 +304,8 @@ void gyroCallback(const sensor_msgs::Imu::ConstPtr &values) {
   callbackCalled = true;
 }
 
-void inertialUnitCallback(const sensor_msgs::Imu::ConstPtr &values) {
+void inertialUnitCallback(const sensor_msgs::Imu::ConstPtr &values)
+{
   inertialUnitValues[0] = values->orientation.x;
   inertialUnitValues[1] = values->orientation.y;
   inertialUnitValues[2] = values->orientation.z;
@@ -295,32 +317,38 @@ void inertialUnitCallback(const sensor_msgs::Imu::ConstPtr &values) {
   callbackCalled = true;
 }
 
-void lightSensorCallback(const sensor_msgs::Illuminance::ConstPtr &value) {
+void lightSensorCallback(const sensor_msgs::Illuminance::ConstPtr &value)
+{
   ROS_INFO("Light intensity is %f.", value->illuminance);
   callbackCalled = true;
 }
 
-void motorSensorCallback(const webots_ros::Float64Stamped::ConstPtr &value) {
+void motorSensorCallback(const webots_ros::Float64Stamped::ConstPtr &value)
+{
   ROS_INFO("Motor sensor sent value %f.", value->data);
   callbackCalled = true;
 }
 
-void positionSensorCallback(const webots_ros::Float64Stamped::ConstPtr &value) {
+void positionSensorCallback(const webots_ros::Float64Stamped::ConstPtr &value)
+{
   ROS_INFO("Position sensor sent value %f (time: %d:%d).", value->data, value->header.stamp.sec, value->header.stamp.nsec);
   callbackCalled = true;
 }
 
-void touchSensorCallback(const webots_ros::Float64Stamped::ConstPtr &value) {
+void touchSensorCallback(const webots_ros::Float64Stamped::ConstPtr &value)
+{
   ROS_INFO("Touch sensor sent value %f (time: %d:%d).", value->data, value->header.stamp.sec, value->header.stamp.nsec);
   callbackCalled = true;
 }
 
-void touchSensorBumperCallback(const webots_ros::BoolStamped::ConstPtr &value) {
+void touchSensorBumperCallback(const webots_ros::BoolStamped::ConstPtr &value)
+{
   ROS_INFO("Touch sensor sent value %d (time: %d:%d).", value->data, value->header.stamp.sec, value->header.stamp.nsec);
   callbackCalled = true;
 }
 
-void touchSensor3DCallback(const geometry_msgs::WrenchStamped::ConstPtr &values) {
+void touchSensor3DCallback(const geometry_msgs::WrenchStamped::ConstPtr &values)
+{
   touchSensorValues[0] = values->wrench.force.x;
   touchSensorValues[1] = values->wrench.force.y;
   touchSensorValues[2] = values->wrench.force.z;
@@ -330,13 +358,15 @@ void touchSensor3DCallback(const geometry_msgs::WrenchStamped::ConstPtr &values)
   callbackCalled = true;
 }
 
-void receiverCallback(const webots_ros::StringStamped::ConstPtr &value) {
+void receiverCallback(const webots_ros::StringStamped::ConstPtr &value)
+{
   char *message = const_cast<char *>(value->data.c_str());
   ROS_INFO("Received a message %s.", message);
   callbackCalled = true;
 }
 
-void quit(int sig) {
+void quit(int sig)
+{
   time_step_srv.request.value = 0;
   time_step_client.call(time_step_srv);
   ROS_INFO("User stopped the 'complete_test' node.");
@@ -344,7 +374,8 @@ void quit(int sig) {
   exit(0);
 }
 
-int main(int argc, char **argv) {
+int main(int argc, char **argv)
+{
   string model_name = "my_robot";
 
   ros::init(argc, argv, "complete_test", ros::init_options::AnonymousName);
@@ -353,7 +384,8 @@ int main(int argc, char **argv) {
   signal(SIGINT, quit);
 
   ros::Subscriber name_sub = n.subscribe("model_name", 100, modelNameCallback);
-  while (model_count == 0 || model_count < name_sub.getNumPublishers()) {
+  while (model_count == 0 || model_count < name_sub.getNumPublishers())
+  {
     ros::spinOnce();
     ros::spinOnce();
     ros::spinOnce();
@@ -380,27 +412,31 @@ int main(int argc, char **argv) {
     ROS_ERROR("Failed to call service time_step to update robot's time step.");
 
   ros::ServiceClient get_number_of_devices_client =
-    n.serviceClient<webots_ros::get_int>(model_name + "/robot/get_number_of_devices");
+      n.serviceClient<webots_ros::get_int>(model_name + "/robot/get_number_of_devices");
   webots_ros::get_int get_number_of_devices_srv;
 
-  if (get_number_of_devices_client.call(get_number_of_devices_srv)) {
+  if (get_number_of_devices_client.call(get_number_of_devices_srv))
+  {
     int number_of_devices = get_number_of_devices_srv.response.value;
     ROS_INFO("%s has %d devices.", model_name.c_str(), number_of_devices);
-  } else
+  }
+  else
     ROS_ERROR("Failed to call service get_number_of_devices.");
 
   get_number_of_devices_client.shutdown();
   time_step_client.call(time_step_srv);
 
   ros::ServiceClient device_list_client =
-    n.serviceClient<webots_ros::robot_get_device_list>(model_name + "/robot/get_device_list");
+      n.serviceClient<webots_ros::robot_get_device_list>(model_name + "/robot/get_device_list");
   webots_ros::robot_get_device_list device_list_srv;
 
-  if (device_list_client.call(device_list_srv)) {
+  if (device_list_client.call(device_list_srv))
+  {
     device_list = device_list_srv.response.list;
     for (unsigned int i = 0; i < device_list.size(); i++)
       ROS_INFO("Device [%d]: %s.", i, device_list[i].c_str());
-  } else
+  }
+  else
     ROS_ERROR("Failed to call service device_list.");
 
   device_list_client.shutdown();
@@ -410,39 +446,45 @@ int main(int argc, char **argv) {
   webots_ros::get_urdf urdf_srv;
   urdf_srv.request.prefix = "unique_robot_prefix_name_";
 
-  if (urdf_client.call(urdf_srv)) {
+  if (urdf_client.call(urdf_srv))
+  {
     std::string urdf = urdf_srv.response.value;
     if (urdf.find(urdf_srv.request.prefix) == std::string::npos)
       ROS_ERROR("Invalid response from get_urdf.");
     else
       ROS_INFO("URDF has been successfully obtained.");
-  } else
+  }
+  else
     ROS_ERROR("Failed to call service get_urdf.");
 
   urdf_client.shutdown();
   time_step_client.call(time_step_srv);
 
   ros::ServiceClient get_basic_time_step_client =
-    n.serviceClient<webots_ros::get_float>(model_name + "/robot/get_basic_time_step");
+      n.serviceClient<webots_ros::get_float>(model_name + "/robot/get_basic_time_step");
   webots_ros::get_float get_basic_time_step_srv;
 
-  if (get_basic_time_step_client.call(get_basic_time_step_srv)) {
+  if (get_basic_time_step_client.call(get_basic_time_step_srv))
+  {
     double basic_time_step = get_basic_time_step_srv.response.value;
     ROS_INFO("%s has a basic time step of %f.", model_name.c_str(), basic_time_step);
-  } else
+  }
+  else
     ROS_ERROR("Failed to call service get_basic_time_step.");
 
   get_basic_time_step_client.shutdown();
   time_step_client.call(time_step_srv);
 
   ros::ServiceClient robot_get_custom_data_client =
-    n.serviceClient<webots_ros::get_string>(model_name + "/robot/get_custom_data");
+      n.serviceClient<webots_ros::get_string>(model_name + "/robot/get_custom_data");
   webots_ros::get_string robot_get_custom_data_srv;
 
-  if (robot_get_custom_data_client.call(robot_get_custom_data_srv)) {
+  if (robot_get_custom_data_client.call(robot_get_custom_data_srv))
+  {
     data = robot_get_custom_data_srv.response.value;
     ROS_INFO("Data of %s is %s.", model_name.c_str(), data.c_str());
-  } else
+  }
+  else
     ROS_ERROR("Failed to call service robot_get_custom_data.");
 
   robot_get_custom_data_client.shutdown();
@@ -451,10 +493,12 @@ int main(int argc, char **argv) {
   ros::ServiceClient get_mode_client = n.serviceClient<webots_ros::get_int>(model_name + "/robot/get_mode");
   webots_ros::get_int get_mode_srv;
 
-  if (get_mode_client.call(get_mode_srv)) {
+  if (get_mode_client.call(get_mode_srv))
+  {
     mode = get_mode_srv.response.value;
     ROS_INFO("Mode of %s is %d.", model_name.c_str(), mode);
-  } else
+  }
+  else
     ROS_ERROR("Failed to call service get_mode.");
 
   get_mode_client.shutdown();
@@ -463,10 +507,12 @@ int main(int argc, char **argv) {
   ros::ServiceClient get_model_client = n.serviceClient<webots_ros::get_string>(model_name + "/robot/get_model");
   webots_ros::get_string get_model_srv;
 
-  if (get_model_client.call(get_model_srv)) {
+  if (get_model_client.call(get_model_srv))
+  {
     model = get_model_srv.response.value;
     ROS_INFO("Model of %s is %s.", model_name.c_str(), model.c_str());
-  } else
+  }
+  else
     ROS_ERROR("Failed to call service get_model.");
 
   get_model_client.shutdown();
@@ -475,10 +521,12 @@ int main(int argc, char **argv) {
   ros::ServiceClient get_project_path_client = n.serviceClient<webots_ros::get_string>(model_name + "/robot/get_project_path");
   webots_ros::get_string get_project_path_srv;
 
-  if (get_project_path_client.call(get_project_path_srv)) {
+  if (get_project_path_client.call(get_project_path_srv))
+  {
     path = get_project_path_srv.response.value;
     ROS_INFO("World path of %s is %s.", model_name.c_str(), path.c_str());
-  } else
+  }
+  else
     ROS_ERROR("Failed to call service get_project_path.");
 
   get_project_path_client.shutdown();
@@ -488,10 +536,12 @@ int main(int argc, char **argv) {
   ros::ServiceClient get_world_path_client = n.serviceClient<webots_ros::get_string>(model_name + "/robot/get_world_path");
   webots_ros::get_string get_world_path_srv;
 
-  if (get_world_path_client.call(get_world_path_srv)) {
+  if (get_world_path_client.call(get_world_path_srv))
+  {
     path = get_world_path_srv.response.value;
     ROS_INFO("Project path of %s is %s.", model_name.c_str(), path.c_str());
-  } else
+  }
+  else
     ROS_ERROR("Failed to call service get_project_path.");
 
   get_world_path_client.shutdown();
@@ -500,28 +550,32 @@ int main(int argc, char **argv) {
   ros::ServiceClient get_supervisor_client = n.serviceClient<webots_ros::get_bool>(model_name + "/robot/get_supervisor");
   webots_ros::get_bool get_supervisor_srv;
 
-  if (get_supervisor_client.call(get_supervisor_srv)) {
+  if (get_supervisor_client.call(get_supervisor_srv))
+  {
     if (get_supervisor_srv.response.value)
       ROS_INFO("%s is a supervisor.", model_name.c_str());
     else
       ROS_ERROR("%s isn't a supervisor.", model_name.c_str());
-  } else
+  }
+  else
     ROS_ERROR("Failed to call service get_synchronization.");
 
   get_supervisor_client.shutdown();
   time_step_client.call(time_step_srv);
 
   ros::ServiceClient get_synchronization_client =
-    n.serviceClient<webots_ros::get_bool>(model_name + "/robot/get_synchronization");
+      n.serviceClient<webots_ros::get_bool>(model_name + "/robot/get_synchronization");
   webots_ros::get_bool get_synchronization_srv;
 
-  if (get_synchronization_client.call(get_synchronization_srv)) {
+  if (get_synchronization_client.call(get_synchronization_srv))
+  {
     bool synchronization = get_synchronization_srv.response.value;
     if (synchronization)
       ROS_INFO("%s is sync.", model_name.c_str());
     else
       ROS_INFO("%s isn't sync.", model_name.c_str());
-  } else
+  }
+  else
     ROS_ERROR("Failed to call service get_synchronization.");
 
   get_synchronization_client.shutdown();
@@ -530,10 +584,12 @@ int main(int argc, char **argv) {
   ros::ServiceClient get_time_client = n.serviceClient<webots_ros::get_float>(model_name + "/robot/get_time");
   webots_ros::get_float get_time_srv;
 
-  if (get_time_client.call(get_time_srv)) {
+  if (get_time_client.call(get_time_srv))
+  {
     double time = get_time_srv.response.value;
     ROS_INFO("Time for %s is %f.", model_name.c_str(), time);
-  } else
+  }
+  else
     ROS_ERROR("Failed to call service get_time.");
 
   get_time_client.shutdown();
@@ -542,24 +598,28 @@ int main(int argc, char **argv) {
   ros::ServiceClient get_type_client = n.serviceClient<webots_ros::get_int>(model_name + "/robot/get_type");
   webots_ros::get_int get_type_srv;
 
-  if (get_type_client.call(get_type_srv)) {
+  if (get_type_client.call(get_type_srv))
+  {
     int type = get_type_srv.response.value;
     ROS_INFO("Type of %s is %d.", model_name.c_str(), type);
-  } else
+  }
+  else
     ROS_ERROR("Failed to call service get_type.");
 
   get_type_client.shutdown();
   time_step_client.call(time_step_srv);
 
   ros::ServiceClient robot_set_custom_data_client =
-    n.serviceClient<webots_ros::set_string>(model_name + "/robot/set_custom_data");
+      n.serviceClient<webots_ros::set_string>(model_name + "/robot/set_custom_data");
   webots_ros::set_string robot_set_custom_data_srv;
 
   robot_set_custom_data_srv.request.value = "OVERWRITTEN";
-  if (robot_set_custom_data_client.call(robot_set_custom_data_srv)) {
+  if (robot_set_custom_data_client.call(robot_set_custom_data_srv))
+  {
     if (robot_set_custom_data_srv.response.success)
       ROS_INFO("Data of %s has been set to %s.", model_name.c_str(), data.c_str());
-  } else
+  }
+  else
     ROS_ERROR("Failed to call service robot_set_custom_data.");
 
   robot_set_custom_data_client.shutdown();
@@ -569,10 +629,12 @@ int main(int argc, char **argv) {
   webots_ros::robot_set_mode set_mode_srv;
 
   set_mode_srv.request.mode = mode;
-  if (set_mode_client.call(set_mode_srv)) {
+  if (set_mode_client.call(set_mode_srv))
+  {
     if (set_mode_srv.response.success == 1)
       ROS_INFO("Mode of %s has been set to %d.", model_name.c_str(), mode);
-  } else
+  }
+  else
     ROS_ERROR("Failed to call service set_mode.");
 
   set_mode_client.shutdown();
@@ -583,24 +645,27 @@ int main(int argc, char **argv) {
   ros::Subscriber sub_keyboard;
 
   enable_keyboard_srv.request.value = 32;
-  if (enable_keyboard_client.call(enable_keyboard_srv) && enable_keyboard_srv.response.success) {
+  if (enable_keyboard_client.call(enable_keyboard_srv) && enable_keyboard_srv.response.success)
+  {
     ROS_INFO("Keyboard of %s has been enabled.", model_name.c_str());
     sub_keyboard = n.subscribe(model_name + "/keyboard/key", 1, keyboardCallback);
     ROS_INFO("Topics for keyboard initialized.");
     callbackCalled = false;
-    while (sub_keyboard.getNumPublishers() == 0 && !callbackCalled) {
+    while (sub_keyboard.getNumPublishers() == 0 && !callbackCalled)
+    {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
     ROS_INFO("Topics for keyboard connected.");
-  } else
+  }
+  else
     ROS_ERROR("Failed to enable keyboard.");
 
   ros::ServiceClient wait_for_user_input_event_client =
-    n.serviceClient<webots_ros::robot_wait_for_user_input_event>(model_name + "/robot/wait_for_user_input_event");
+      n.serviceClient<webots_ros::robot_wait_for_user_input_event>(model_name + "/robot/wait_for_user_input_event");
   webots_ros::robot_wait_for_user_input_event wait_for_user_input_event_srv;
 
-  wait_for_user_input_event_srv.request.eventType = 4;  // WB_EVENT_KEYBOARD
+  wait_for_user_input_event_srv.request.eventType = 4; // WB_EVENT_KEYBOARD
   wait_for_user_input_event_srv.request.timeout = 20;
   if (wait_for_user_input_event_client.call(wait_for_user_input_event_srv))
     ROS_INFO("Detected user input event: %d.", wait_for_user_input_event_srv.response.event);
@@ -632,14 +697,16 @@ int main(int argc, char **argv) {
 
   // brake_get_motor_name
   ros::ServiceClient brake_get_motor_name_client =
-    n.serviceClient<webots_ros::get_string>(model_name + "/my_brake/get_motor_name");
+      n.serviceClient<webots_ros::get_string>(model_name + "/my_brake/get_motor_name");
   webots_ros::get_string brake_get_motor_name_srv;
-  if (brake_get_motor_name_client.call(brake_get_motor_name_srv)) {
+  if (brake_get_motor_name_client.call(brake_get_motor_name_srv))
+  {
     ROS_INFO("Linear motor name returned from Brake API %s.", brake_get_motor_name_srv.response.value.c_str());
     if (brake_get_motor_name_srv.response.value.compare("linear_motor") != 0)
       ROS_ERROR("Failed to call service brake_get_motor_name: received '%s' instead of 'linear_motor'",
                 brake_get_motor_name_srv.response.value.c_str());
-  } else
+  }
+  else
     ROS_ERROR("Failed to call service brake_get_motor_name.");
 
   brake_get_motor_name_client.shutdown();
@@ -682,17 +749,21 @@ int main(int argc, char **argv) {
 
   enable_camera_client = n.serviceClient<webots_ros::set_int>(model_name + "/camera/enable");
   camera_srv.request.value = TIME_STEP;
-  if (enable_camera_client.call(camera_srv) && camera_srv.response.success) {
+  if (enable_camera_client.call(camera_srv) && camera_srv.response.success)
+  {
     ROS_INFO("Camera enabled.");
     sub_camera_color = n.subscribe(model_name + "/camera/image", 1, cameraCallback);
     ROS_INFO("Topic for camera color initialized.");
     callbackCalled = false;
-    while (sub_camera_color.getNumPublishers() == 0 && !callbackCalled) {
+    while (sub_camera_color.getNumPublishers() == 0 && !callbackCalled)
+    {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
     ROS_INFO("Topic for camera color connected.");
-  } else {
+  }
+  else
+  {
     if (camera_srv.response.success == -1)
       ROS_ERROR("Sampling period is not valid.");
     ROS_ERROR("Failed to enable camera.");
@@ -790,17 +861,21 @@ int main(int argc, char **argv) {
 
   enable_camera_recognition_client = n.serviceClient<webots_ros::set_int>(model_name + "/camera/recognition_enable");
   camera_recognition_srv.request.value = TIME_STEP;
-  if (enable_camera_recognition_client.call(camera_recognition_srv) && camera_recognition_srv.response.success) {
+  if (enable_camera_recognition_client.call(camera_recognition_srv) && camera_recognition_srv.response.success)
+  {
     ROS_INFO("Camera recognition enabled.");
     sub_camera_recognition = n.subscribe(model_name + "/camera/recognition_objects", 1, cameraRecognitionCallback);
     ROS_INFO("Topic for camera recognition initialized.");
     callbackCalled = false;
-    while (sub_camera_recognition.getNumPublishers() == 0 && !callbackCalled) {
+    while (sub_camera_recognition.getNumPublishers() == 0 && !callbackCalled)
+    {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
     ROS_INFO("Topic for camera recognition connected.");
-  } else {
+  }
+  else
+  {
     if (camera_recognition_srv.response.success == -1)
       ROS_ERROR("Sampling period is not valid.");
     ROS_ERROR("Failed to enable camera recognition.");
@@ -813,24 +888,27 @@ int main(int argc, char **argv) {
 
   // camera recognition segmentation is enabled
   ros::ServiceClient has_segmentation_client =
-    n.serviceClient<webots_ros::get_bool>(model_name + "/camera/recognition_has_segmentation");
+      n.serviceClient<webots_ros::get_bool>(model_name + "/camera/recognition_has_segmentation");
   webots_ros::get_bool has_segmentation_srv;
-  if (has_segmentation_client.call(has_segmentation_srv)) {
+  if (has_segmentation_client.call(has_segmentation_srv))
+  {
     if (has_segmentation_srv.response.value)
       ROS_INFO("Camera recognition segmentation field is TRUE.");
     else
       ROS_INFO("Camera recognition segmentation field is FALSE.");
-  } else
+  }
+  else
     ROS_ERROR("Failed to get segmentation field value.");
   has_segmentation_client.shutdown();
 
   // camera recognition enable segmentation
   ros::ServiceClient enable_segmentation_client =
-    n.serviceClient<webots_ros::get_bool>(model_name + "/camera/recognition_enable_segmentation");
+      n.serviceClient<webots_ros::get_bool>(model_name + "/camera/recognition_enable_segmentation");
   webots_ros::get_bool enable_segmentation_srv;
   if (enable_segmentation_client.call(enable_segmentation_srv) && enable_segmentation_srv.response.value)
     ROS_INFO("Segmentation correctly available.");
-  else {
+  else
+  {
     if (!enable_segmentation_srv.response.value)
       ROS_ERROR("Segmentation value could not be retrieved correctly.");
     ROS_ERROR("Failed to retrieve segmentation value.");
@@ -841,11 +919,12 @@ int main(int argc, char **argv) {
   time_step_client.call(time_step_srv);
 
   ros::ServiceClient is_segmentation_enabled_client =
-    n.serviceClient<webots_ros::get_bool>(model_name + "/camera/recognition_is_segmentation_enabled");
+      n.serviceClient<webots_ros::get_bool>(model_name + "/camera/recognition_is_segmentation_enabled");
   webots_ros::get_bool is_segmentation_enabled_srv;
   if (is_segmentation_enabled_client.call(is_segmentation_enabled_srv) && is_segmentation_enabled_srv.response.value)
     ROS_INFO("Segmentation correctly enabled.");
-  else {
+  else
+  {
     if (!enable_segmentation_srv.response.value)
       ROS_ERROR("Failed to enable segmentation.");
     ROS_ERROR("Failed to query segmentation enabled status.");
@@ -856,10 +935,11 @@ int main(int argc, char **argv) {
   time_step_client.call(time_step_srv);
 
   ros::Subscriber sub_segmentation =
-    n.subscribe(model_name + "/camera/recognition_segmentation_image", 1, segmentationCallback);
+      n.subscribe(model_name + "/camera/recognition_segmentation_image", 1, segmentationCallback);
   ROS_INFO("Topic for camera recognition segmentation initialized.");
   callbackCalled = false;
-  while (sub_segmentation.getNumPublishers() == 0 && !callbackCalled) {
+  while (sub_segmentation.getNumPublishers() == 0 && !callbackCalled)
+  {
     ros::spinOnce();
     time_step_client.call(time_step_srv);
   }
@@ -873,7 +953,7 @@ int main(int argc, char **argv) {
 
   // camera recognition save segmentation image
   ros::ServiceClient save_segmentation_image_client =
-    n.serviceClient<webots_ros::save_image>(model_name + "/camera/recognition_save_segmentation_image");
+      n.serviceClient<webots_ros::save_image>(model_name + "/camera/recognition_save_segmentation_image");
   webots_ros::save_image save_segmentation_image_srv;
   save_segmentation_image_srv.request.filename = std::string(getenv("HOME")) + std::string("/test_image_segmentation.png");
   save_segmentation_image_srv.request.quality = 100;
@@ -884,11 +964,12 @@ int main(int argc, char **argv) {
 
   // camera recognition disable segmentation
   ros::ServiceClient disable_segmentation_client =
-    n.serviceClient<webots_ros::get_bool>(model_name + "/camera/recognition_disable_segmentation");
+      n.serviceClient<webots_ros::get_bool>(model_name + "/camera/recognition_disable_segmentation");
   webots_ros::get_bool disable_segmentation_srv;
   if (disable_segmentation_client.call(disable_segmentation_srv) && disable_segmentation_srv.response.value)
     ROS_INFO("Segmentation correctly disabled.");
-  else {
+  else
+  {
     if (!disable_segmentation_srv.response.value)
       ROS_ERROR("Segmentation value could not be disabled.");
     ROS_ERROR("Failed to set segmentation.");
@@ -952,14 +1033,18 @@ int main(int argc, char **argv) {
   set_accelerometer_client = n.serviceClient<webots_ros::set_int>(model_name + "/accelerometer/enable");
 
   accelerometer_srv.request.value = 64;
-  if (set_accelerometer_client.call(accelerometer_srv) && accelerometer_srv.response.success) {
+  if (set_accelerometer_client.call(accelerometer_srv) && accelerometer_srv.response.success)
+  {
     sub_accelerometer_64 = n.subscribe(model_name + "/accelerometer/values", 1, accelerometerCallback);
     callbackCalled = false;
-    while (sub_accelerometer_64.getNumPublishers() == 0 && !callbackCalled) {
+    while (sub_accelerometer_64.getNumPublishers() == 0 && !callbackCalled)
+    {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
-  } else {
+  }
+  else
+  {
     if (accelerometer_srv.response.success == -1)
       ROS_ERROR("Sampling period is not valid.");
     ROS_ERROR("Failed to enable accelerometer.");
@@ -973,19 +1058,23 @@ int main(int argc, char **argv) {
   webots_ros::get_int sampling_period_accelerometer_srv;
 
   sampling_period_accelerometer_client =
-    n.serviceClient<webots_ros::get_int>(model_name + "/accelerometer/get_sampling_period");
+      n.serviceClient<webots_ros::get_int>(model_name + "/accelerometer/get_sampling_period");
   sampling_period_accelerometer_client.call(sampling_period_accelerometer_srv);
   ROS_INFO("Accelerometer is enabled with a sampling period of %d.", sampling_period_accelerometer_srv.response.value);
 
   accelerometer_srv.request.value = 32;
-  if (set_accelerometer_client.call(accelerometer_srv) && accelerometer_srv.response.success) {
+  if (set_accelerometer_client.call(accelerometer_srv) && accelerometer_srv.response.success)
+  {
     sub_accelerometer_32 = n.subscribe(model_name + "/accelerometer/values", 1, accelerometerCallback);
     callbackCalled = false;
-    while (sub_accelerometer_32.getNumPublishers() == 0 && !callbackCalled) {
+    while (sub_accelerometer_32.getNumPublishers() == 0 && !callbackCalled)
+    {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
-  } else {
+  }
+  else
+  {
     if (accelerometer_srv.response.success == -1)
       ROS_ERROR("Sampling period is not valid.");
     ROS_ERROR("Failed to enable accelerometer.");
@@ -995,7 +1084,7 @@ int main(int argc, char **argv) {
   ros::ServiceClient lookup_table_accelerometer_client;
   webots_ros::get_float_array lookup_table_accelerometer_srv;
   lookup_table_accelerometer_client =
-    n.serviceClient<webots_ros::get_float_array>(model_name + "/accelerometer/get_lookup_table");
+      n.serviceClient<webots_ros::get_float_array>(model_name + "/accelerometer/get_lookup_table");
   if (lookup_table_accelerometer_client.call(lookup_table_accelerometer_srv))
     ROS_INFO("Accelerometer lookup table size = %lu.", lookup_table_accelerometer_srv.response.value.size());
   else
@@ -1034,18 +1123,22 @@ int main(int argc, char **argv) {
   ros::ServiceClient sampling_period_battery_sensor_client;
   webots_ros::get_int sampling_period_battery_sensor_srv;
   sampling_period_battery_sensor_client =
-    n.serviceClient<webots_ros::get_int>(model_name + "/battery_sensor/get_sampling_period");
+      n.serviceClient<webots_ros::get_int>(model_name + "/battery_sensor/get_sampling_period");
 
   battery_sensor_srv.request.value = 32;
-  if (set_battery_sensor_client.call(battery_sensor_srv) && battery_sensor_srv.response.success) {
+  if (set_battery_sensor_client.call(battery_sensor_srv) && battery_sensor_srv.response.success)
+  {
     ROS_INFO("Battery_sensor enabled.");
     sub_battery_sensor_32 = n.subscribe(model_name + "/battery_sensor/value", 1, battery_sensorCallback);
     callbackCalled = false;
-    while (sub_battery_sensor_32.getNumPublishers() == 0 && !callbackCalled) {
+    while (sub_battery_sensor_32.getNumPublishers() == 0 && !callbackCalled)
+    {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
-  } else {
+  }
+  else
+  {
     if (!battery_sensor_srv.response.success)
       ROS_ERROR("Sampling period is not valid.");
     ROS_ERROR("Failed to enable battery_sensor.");
@@ -1086,15 +1179,19 @@ int main(int argc, char **argv) {
   sampling_period_compass_client = n.serviceClient<webots_ros::get_int>(model_name + "/compass/get_sampling_period");
 
   compass_srv.request.value = 32;
-  if (set_compass_client.call(compass_srv) && compass_srv.response.success == 1) {
+  if (set_compass_client.call(compass_srv) && compass_srv.response.success == 1)
+  {
     ROS_INFO("Compass enabled.");
     sub_compass_32 = n.subscribe(model_name + "/compass/values", 1, compassCallback);
     callbackCalled = false;
-    while (sub_compass_32.getNumPublishers() == 0 && !callbackCalled) {
+    while (sub_compass_32.getNumPublishers() == 0 && !callbackCalled)
+    {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
-  } else {
+  }
+  else
+  {
     if (compass_srv.response.success == -1)
       ROS_ERROR("Sampling period is not valid.");
     ROS_ERROR("Failed to enable compass.");
@@ -1142,15 +1239,19 @@ int main(int argc, char **argv) {
   connector_enable_presence_client = n.serviceClient<webots_ros::set_int>(model_name + "/connector/presence_sensor/enable");
 
   connector_srv.request.value = 32;
-  if (connector_enable_presence_client.call(connector_srv) && connector_srv.response.success) {
+  if (connector_enable_presence_client.call(connector_srv) && connector_srv.response.success)
+  {
     ROS_INFO("Connector's presence sensor enabled.");
     sub_connector = n.subscribe(model_name + "/connector/presence", 1, connectorCallback);
     callbackCalled = false;
-    while (sub_connector.getNumPublishers() == 0 && !callbackCalled) {
+    while (sub_connector.getNumPublishers() == 0 && !callbackCalled)
+    {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
-  } else {
+  }
+  else
+  {
     if (!connector_srv.response.success)
       ROS_ERROR("Sampling period is not valid.");
     ROS_ERROR("Failed to enable connector's presence sensor.");
@@ -1166,7 +1267,8 @@ int main(int argc, char **argv) {
   connector_srv.request.value = 0;
   if (connector_enable_presence_client.call(connector_srv) && connector_srv.response.success)
     ROS_INFO("Connector's presence sensor disabled.");
-  else {
+  else
+  {
     if (!connector_srv.response.success)
       ROS_ERROR("Sampling period is not valid.");
     ROS_ERROR("Failed to disable connector's presence sensor.");
@@ -1549,7 +1651,7 @@ int main(int argc, char **argv) {
   ros::ServiceClient sampling_period_distance_sensor_client;
   webots_ros::get_int sampling_period_distance_sensor_srv;
   sampling_period_distance_sensor_client =
-    n.serviceClient<webots_ros::get_int>(model_name + "/distance_sensor/get_sampling_period");
+      n.serviceClient<webots_ros::get_int>(model_name + "/distance_sensor/get_sampling_period");
 
   ros::ServiceClient min_value_distance_sensor_client;
   webots_ros::get_float min_value_distance_sensor_srv;
@@ -1581,7 +1683,7 @@ int main(int argc, char **argv) {
   ros::ServiceClient lookup_table_distance_sensor_client;
   webots_ros::get_float_array lookup_table_distance_sensor_srv;
   lookup_table_distance_sensor_client =
-    n.serviceClient<webots_ros::get_float_array>(model_name + "/distance_sensor/get_lookup_table");
+      n.serviceClient<webots_ros::get_float_array>(model_name + "/distance_sensor/get_lookup_table");
   if (lookup_table_distance_sensor_client.call(lookup_table_distance_sensor_srv))
     ROS_INFO("Distance_sensor lookup table size = %lu.", lookup_table_distance_sensor_srv.response.value.size());
   else
@@ -1592,15 +1694,19 @@ int main(int argc, char **argv) {
   lookup_table_distance_sensor_client.shutdown();
 
   distance_sensor_srv.request.value = 32;
-  if (set_distance_sensor_client.call(distance_sensor_srv) && distance_sensor_srv.response.success) {
+  if (set_distance_sensor_client.call(distance_sensor_srv) && distance_sensor_srv.response.success)
+  {
     ROS_INFO("Distance_sensor enabled.");
     sub_distance_sensor_32 = n.subscribe(model_name + "/distance_sensor/value", 1, distance_sensorCallback);
     callbackCalled = false;
-    while (sub_distance_sensor_32.getNumPublishers() == 0 && !callbackCalled) {
+    while (sub_distance_sensor_32.getNumPublishers() == 0 && !callbackCalled)
+    {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
-  } else {
+  }
+  else
+  {
     if (!distance_sensor_srv.response.success)
       ROS_ERROR("Sampling period is not valid.");
     ROS_ERROR("Failed to enable distance_sensor.");
@@ -1718,11 +1824,13 @@ int main(int argc, char **argv) {
   sampling_period_GPS_client = n.serviceClient<webots_ros::get_int>(model_name + "/gps/get_sampling_period");
 
   GPS_srv.request.value = 32;
-  if (set_GPS_client.call(GPS_srv) && GPS_srv.response.success) {
+  if (set_GPS_client.call(GPS_srv) && GPS_srv.response.success)
+  {
     ROS_INFO("GPS enabled.");
     sub_GPS_32 = n.subscribe(model_name + "/gps/values", 1, GPSCallback);
     callbackCalled = false;
-    while (sub_GPS_32.getNumPublishers() == 0 && !callbackCalled) {
+    while (sub_GPS_32.getNumPublishers() == 0 && !callbackCalled)
+    {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
@@ -1731,11 +1839,14 @@ int main(int argc, char **argv) {
 
     sub_GPS_speed = n.subscribe(model_name + "/gps/speed", 1, GPSSpeedCallback);
     callbackCalled = false;
-    while (sub_GPS_speed.getNumPublishers() == 0 && !callbackCalled) {
+    while (sub_GPS_speed.getNumPublishers() == 0 && !callbackCalled)
+    {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
-  } else {
+  }
+  else
+  {
     if (!GPS_srv.response.success)
       ROS_ERROR("Sampling period is not valid.");
     ROS_ERROR("Failed to enable GPS.");
@@ -1779,15 +1890,19 @@ int main(int argc, char **argv) {
   sampling_period_gyro_client = n.serviceClient<webots_ros::get_int>(model_name + "/gyro/get_sampling_period");
 
   gyro_srv.request.value = 32;
-  if (set_gyro_client.call(gyro_srv) && gyro_srv.response.success) {
+  if (set_gyro_client.call(gyro_srv) && gyro_srv.response.success)
+  {
     ROS_INFO("Gyro enabled.");
     sub_gyro_32 = n.subscribe(model_name + "/gyro/values", 1, gyroCallback);
     callbackCalled = false;
-    while (sub_gyro_32.getNumPublishers() == 0 && !callbackCalled) {
+    while (sub_gyro_32.getNumPublishers() == 0 && !callbackCalled)
+    {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
-  } else {
+  }
+  else
+  {
     if (!gyro_srv.response.success)
       ROS_ERROR("Sampling period is not valid.");
     ROS_ERROR("Failed to enable gyro.");
@@ -1832,18 +1947,22 @@ int main(int argc, char **argv) {
   ros::ServiceClient sampling_period_inertial_unit_client;
   webots_ros::get_int sampling_period_inertial_unit_srv;
   sampling_period_inertial_unit_client =
-    n.serviceClient<webots_ros::get_int>(model_name + "/inertial_unit/get_sampling_period");
+      n.serviceClient<webots_ros::get_int>(model_name + "/inertial_unit/get_sampling_period");
 
   inertial_unit_srv.request.value = 32;
-  if (set_inertial_unit_client.call(inertial_unit_srv) && inertial_unit_srv.response.success) {
+  if (set_inertial_unit_client.call(inertial_unit_srv) && inertial_unit_srv.response.success)
+  {
     ROS_INFO("Inertial_unit enabled.");
     sub_inertial_unit_32 = n.subscribe(model_name + "/inertial_unit/quaternion", 1, inertialUnitCallback);
     callbackCalled = false;
-    while (sub_inertial_unit_32.getNumPublishers() == 0 && !callbackCalled) {
+    while (sub_inertial_unit_32.getNumPublishers() == 0 && !callbackCalled)
+    {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
-  } else {
+  }
+  else
+  {
     if (!inertial_unit_srv.response.success)
       ROS_ERROR("Sampling period is not valid.");
     ROS_ERROR("Failed to enable inertial_unit.");
@@ -1855,7 +1974,7 @@ int main(int argc, char **argv) {
   ros::ServiceClient noise_inertial_unit_client;
   webots_ros::get_float noise_inertial_unit_srv;
   noise_inertial_unit_client =
-    n.serviceClient<webots_ros::get_float>(model_name + "/inertial_unit/get_noise");
+      n.serviceClient<webots_ros::get_float>(model_name + "/inertial_unit/get_noise");
   if (noise_inertial_unit_client.call(noise_inertial_unit_srv))
     ROS_INFO("Noise value is %f.", noise_inertial_unit_srv.response.value);
   else
@@ -1885,18 +2004,21 @@ int main(int argc, char **argv) {
   ros::Subscriber sub_joystick;
 
   enable_joystick_srv.request.value = 32;
-  if (enable_joystick_client.call(enable_joystick_srv) && enable_joystick_srv.response.success) {
+  if (enable_joystick_client.call(enable_joystick_srv) && enable_joystick_srv.response.success)
+  {
     ROS_INFO("Joystick of %s has been enabled.", model_name.c_str());
     sub_joystick = n.subscribe(model_name + "/joystick/pressed_button", 1, joystickCallback);
     callbackCalled = false;
     ROS_INFO("Topics for joystick initialized.");
 
-    while (sub_joystick.getNumPublishers() == 0 && !callbackCalled) {
+    while (sub_joystick.getNumPublishers() == 0 && !callbackCalled)
+    {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
     ROS_INFO("Topics for joystick connected.");
-  } else
+  }
+  else
     ROS_ERROR("Failed to enable joystick.");
 
   sub_joystick.shutdown();
@@ -1958,18 +2080,22 @@ int main(int argc, char **argv) {
 
   set_lidar_client = n.serviceClient<webots_ros::set_int>(model_name + "/lidar/enable");
   lidar_srv.request.value = TIME_STEP;
-  if (set_lidar_client.call(lidar_srv) && lidar_srv.response.success) {
+  if (set_lidar_client.call(lidar_srv) && lidar_srv.response.success)
+  {
     ROS_INFO("Lidar enabled.");
     sub_lidar = n.subscribe(model_name + "/lidar/range_image", 1, lidarCallback);
     callbackCalled = false;
     ROS_INFO("Topic for lidar initialized.");
 
-    while (sub_lidar.getNumPublishers() == 0 && !callbackCalled) {
+    while (sub_lidar.getNumPublishers() == 0 && !callbackCalled)
+    {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
     ROS_INFO("Topic for lidar color connected.");
-  } else {
+  }
+  else
+  {
     if (!lidar_srv.response.success)
       ROS_ERROR("Sampling period is not valid.");
     ROS_ERROR("Failed to enable lidar.");
@@ -2023,15 +2149,19 @@ int main(int argc, char **argv) {
   sampling_period_light_sensor_client = n.serviceClient<webots_ros::get_int>(model_name + "/light_sensor/get_sampling_period");
 
   light_sensor_srv.request.value = 32;
-  if (set_light_sensor_client.call(light_sensor_srv) && light_sensor_srv.response.success) {
+  if (set_light_sensor_client.call(light_sensor_srv) && light_sensor_srv.response.success)
+  {
     ROS_INFO("Light_sensor enabled.");
     sub_light_sensor_32 = n.subscribe(model_name + "/light_sensor/value", 1, lightSensorCallback);
     callbackCalled = false;
-    while (sub_light_sensor_32.getNumPublishers() == 0 && !callbackCalled) {
+    while (sub_light_sensor_32.getNumPublishers() == 0 && !callbackCalled)
+    {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
-  } else {
+  }
+  else
+  {
     if (!light_sensor_srv.response.success)
       ROS_ERROR("Sampling period is not valid.");
     ROS_ERROR("Failed to enable light_sensor.");
@@ -2043,7 +2173,7 @@ int main(int argc, char **argv) {
   ros::ServiceClient lookup_table_light_sensor_client;
   webots_ros::get_float_array lookup_table_light_sensor_srv;
   lookup_table_light_sensor_client =
-    n.serviceClient<webots_ros::get_float_array>(model_name + "/light_sensor/get_lookup_table");
+      n.serviceClient<webots_ros::get_float_array>(model_name + "/light_sensor/get_lookup_table");
   if (lookup_table_light_sensor_client.call(lookup_table_light_sensor_srv))
     ROS_INFO("Light sensor lookup table size = %lu.", lookup_table_light_sensor_srv.response.value.size());
   else
@@ -2092,12 +2222,14 @@ int main(int argc, char **argv) {
   ros::ServiceClient motor_get_brake_name_client;
   webots_ros::get_string motor_get_brake_name_srv;
   motor_get_brake_name_client = n.serviceClient<webots_ros::get_string>(model_name + "/linear_motor/get_brake_name");
-  if (motor_get_brake_name_client.call(motor_get_brake_name_srv)) {
+  if (motor_get_brake_name_client.call(motor_get_brake_name_srv))
+  {
     ROS_INFO("Brake name returned from Motor API: %s.", motor_get_brake_name_srv.response.value.c_str());
     if (motor_get_brake_name_srv.response.value.compare("my_brake") != 0)
       ROS_ERROR("Failed to call service motor_get_brake_name: received '%s' instead of 'my_brake'",
                 motor_get_brake_name_srv.response.value.c_str());
-  } else
+  }
+  else
     ROS_ERROR("Failed to call service motor_get_brake_name.");
 
   motor_get_brake_name_client.shutdown();
@@ -2198,7 +2330,7 @@ int main(int argc, char **argv) {
   ros::ServiceClient set_linear_control_pid_client;
   webots_ros::motor_set_control_pid set_linear_control_pid_srv;
   set_linear_control_pid_client =
-    n.serviceClient<webots_ros::motor_set_control_pid>(model_name + "/linear_motor/set_control_pid");
+      n.serviceClient<webots_ros::motor_set_control_pid>(model_name + "/linear_motor/set_control_pid");
 
   set_linear_control_pid_srv.request.controlp = 1;
   if (set_linear_control_pid_client.call(set_linear_control_pid_srv) && set_linear_control_pid_srv.response.success == 1)
@@ -2341,23 +2473,27 @@ int main(int argc, char **argv) {
   webots_ros::set_int motor_feedback_srv;
   ros::Subscriber sub_motor_feedback_32;
   set_motor_feedback_client =
-    n.serviceClient<webots_ros::set_int>(model_name + "/rotational_motor/torque_feedback_sensor/enable");
+      n.serviceClient<webots_ros::set_int>(model_name + "/rotational_motor/torque_feedback_sensor/enable");
 
   ros::ServiceClient sampling_period_motor_feedback_client;
   webots_ros::get_int sampling_period_motor_feedback_srv;
   sampling_period_motor_feedback_client =
-    n.serviceClient<webots_ros::get_int>(model_name + "/rotational_motor/torque_feedback_sensor/get_sampling_period");
+      n.serviceClient<webots_ros::get_int>(model_name + "/rotational_motor/torque_feedback_sensor/get_sampling_period");
 
   motor_feedback_srv.request.value = 32;
-  if (set_motor_feedback_client.call(motor_feedback_srv) && motor_feedback_srv.response.success) {
+  if (set_motor_feedback_client.call(motor_feedback_srv) && motor_feedback_srv.response.success)
+  {
     ROS_INFO("Motor feedback enabled.");
     sub_motor_feedback_32 = n.subscribe(model_name + "/rotational_motor/torque_feedback", 1, motorSensorCallback);
     callbackCalled = false;
-    while (sub_motor_feedback_32.getNumPublishers() == 0 && !callbackCalled) {
+    while (sub_motor_feedback_32.getNumPublishers() == 0 && !callbackCalled)
+    {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
-  } else {
+  }
+  else
+  {
     if (!motor_feedback_srv.response.success)
       ROS_ERROR("Sampling period is not valid.");
     ROS_ERROR("Failed to enable motor_feedback.");
@@ -2424,18 +2560,22 @@ int main(int argc, char **argv) {
   ros::ServiceClient sampling_period_position_sensor_client;
   webots_ros::get_int sampling_period_position_sensor_srv;
   sampling_period_position_sensor_client =
-    n.serviceClient<webots_ros::get_int>(model_name + "/position_sensor/get_sampling_period");
+      n.serviceClient<webots_ros::get_int>(model_name + "/position_sensor/get_sampling_period");
 
   position_sensor_srv.request.value = 32;
-  if (set_position_sensor_client.call(position_sensor_srv) && position_sensor_srv.response.success) {
+  if (set_position_sensor_client.call(position_sensor_srv) && position_sensor_srv.response.success)
+  {
     ROS_INFO("Position_sensor enabled.");
     sub_position_sensor_32 = n.subscribe(model_name + "/position_sensor/value", 1, positionSensorCallback);
     callbackCalled = false;
-    while (sub_position_sensor_32.getNumPublishers() == 0 && !callbackCalled) {
+    while (sub_position_sensor_32.getNumPublishers() == 0 && !callbackCalled)
+    {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
-  } else {
+  }
+  else
+  {
     if (!position_sensor_srv.response.success)
       ROS_ERROR("Sampling period is not valid.");
     ROS_ERROR("Failed to enable position_sensor.");
@@ -2480,19 +2620,23 @@ int main(int argc, char **argv) {
 
   set_radar_client = n.serviceClient<webots_ros::set_int>(model_name + "/radar/enable");
   radar_srv.request.value = TIME_STEP;
-  if (set_radar_client.call(radar_srv) && radar_srv.response.success) {
+  if (set_radar_client.call(radar_srv) && radar_srv.response.success)
+  {
     ROS_INFO("Radar enabled.");
     sub_radar_target = n.subscribe(model_name + "/radar/targets", 1, radarTargetsCallback);
     sub_radar_target_number = n.subscribe(model_name + "/radar/number_of_targets", 1, radarTargetsNumberCallback);
     callbackCalled = false;
     ROS_INFO("Topics for radar initialized.");
 
-    while (sub_radar_target.getNumPublishers() == 0 && sub_radar_target_number.getNumPublishers() == 0 && !callbackCalled) {
+    while (sub_radar_target.getNumPublishers() == 0 && sub_radar_target_number.getNumPublishers() == 0 && !callbackCalled)
+    {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
     ROS_INFO("Topics for radar connected.");
-  } else {
+  }
+  else
+  {
     if (!radar_srv.response.success)
       ROS_ERROR("Sampling period is not valid.");
     ROS_ERROR("Failed to enable radar.");
@@ -2507,12 +2651,14 @@ int main(int argc, char **argv) {
   // get max and min range
   ros::ServiceClient radar_range_client = n.serviceClient<webots_ros::get_float>(model_name + "/radar/get_max_range");
   webots_ros::get_float radar_get_max_range_srv;
-  if (radar_range_client.call(radar_get_max_range_srv)) {
+  if (radar_range_client.call(radar_get_max_range_srv))
+  {
     if (radar_get_max_range_srv.response.value == 2.0)
       ROS_INFO("Received correct radar max range.");
     else
       ROS_ERROR("Received wrong radar max range.");
-  } else
+  }
+  else
     ROS_ERROR("Failed to call service radar_get_max_range.");
 
   radar_range_client.shutdown();
@@ -2520,12 +2666,14 @@ int main(int argc, char **argv) {
 
   radar_range_client = n.serviceClient<webots_ros::get_float>(model_name + "/radar/get_min_range");
   webots_ros::get_float radar_get_min_range_srv;
-  if (radar_range_client.call(radar_get_min_range_srv)) {
+  if (radar_range_client.call(radar_get_min_range_srv))
+  {
     if (radar_get_min_range_srv.response.value == 1.0)
       ROS_INFO("Received correct radar min range.");
     else
       ROS_ERROR("Received wrong radar min range.");
-  } else
+  }
+  else
     ROS_ERROR("Failed to call service radar_get_min_range.");
 
   radar_range_client.shutdown();
@@ -2544,18 +2692,22 @@ int main(int argc, char **argv) {
 
   set_range_finder_client = n.serviceClient<webots_ros::set_int>(model_name + "/range_finder/enable");
   range_finder_srv.request.value = TIME_STEP;
-  if (set_range_finder_client.call(range_finder_srv) && range_finder_srv.response.success) {
+  if (set_range_finder_client.call(range_finder_srv) && range_finder_srv.response.success)
+  {
     ROS_INFO("Range-finder enabled.");
     sub_range_finder_color = n.subscribe(model_name + "/range_finder/range_image", 1, rangeFinderCallback);
     callbackCalled = false;
     ROS_INFO("Topic for range-finder initialized.");
 
-    while (sub_range_finder_color.getNumPublishers() == 0 && !callbackCalled) {
+    while (sub_range_finder_color.getNumPublishers() == 0 && !callbackCalled)
+    {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
     ROS_INFO("Topic for range-finder connected.");
-  } else {
+  }
+  else
+  {
     if (!range_finder_srv.response.success)
       ROS_ERROR("Sampling period is not valid.");
     ROS_ERROR("Failed to enable range-finder.");
@@ -2571,10 +2723,10 @@ int main(int argc, char **argv) {
   webots_ros::range_finder_get_info get_range_finder_info_srv;
   if (get_info_client.call(get_range_finder_info_srv))
     ROS_INFO(
-      "Range-finder of %s has a width of %d, a height of %d, a field of view of %f, a min range of %f and a max range of %f.",
-      model_name.c_str(), get_range_finder_info_srv.response.width, get_range_finder_info_srv.response.height,
-      get_range_finder_info_srv.response.Fov, get_range_finder_info_srv.response.minRange,
-      get_range_finder_info_srv.response.maxRange);
+        "Range-finder of %s has a width of %d, a height of %d, a field of view of %f, a min range of %f and a max range of %f.",
+        model_name.c_str(), get_range_finder_info_srv.response.width, get_range_finder_info_srv.response.height,
+        get_range_finder_info_srv.response.Fov, get_range_finder_info_srv.response.minRange,
+        get_range_finder_info_srv.response.maxRange);
   else
     ROS_ERROR("Failed to call service range_finder_get_info.");
 
@@ -2611,15 +2763,19 @@ int main(int argc, char **argv) {
   sampling_period_receiver_client = n.serviceClient<webots_ros::get_int>(model_name + "/receiver/get_sampling_period");
 
   receiver_srv.request.value = 32;
-  if (set_receiver_client.call(receiver_srv) && receiver_srv.response.success) {
+  if (set_receiver_client.call(receiver_srv) && receiver_srv.response.success)
+  {
     ROS_INFO("Receiver enabled.");
     sub_receiver_32 = n.subscribe(model_name + "/receiver/data", 1, receiverCallback);
     callbackCalled = false;
-    while (sub_receiver_32.getNumPublishers() == 0 && !callbackCalled) {
+    while (sub_receiver_32.getNumPublishers() == 0 && !callbackCalled)
+    {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
-  } else {
+  }
+  else
+  {
     if (!receiver_srv.response.success)
       ROS_ERROR("Sampling period is not valid.");
     ROS_ERROR("Failed to enable receiver.");
@@ -2708,7 +2864,7 @@ int main(int argc, char **argv) {
   ros::ServiceClient receiver_get_emitter_direction_client;
   webots_ros::receiver_get_emitter_direction receiver_get_emitter_direction_srv;
   receiver_get_emitter_direction_client =
-    n.serviceClient<webots_ros::receiver_get_emitter_direction>(model_name + "/receiver/get_emitter_direction");
+      n.serviceClient<webots_ros::receiver_get_emitter_direction>(model_name + "/receiver/get_emitter_direction");
 
   receiver_get_emitter_direction_client.call(receiver_get_emitter_direction_srv);
   if (receiver_get_emitter_direction_srv.response.direction[0] != 0 ||
@@ -2769,7 +2925,8 @@ int main(int argc, char **argv) {
   time_step_client.call(time_step_srv);
 
   touch_sensor_srv.request.value = 32;
-  if (set_touch_sensor_client.call(touch_sensor_srv) && touch_sensor_srv.response.success) {
+  if (set_touch_sensor_client.call(touch_sensor_srv) && touch_sensor_srv.response.success)
+  {
     ROS_INFO("Touch_sensor enabled.");
     if (touch_sensor_get_type_srv.response.value == 0)
       sub_touch_sensor_32 = n.subscribe(model_name + "/touch_sensor/value", 1, touchSensorBumperCallback);
@@ -2778,11 +2935,14 @@ int main(int argc, char **argv) {
     else
       sub_touch_sensor_32 = n.subscribe(model_name + "/touch_sensor/values", 1, touchSensor3DCallback);
     callbackCalled = false;
-    while (sub_touch_sensor_32.getNumPublishers() == 0 && !callbackCalled) {
+    while (sub_touch_sensor_32.getNumPublishers() == 0 && !callbackCalled)
+    {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
-  } else {
+  }
+  else
+  {
     if (!touch_sensor_srv.response.success)
       ROS_ERROR("Sampling period is not valid.");
     ROS_ERROR("Failed to enable touch_sensor.");
@@ -2794,7 +2954,7 @@ int main(int argc, char **argv) {
   ros::ServiceClient lookup_table_touch_sensor_client;
   webots_ros::get_float_array lookup_table_touch_sensor_srv;
   lookup_table_touch_sensor_client =
-    n.serviceClient<webots_ros::get_float_array>(model_name + "/touch_sensor/get_lookup_table");
+      n.serviceClient<webots_ros::get_float_array>(model_name + "/touch_sensor/get_lookup_table");
   if (lookup_table_touch_sensor_client.call(lookup_table_touch_sensor_srv))
     ROS_INFO("Touch sensor lookup table size = %lu.", lookup_table_touch_sensor_srv.response.value.size());
   else
@@ -2824,7 +2984,7 @@ int main(int argc, char **argv) {
   ros::ServiceClient supervisor_simulation_reset_physics_client;
   webots_ros::get_bool supervisor_simulation_reset_physics_srv;
   supervisor_simulation_reset_physics_client =
-    n.serviceClient<webots_ros::get_bool>(model_name + "/supervisor/simulation_reset_physics");
+      n.serviceClient<webots_ros::get_bool>(model_name + "/supervisor/simulation_reset_physics");
 
   if (supervisor_simulation_reset_physics_client.call(supervisor_simulation_reset_physics_srv) &&
       supervisor_simulation_reset_physics_srv.response.value)
@@ -2893,15 +3053,17 @@ int main(int argc, char **argv) {
   ros::ServiceClient supervisor_get_from_def_client;
   webots_ros::supervisor_get_from_def supervisor_get_from_def_srv;
   supervisor_get_from_def_client =
-    n.serviceClient<webots_ros::supervisor_get_from_def>(model_name + "/supervisor/get_from_def");
+      n.serviceClient<webots_ros::supervisor_get_from_def>(model_name + "/supervisor/get_from_def");
 
   supervisor_get_from_def_srv.request.name = "TEST";
   supervisor_get_from_def_client.call(supervisor_get_from_def_srv);
   uint64_t from_def_node = 0;
-  if (supervisor_get_from_def_srv.response.node != 0) {
+  if (supervisor_get_from_def_srv.response.node != 0)
+  {
     ROS_INFO("Got from DEF node: %ld.", supervisor_get_from_def_srv.response.node);
     from_def_node = supervisor_get_from_def_srv.response.node;
-  } else
+  }
+  else
     ROS_ERROR("Could not get node from DEF.");
 
   time_step_client.call(time_step_srv);
@@ -2920,7 +3082,7 @@ int main(int argc, char **argv) {
   ros::ServiceClient supervisor_node_get_type_name_client;
   webots_ros::node_get_name supervisor_node_get_type_name_srv;
   supervisor_node_get_type_name_client =
-    n.serviceClient<webots_ros::node_get_name>(model_name + "/supervisor/node/get_type_name");
+      n.serviceClient<webots_ros::node_get_name>(model_name + "/supervisor/node/get_type_name");
 
   supervisor_node_get_type_name_srv.request.node = from_def_node;
   supervisor_node_get_type_name_client.call(supervisor_node_get_type_name_srv);
@@ -2937,10 +3099,12 @@ int main(int argc, char **argv) {
   supervisor_get_from_def_srv.request.name = "GROUND";
   supervisor_get_from_def_client.call(supervisor_get_from_def_srv);
   uint64_t ground_node = 0;
-  if (supervisor_get_from_def_srv.response.node != 0) {
+  if (supervisor_get_from_def_srv.response.node != 0)
+  {
     ROS_INFO("Got from DEF GROUND node: %ld.", supervisor_get_from_def_srv.response.node);
     ground_node = supervisor_get_from_def_srv.response.node;
-  } else
+  }
+  else
     ROS_ERROR("Could not get node from DEF GROUND.");
 
   supervisor_node_get_type_name_srv.request.node = ground_node;
@@ -2952,7 +3116,7 @@ int main(int argc, char **argv) {
   ros::ServiceClient supervisor_node_get_base_type_name_client;
   webots_ros::node_get_name supervisor_node_get_base_type_name_srv;
   supervisor_node_get_base_type_name_client =
-    n.serviceClient<webots_ros::node_get_name>(model_name + "/supervisor/node/get_base_type_name");
+      n.serviceClient<webots_ros::node_get_name>(model_name + "/supervisor/node/get_base_type_name");
   supervisor_node_get_base_type_name_srv.request.node = ground_node;
   supervisor_node_get_base_type_name_client.call(supervisor_node_get_base_type_name_srv);
   ROS_INFO("Got base type name of GROUND node: %s.", supervisor_node_get_base_type_name_srv.response.name.c_str());
@@ -2973,7 +3137,7 @@ int main(int argc, char **argv) {
   ros::ServiceClient supervisor_node_get_position_client;
   webots_ros::node_get_position supervisor_node_get_position_srv;
   supervisor_node_get_position_client =
-    n.serviceClient<webots_ros::node_get_position>(model_name + "/supervisor/node/get_position");
+      n.serviceClient<webots_ros::node_get_position>(model_name + "/supervisor/node/get_position");
 
   supervisor_node_get_position_srv.request.node = from_def_node;
   supervisor_node_get_position_client.call(supervisor_node_get_position_srv);
@@ -2986,14 +3150,14 @@ int main(int argc, char **argv) {
   ros::ServiceClient supervisor_node_get_orientation_client;
   webots_ros::node_get_orientation supervisor_node_get_orientation_srv;
   supervisor_node_get_orientation_client =
-    n.serviceClient<webots_ros::node_get_orientation>(model_name + "/supervisor/node/get_orientation");
+      n.serviceClient<webots_ros::node_get_orientation>(model_name + "/supervisor/node/get_orientation");
 
   supervisor_node_get_orientation_srv.request.node = from_def_node;
   supervisor_node_get_orientation_client.call(supervisor_node_get_orientation_srv);
   ROS_INFO(
-    "From_def orientation quaternion is:\nw=%f x=%f y=%f z=%f.", supervisor_node_get_orientation_srv.response.orientation.w,
-    supervisor_node_get_orientation_srv.response.orientation.x, supervisor_node_get_orientation_srv.response.orientation.y,
-    supervisor_node_get_orientation_srv.response.orientation.z);
+      "From_def orientation quaternion is:\nw=%f x=%f y=%f z=%f.", supervisor_node_get_orientation_srv.response.orientation.w,
+      supervisor_node_get_orientation_srv.response.orientation.x, supervisor_node_get_orientation_srv.response.orientation.y,
+      supervisor_node_get_orientation_srv.response.orientation.z);
 
   supervisor_node_get_orientation_client.shutdown();
   time_step_client.call(time_step_srv);
@@ -3001,7 +3165,7 @@ int main(int argc, char **argv) {
   ros::ServiceClient supervisor_node_get_center_of_mass_client;
   webots_ros::node_get_center_of_mass supervisor_node_get_center_of_mass_srv;
   supervisor_node_get_center_of_mass_client =
-    n.serviceClient<webots_ros::node_get_center_of_mass>(model_name + "/supervisor/node/get_center_of_mass");
+      n.serviceClient<webots_ros::node_get_center_of_mass>(model_name + "/supervisor/node/get_center_of_mass");
 
   supervisor_node_get_center_of_mass_srv.request.node = from_def_node;
   supervisor_node_get_center_of_mass_client.call(supervisor_node_get_center_of_mass_srv);
@@ -3016,7 +3180,7 @@ int main(int argc, char **argv) {
   ros::ServiceClient supervisor_node_get_number_of_contact_points_client;
   webots_ros::node_get_number_of_contact_points supervisor_node_get_number_of_contact_points_srv;
   supervisor_node_get_number_of_contact_points_client = n.serviceClient<webots_ros::node_get_number_of_contact_points>(
-    model_name + "/supervisor/node/get_number_of_contact_points");
+      model_name + "/supervisor/node/get_number_of_contact_points");
 
   supervisor_node_get_number_of_contact_points_srv.request.node = from_def_node;
   supervisor_node_get_number_of_contact_points_srv.request.includeDescendants = false;
@@ -3030,7 +3194,7 @@ int main(int argc, char **argv) {
   ros::ServiceClient supervisor_node_get_contact_point_client;
   webots_ros::node_get_contact_point supervisor_node_get_contact_point_srv;
   supervisor_node_get_contact_point_client =
-    n.serviceClient<webots_ros::node_get_contact_point>(model_name + "/supervisor/node/get_contact_point");
+      n.serviceClient<webots_ros::node_get_contact_point>(model_name + "/supervisor/node/get_contact_point");
 
   supervisor_node_get_contact_point_srv.request.node = from_def_node;
   supervisor_node_get_contact_point_srv.request.index = 0;
@@ -3044,7 +3208,7 @@ int main(int argc, char **argv) {
   ros::ServiceClient supervisor_node_get_contact_point_node_client;
   webots_ros::node_get_contact_point_node supervisor_node_get_contact_point_node_srv;
   supervisor_node_get_contact_point_node_client =
-    n.serviceClient<webots_ros::node_get_contact_point_node>(model_name + "/supervisor/node/get_contact_point_node");
+      n.serviceClient<webots_ros::node_get_contact_point_node>(model_name + "/supervisor/node/get_contact_point_node");
 
   supervisor_node_get_contact_point_node_srv.request.node = from_def_node;
   supervisor_node_get_contact_point_node_srv.request.index = 0;
@@ -3059,7 +3223,7 @@ int main(int argc, char **argv) {
   ros::ServiceClient supervisor_node_get_static_balance_client;
   webots_ros::node_get_static_balance supervisor_node_get_static_balance_srv;
   supervisor_node_get_static_balance_client =
-    n.serviceClient<webots_ros::node_get_static_balance>(model_name + "/supervisor/node/get_static_balance");
+      n.serviceClient<webots_ros::node_get_static_balance>(model_name + "/supervisor/node/get_static_balance");
 
   supervisor_node_get_static_balance_srv.request.node = from_def_node;
   supervisor_node_get_static_balance_client.call(supervisor_node_get_static_balance_srv);
@@ -3071,7 +3235,7 @@ int main(int argc, char **argv) {
   // test reset_physics
   // if the node isn't a top Solid webots will throw a warning but still return true to ros
   ros::ServiceClient supervisor_node_reset_physics_client =
-    n.serviceClient<webots_ros::node_reset_functions>(model_name + "/supervisor/node/reset_physics");
+      n.serviceClient<webots_ros::node_reset_functions>(model_name + "/supervisor/node/reset_physics");
   webots_ros::node_reset_functions supervisor_node_reset_physics_srv;
 
   supervisor_node_reset_physics_srv.request.node = from_def_node;
@@ -3086,7 +3250,7 @@ int main(int argc, char **argv) {
 
   // test restart_controller
   ros::ServiceClient supervisor_node_restart_controller_client =
-    n.serviceClient<webots_ros::node_reset_functions>(model_name + "/supervisor/node/restart_controller");
+      n.serviceClient<webots_ros::node_reset_functions>(model_name + "/supervisor/node/restart_controller");
   webots_ros::node_reset_functions supervisor_node_restart_controller_srv;
 
   supervisor_node_restart_controller_srv.request.node = from_def_node;
@@ -3126,7 +3290,7 @@ int main(int argc, char **argv) {
   ros::ServiceClient supervisor_field_get_type_name_client;
   webots_ros::field_get_type_name supervisor_field_get_type_name_srv;
   supervisor_field_get_type_name_client =
-    n.serviceClient<webots_ros::field_get_type_name>(model_name + "/supervisor/field/get_type_name");
+      n.serviceClient<webots_ros::field_get_type_name>(model_name + "/supervisor/field/get_type_name");
 
   supervisor_field_get_type_name_srv.request.field = field;
   supervisor_field_get_type_name_client.call(supervisor_field_get_type_name_srv);
@@ -3157,7 +3321,7 @@ int main(int argc, char **argv) {
   ros::ServiceClient supervisor_field_set_string_client;
   webots_ros::field_set_string supervisor_field_set_string_srv;
   supervisor_field_set_string_client =
-    n.serviceClient<webots_ros::field_set_string>(model_name + "/supervisor/field/set_string");
+      n.serviceClient<webots_ros::field_set_string>(model_name + "/supervisor/field/set_string");
 
   supervisor_field_set_string_srv.request.field = field;
   supervisor_field_set_string_srv.request.value = "solid_test";
@@ -3173,7 +3337,7 @@ int main(int argc, char **argv) {
   ros::ServiceClient supervisor_field_get_string_client;
   webots_ros::field_get_string supervisor_field_get_string_srv;
   supervisor_field_get_string_client =
-    n.serviceClient<webots_ros::field_get_string>(model_name + "/supervisor/field/get_string");
+      n.serviceClient<webots_ros::field_get_string>(model_name + "/supervisor/field/get_string");
 
   supervisor_field_get_string_srv.request.field = field;
   supervisor_field_get_string_client.call(supervisor_field_get_string_srv);
@@ -3204,10 +3368,12 @@ int main(int argc, char **argv) {
   supervisor_get_from_def_srv.request.proto = 0;
   supervisor_get_from_def_client.call(supervisor_get_from_def_srv);
   uint64_t cone_node = 0;
-  if (supervisor_get_from_def_srv.response.node != 0) {
+  if (supervisor_get_from_def_srv.response.node != 0)
+  {
     ROS_INFO("Got CONE node from DEF: %lu.", supervisor_get_from_def_srv.response.node);
     cone_node = supervisor_get_from_def_srv.response.node;
-  } else
+  }
+  else
     ROS_ERROR("could not get CONE node from DEF.");
 
   supervisor_node_get_type_name_client.shutdown();
@@ -3247,7 +3413,7 @@ int main(int argc, char **argv) {
   ros::ServiceClient supervisor_get_from_device_client;
   webots_ros::supervisor_get_from_string supervisor_get_from_device_srv;
   supervisor_get_from_device_client =
-    n.serviceClient<webots_ros::supervisor_get_from_string>(model_name + "/supervisor/get_from_device");
+      n.serviceClient<webots_ros::supervisor_get_from_string>(model_name + "/supervisor/get_from_device");
   supervisor_get_from_device_srv.request.value = "compass";
   supervisor_get_from_device_client.call(supervisor_get_from_device_srv);
   uint64_t compass_node_from_device = supervisor_get_from_device_srv.response.node;
@@ -3295,7 +3461,7 @@ int main(int argc, char **argv) {
   ros::ServiceClient node_add_force_or_torque_client;
   webots_ros::node_add_force_or_torque node_add_force_or_torque_srv;
   node_add_force_or_torque_client =
-    n.serviceClient<webots_ros::node_add_force_or_torque>(model_name + "/supervisor/node/add_torque");
+      n.serviceClient<webots_ros::node_add_force_or_torque>(model_name + "/supervisor/node/add_torque");
   node_add_force_or_torque_srv.request.node = cone_node;
   node_add_force_or_torque_srv.request.force.x = 0.0;
   node_add_force_or_torque_srv.request.force.y = 0.0;
@@ -3313,7 +3479,7 @@ int main(int argc, char **argv) {
   ros::ServiceClient node_add_force_with_offset_client;
   webots_ros::node_add_force_with_offset node_add_force_with_offset_srv;
   node_add_force_with_offset_client =
-    n.serviceClient<webots_ros::node_add_force_with_offset>(model_name + "/supervisor/node/add_force_with_offset");
+      n.serviceClient<webots_ros::node_add_force_with_offset>(model_name + "/supervisor/node/add_force_with_offset");
   node_add_force_with_offset_srv.request.node = cone_node;
   node_add_force_with_offset_srv.request.force.x = 0.0;
   node_add_force_with_offset_srv.request.force.y = 0.0;
@@ -3335,7 +3501,7 @@ int main(int argc, char **argv) {
   ros::ServiceClient node_get_parent_node_client;
   webots_ros::node_get_parent_node node_get_parent_node_srv;
   node_get_parent_node_client =
-    n.serviceClient<webots_ros::node_get_parent_node>(model_name + "/supervisor/node/get_parent_node");
+      n.serviceClient<webots_ros::node_get_parent_node>(model_name + "/supervisor/node/get_parent_node");
   node_get_parent_node_srv.request.node = cone_node;
   node_get_parent_node_client.call(node_get_parent_node_srv);
   if (node_get_parent_node_srv.response.node == root_node)
@@ -3363,7 +3529,7 @@ int main(int argc, char **argv) {
   ros::ServiceClient supervisor_movie_start_client;
   webots_ros::supervisor_movie_start_recording supervisor_movie_start_srv;
   supervisor_movie_start_client =
-    n.serviceClient<webots_ros::supervisor_movie_start_recording>(model_name + "/supervisor/movie_start_recording");
+      n.serviceClient<webots_ros::supervisor_movie_start_recording>(model_name + "/supervisor/movie_start_recording");
 
   supervisor_movie_start_srv.request.filename = std::string(getenv("HOME")) + std::string("/movie_test.mp4");
   supervisor_movie_start_srv.request.width = 480;
@@ -3439,6 +3605,21 @@ int main(int argc, char **argv) {
   remove_node_client.shutdown();
   time_step_client.call(time_step_srv);
 
+  // node_export_string
+  ros::ServiceClient node_export_string_client;
+  webots_ros::node_get_string node_export_string_srv;
+  node_export_string_client = n.serviceClient<webots_ros::node_get_string>(model_name + "/supervisor/node/export_string");
+  node_export_string_srv.request.node = root_node;
+  node_export_string_client.call(node_export_string_srv);
+  std::string export_string_result = node_export_string_srv.response.value;
+  if (!export_string_result.find("WorldInfo {") != std::string::npos)
+    ROS_INFO("Node exported successfully.");
+  else
+    ROS_ERROR("Failed to call service node_export_string.");
+
+  node_export_string_client.shutdown();
+  time_step_client.call(time_step_srv);
+
   // html robot window
   ros::ServiceClient wwi_send_client;
   wwi_send_client = n.serviceClient<webots_ros::set_string>(model_name + "/robot/wwi_send_text");
@@ -3468,7 +3649,7 @@ int main(int argc, char **argv) {
   ros::ServiceClient virtual_reality_headset_client;
   webots_ros::get_bool supervisor_virtual_reality_headset_is_used_srv;
   virtual_reality_headset_client =
-    n.serviceClient<webots_ros::get_bool>(model_name + "/supervisor/vitual_reality_headset_is_used");
+      n.serviceClient<webots_ros::get_bool>(model_name + "/supervisor/vitual_reality_headset_is_used");
   virtual_reality_headset_client.call(supervisor_virtual_reality_headset_is_used_srv);
   bool used = supervisor_virtual_reality_headset_is_used_srv.response.value;
   // to test this service we assume no virtual reality headset is connected
@@ -3535,4 +3716,3 @@ int main(int argc, char **argv) {
   printf("\nTest Completed\n");
   return 0;
 }
-

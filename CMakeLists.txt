@@ -103,6 +103,7 @@ find_package(catkin REQUIRED COMPONENTS roscpp rospy std_msgs sensor_msgs messag
     node_get_position.srv
     node_get_static_balance.srv
     node_get_status.srv
+    node_get_string.srv
     node_get_type.srv
     node_get_velocity.srv
     node_remove.srv
