@@ -12,7 +12,7 @@ ROS tutorial for Webots:
   - https://www.cyberbotics.com/doc/guide/using-ros
 
 
-## Acknowledgement
+## Acknowledgements
 
 <a href="http://rosin-project.eu">
   <img src="http://rosin-project.eu/wp-content/uploads/rosin_ack_logo_wide.png"
