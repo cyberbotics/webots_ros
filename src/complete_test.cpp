@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <geometry_msgs/Twist.h>
 #include <geometry_msgs/PointStamped.h>
+#include <geometry_msgs/Twist.h>
 #include <geometry_msgs/WrenchStamped.h>
 #include <sensor_msgs/Illuminance.h>
 #include <sensor_msgs/Image.h>
@@ -107,10 +107,12 @@
 #include <webots_ros/node_get_position.h>
 #include <webots_ros/node_get_static_balance.h>
 #include <webots_ros/node_get_status.h>
+#include <webots_ros/node_get_string.h>
 #include <webots_ros/node_get_type.h>
 #include <webots_ros/node_get_velocity.h>
 #include <webots_ros/node_remove.h>
 #include <webots_ros/node_reset_functions.h>
+#include <webots_ros/node_set_string.h>
 #include <webots_ros/node_set_velocity.h>
 #include <webots_ros/node_set_visibility.h>
 #include <webots_ros/pen_set_ink_color.h>
@@ -1837,7 +1839,7 @@ int main(int argc, char **argv) {
   inertial_unit_srv.request.value = 32;
   if (set_inertial_unit_client.call(inertial_unit_srv) && inertial_unit_srv.response.success) {
     ROS_INFO("Inertial_unit enabled.");
-    sub_inertial_unit_32 = n.subscribe(model_name + "/inertial_unit/roll_pitch_yaw", 1, inertialUnitCallback);
+    sub_inertial_unit_32 = n.subscribe(model_name + "/inertial_unit/quaternion", 1, inertialUnitCallback);
     callbackCalled = false;
     while (sub_inertial_unit_32.getNumPublishers() == 0 && !callbackCalled) {
       ros::spinOnce();
@@ -1854,8 +1856,7 @@ int main(int argc, char **argv) {
 
   ros::ServiceClient noise_inertial_unit_client;
   webots_ros::get_float noise_inertial_unit_srv;
-  noise_inertial_unit_client =
-    n.serviceClient<webots_ros::get_float>(model_name + "/inertial_unit/get_noise");
+  noise_inertial_unit_client = n.serviceClient<webots_ros::get_float>(model_name + "/inertial_unit/get_noise");
   if (noise_inertial_unit_client.call(noise_inertial_unit_srv))
     ROS_INFO("Noise value is %f.", noise_inertial_unit_srv.response.value);
   else
@@ -3084,6 +3085,38 @@ int main(int argc, char **argv) {
   supervisor_node_reset_physics_client.shutdown();
   time_step_client.call(time_step_srv);
 
+  // test node_save_state
+  ros::ServiceClient supervisor_node_save_state_client =
+    n.serviceClient<webots_ros::node_set_string>(model_name + "/supervisor/node/save_state");
+  webots_ros::node_set_string supervisor_node_save_state_srv;
+
+  supervisor_node_save_state_srv.request.node = from_def_node;
+  supervisor_node_save_state_srv.request.state_name = "dummy_state";
+  if (supervisor_node_save_state_client.call(supervisor_node_save_state_srv) &&
+      supervisor_node_save_state_srv.response.success == 1)
+    ROS_INFO("Node state has been saved successfully.");
+  else
+    ROS_ERROR("Failed to call service node_save_state.");
+
+  supervisor_node_save_state_client.shutdown();
+  time_step_client.call(time_step_srv);
+
+  // test node_load_state
+  ros::ServiceClient supervisor_node_load_state_client =
+    n.serviceClient<webots_ros::node_set_string>(model_name + "/supervisor/node/load_state");
+  webots_ros::node_set_string supervisor_node_load_state_srv;
+
+  supervisor_node_load_state_srv.request.node = from_def_node;
+  supervisor_node_load_state_srv.request.state_name = "dummy_state";
+  if (supervisor_node_load_state_client.call(supervisor_node_load_state_srv) &&
+      supervisor_node_load_state_srv.response.success == 1)
+    ROS_INFO("Node state has been loaded successfully.");
+  else
+    ROS_ERROR("Failed to call service node_load_state.");
+
+  supervisor_node_load_state_client.shutdown();
+  time_step_client.call(time_step_srv);
+
   // test restart_controller
   ros::ServiceClient supervisor_node_restart_controller_client =
     n.serviceClient<webots_ros::node_reset_functions>(model_name + "/supervisor/node/restart_controller");
@@ -3439,6 +3472,21 @@ int main(int argc, char **argv) {
   remove_node_client.shutdown();
   time_step_client.call(time_step_srv);
 
+  // node_export_string
+  ros::ServiceClient node_export_string_client;
+  webots_ros::node_get_string node_export_string_srv;
+  node_export_string_client = n.serviceClient<webots_ros::node_get_string>(model_name + "/supervisor/node/export_string");
+  node_export_string_srv.request.node = root_node;
+  node_export_string_client.call(node_export_string_srv);
+  std::string export_string_result = node_export_string_srv.response.value;
+  if (!export_string_result.find("WorldInfo {") != std::string::npos)
+    ROS_INFO("Node exported successfully.");
+  else
+    ROS_ERROR("Failed to call service node_export_string.");
+
+  node_export_string_client.shutdown();
+  time_step_client.call(time_step_srv);
+
   // html robot window
   ros::ServiceClient wwi_send_client;
   wwi_send_client = n.serviceClient<webots_ros::set_string>(model_name + "/robot/wwi_send_text");
@@ -3535,4 +3583,3 @@ int main(int argc, char **argv) {
   printf("\nTest Completed\n");
   return 0;
 }
-
