@@ -717,6 +717,7 @@ DEF PIONEER_3AT Pioneer3at {
   controller "ros"
   controllerArgs [
     "--name=pioneer3at"
+    "--use-ros-control"
   ]
   extensionSlot [
     Camera {
