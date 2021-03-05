@@ -1,13 +1,10 @@
 <?xml version="1.0"?>
 <launch>
   <rosparam>
-    joint_state_controller:
-      type: joint_state_controller/JointStateController
-      publish_rate: 100
-    diff_drive_controller:
+    pioneer_diff_drive_controller:
       type: "diff_drive_controller/DiffDriveController"
-      left_wheel: 'front left wheel'
-      right_wheel: 'front right wheel'
+      left_wheel: ['front left wheel', 'back left wheel']
+      right_wheel: ['front right wheel', 'back right wheel']
       pose_covariance_diagonal: [0.001, 0.001, 1000000.0, 1000000.0, 1000000.0, 1000.0]
       twist_covariance_diagonal: [0.001, 0.001, 1000000.0, 1000000.0, 1000000.0, 1000.0]
   </rosparam>
@@ -23,5 +20,5 @@
   <arg name="auto_close" default="false" doc="Startup mode"/>
   <node name="pioneer3at_controller" pkg="webots_ros" type="pioneer3at" required="$(arg auto_close)" />
 
-  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="joint_state_controller diff_drive_controller" />
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="pioneer_diff_drive_controller" />
 </launch>
