@@ -17,6 +17,8 @@
     <arg name="world" value="$(find webots_ros)/worlds/pioneer3at.wbt"/>
   </include>
 
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="example_state_publisher" respawn="true" respawn_delay="5" />
+
   <arg name="auto_close" default="false" doc="Startup mode"/>
   <node name="pioneer3at_controller" pkg="webots_ros" type="pioneer3at" required="$(arg auto_close)" />
 
