@@ -711,13 +711,14 @@ DEF KITCHEN Transform {
     }
   ]
 }
-DEF PIONEER_3AT Pioneer3at {
+DEF PIONEER_3AT Pioneer3at_ENU {
   translation 1.69482 -4.10279 0.11
-  rotation 1 0 0 1.5707963267948966
+  rotation 1 0 0 4.692820414042842e-06
   controller "ros"
   controllerArgs [
     "--name=pioneer3at"
     "--use-ros-control"
+    "--auto-publish"
   ]
   extensionSlot [
     Camera {
