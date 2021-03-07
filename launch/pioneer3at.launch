@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <launch>
+  <!-- ros_control -->
   <rosparam>
     pioneer_diff_drive_controller:
       type: "diff_drive_controller/DiffDriveController"
@@ -8,8 +9,9 @@
       pose_covariance_diagonal: [0.001, 0.001, 1000000.0, 1000000.0, 1000000.0, 1000.0]
       twist_covariance_diagonal: [0.001, 0.001, 1000000.0, 1000000.0, 1000000.0, 1000.0]
   </rosparam>
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="pioneer_diff_drive_controller" />
 
-  <!-- start Webots -->
+  <!-- Start Webots -->
   <arg name="no_gui" default="false" doc="Start Webots with minimal GUI"/>
   <include file="$(find webots_ros)/launch/webots.launch">
     <arg name="mode" value="realtime"/>
@@ -17,10 +19,9 @@
     <arg name="world" value="$(find webots_ros)/worlds/pioneer3at.wbt"/>
   </include>
 
+  <!-- robot_state_publisher -->
   <node pkg="robot_state_publisher" type="robot_state_publisher" name="example_state_publisher" respawn="true" respawn_delay="5" />
 
-  <arg name="auto_close" default="false" doc="Startup mode"/>
-  <node name="pioneer3at_controller" pkg="webots_ros" type="pioneer3at" required="$(arg auto_close)" />
-
-  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="pioneer_diff_drive_controller" />
+  <!-- Coordinate system fix -->
+  <node pkg="tf" type="static_transform_publisher" name="pioneer_lidar_tf" args="0 0 0 0.5 0.5 -0.5 0.5 '/Sick LMS 291' /pioneer3at/Sick_LMS_291 100"/>
 </launch>
