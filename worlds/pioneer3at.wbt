@@ -719,6 +719,7 @@ DEF PIONEER_3AT Pioneer3at_ENU {
     "--name=pioneer3at"
     "--use-ros-control"
     "--auto-publish"
+    "--robot-description"
   ]
   extensionSlot [
     Camera {

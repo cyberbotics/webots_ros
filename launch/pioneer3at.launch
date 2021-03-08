@@ -1,4 +1,9 @@
 <?xml version="1.0"?>
+<!--
+rosrun teleop_twist_keyboard teleop_twist_keyboard.py cmd_vel:=/pioneer_diff_drive_controller/cmd_vel
+rosrun gmapping slam_gmapping scan:=/pioneer3at/Sick_LMS_291/laser_scan/layer0 _xmax:=30 _xmin:=-30 _ymax:=30 _ymin:=-30 _delta:=0.2
+-->
+
 <launch>
   <!-- ros_control -->
   <rosparam>
