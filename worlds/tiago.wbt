@@ -54,6 +54,12 @@ DEF ROOF RectangleArena {
 TiagoSteel {
   translation -4.416 0.095 -1.063
   controller "ros"
+  controllerArgs [
+    "--name=tiago"
+    "--use-ros-control"
+    "--auto-publish"
+    "--robot-description"
+  ]
 }
 WoodenBox {
   translation -6.2 0.405 -7
