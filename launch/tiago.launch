@@ -3,7 +3,7 @@
 
   <!-- ros_control -->
   <rosparam>
-    tiago_arm_controller:
+    arm_controller:
       type: "position_controllers/JointTrajectoryController"
       joints:
         - arm_1_joint
@@ -17,7 +17,7 @@
       type: joint_state_controller/JointStateController
       publish_rate: 50
   </rosparam>
-  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="tiago_arm_controller tiago_joint_controller" />
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="arm_controller tiago_joint_controller" />
 
   <!-- Webots -->
   <arg name="no_gui" default="false," doc="Start Webots with minimal GUI"/>
@@ -30,10 +30,6 @@
 
   <!-- robot_state_publisher -->
   <node pkg="robot_state_publisher" type="robot_state_publisher" name="example_state_publisher" respawn="true" respawn_delay="5" />
-
-  <!-- MoveIt -->
-  <param name="robot_description_semantic" textfile="$(find webots_ros)/config/tiago_semantic.srdf" />
-  <rosparam command="load" file="$(find webots_ros)/config/tiago_kinematics.yaml"/>
 
   <!--
   <node pkg="webots_ros" type="tiago" name="webots_tiago" args="0.4 -0.3 0.26 -0.011 1.57 0.037" />
