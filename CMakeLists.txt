@@ -234,16 +234,6 @@ target_link_libraries(panoramic_view_recorder
 	${catkin_LIBRARIES}
 )
 
-#instructions for pioneer3at node
-
-add_executable(pioneer3at src/pioneer3at.cpp)
-
-add_dependencies(pioneer3at webots_ros_generate_messages_cpp)
-
-target_link_libraries(pioneer3at
-	${catkin_LIBRARIES}
-)
-
 
 #############
 ## Install ##
@@ -265,9 +255,6 @@ install(TARGETS catch_the_bird
         RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 
 install(TARGETS panoramic_view_recorder
-        RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
-
-install(TARGETS pioneer3at
         RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 
 catkin_install_python(PROGRAMS scripts/ros_controller.py
