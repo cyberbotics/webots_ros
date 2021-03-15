@@ -26,5 +26,8 @@
   <run_depend>message_runtime</run_depend>
   <run_depend>tf</run_depend>
   <run_depend>moveit_ros_planning_interface</run_depend>
+  <run_depend>ros_control</run_depend>
+  <run_depend>ros_controllers</run_depend>
+  <run_depend>robot_state_publisher</run_depend>
 
 </package>
