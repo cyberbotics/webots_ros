@@ -711,8 +711,8 @@ DEF KITCHEN Transform {
     }
   ]
 }
-DEF PIONEER_3AT Pioneer3at_ENU {
-  translation 1.69482 -4.10279 0.11
+DEF PIONEER_3AT Pioneer3at {
+  translation 1.69482 -4.10279 0
   rotation 1 0 0 4.692820414042842e-06
   controller "ros"
   controllerArgs [
@@ -722,13 +722,6 @@ DEF PIONEER_3AT Pioneer3at_ENU {
     "--robot-description"
   ]
   extensionSlot [
-    Camera {
-      translation 0 0.17 -0.22
-      width 256
-      height 128
-      motionBlur 500
-      noise 0.02
-    }
     Accelerometer {
       lookupTable [
         -39.24 -39.24 0.005
@@ -742,13 +735,13 @@ DEF PIONEER_3AT Pioneer3at_ENU {
       ]
     }
     SickLms291 {
-      translation 0 0.23 -0.136
+      translation 0.136 0 0.35
+      rotation -0.5773509358554485 0.5773489358556708 0.5773509358554485 -2.094395307179586
       noise 0.1
     }
     GPS {
     }
     InertialUnit {
-      rotation -0.577349935856137 0.577349935856137 0.5773509358560258 2.09439
     }
   ]
 }
