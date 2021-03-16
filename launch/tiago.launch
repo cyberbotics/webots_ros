@@ -37,7 +37,7 @@
   <arg name="auto_close" default="false" doc="Startup mode"/>
 
   <!-- robot_state_publisher -->
-  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="log" />
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" respawn="true" respawn_delay="5" output="log" />
 
   <!-- MoveIt -->
   <param name="robot_description_semantic" textfile="$(find webots_ros)/config/tiago_steel.srdf" />
