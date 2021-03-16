@@ -4,7 +4,7 @@
   <!-- ros_control -->
   <rosparam>
     arm_controller:
-      type: "position_controllers/JointTrajectoryController"
+      type: position_controllers/JointTrajectoryController
       joints:
         - arm_1_joint
         - arm_2_joint
@@ -13,6 +13,8 @@
         - arm_5_joint
         - arm_6_joint
         - arm_7_joint
+      constraints:
+        stopped_velocity_tolerance: 1
     joint_controller:
       type: joint_state_controller/JointStateController
       publish_rate: 50
@@ -35,7 +37,7 @@
   <arg name="auto_close" default="false" doc="Startup mode"/>
 
   <!-- robot_state_publisher -->
-  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" respawn="true" respawn_delay="5" />
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="log" />
 
   <!-- MoveIt -->
   <param name="robot_description_semantic" textfile="$(find webots_ros)/config/tiago_steel.srdf" />
