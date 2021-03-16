@@ -35,9 +35,46 @@
   <arg name="auto_close" default="false" doc="Startup mode"/>
 
   <!-- robot_state_publisher -->
-  <node pkg="robot_state_publisher" type="robot_state_publisher" name="example_state_publisher" respawn="true" respawn_delay="5" />
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" respawn="true" respawn_delay="5" />
 
-  <!--
-  <node pkg="webots_ros" type="tiago" name="webots_tiago" args="0.4 -0.3 0.26 -0.011 1.57 0.037" />
-  -->
+  <!-- MoveIt -->
+  <param name="robot_description_semantic" textfile="$(find webots_ros)/config/tiago_steel.srdf" />
+  <rosparam>
+    robot_description_kinematics:
+      arm:
+        kinematics_solver: kdl_kinematics_plugin/KDLKinematicsPlugin
+        kinematics_solver_search_resolution: 0.005
+        kinematics_solver_timeout: 0.005
+    move_group:
+      planning_plugin: ompl_interface/OMPLPlanner
+      request_adapters: 
+        default_planner_request_adapters/AddTimeParameterization
+        default_planner_request_adapters/ResolveConstraintFrames
+        default_planner_request_adapters/FixWorkspaceBounds
+        default_planner_request_adapters/FixStartStateBounds
+        default_planner_request_adapters/FixStartStateCollision
+        default_planner_request_adapters/FixStartStatePathConstraints
+      start_state_max_bounds_error: 0.1
+      moveit_controller_manager: moveit_simple_controller_manager/MoveItSimpleControllerManager
+      moveit_manage_controllers: true
+      controller_list:
+        - name: arm_controller
+          action_ns: follow_joint_trajectory
+          default: True
+          type: FollowJointTrajectory
+          joints:
+            - arm_1_joint
+            - arm_2_joint
+            - arm_3_joint
+            - arm_4_joint
+            - arm_5_joint
+            - arm_6_joint
+            - arm_7_joint
+      planning_scene_monitor:
+        publish_planning_scene: true
+        publish_geometry_updates: true
+        publish_state_updates: true
+        publish_transforms_updates: true
+  </rosparam>
+  <node name="move_group" pkg="moveit_ros_move_group" type="move_group" respawn="true" output="screen" respawn_delay="5" />
 </launch>

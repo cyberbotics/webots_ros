@@ -224,19 +224,6 @@ target_link_libraries(catch_the_bird
 	${catkin_LIBRARIES}
 )
 
-add_executable(tiago src/tiago.cpp)
-
-include_directories(
-  tiago
-  ${catkin_INCLUDE_DIRS}
-)
-
-add_dependencies(tiago ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-
-target_link_libraries(tiago
-	${catkin_LIBRARIES}
-)
-
 #instructions for panoramic_view_recorder node
 
 add_executable(panoramic_view_recorder src/panoramic_view_recorder.cpp)
@@ -286,4 +273,7 @@ install(DIRECTORY plugins
         DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
 
 install(DIRECTORY worlds
+        DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+
+install(DIRECTORY config
         DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
