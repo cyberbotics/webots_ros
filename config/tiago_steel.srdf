@@ -3,7 +3,7 @@
     This is a format for representing semantic information about the robot structure.
     A URDF file must exist for this robot as well, where the joints and the links that are referenced are defined
 -->
-<robot name="TIAGo Steel">
+<robot name="TiagoSteel">
     <!--GROUPS: Representation of a set of joints and links. This can be useful for specifying DOF to plan for, defining arms, end effectors, etc-->
     <!--LINKS: When a link is specified, the parent joint of that link (if it exists) is automatically included-->
     <!--JOINTS: When a joint is specified, the child link of that joint (which will always exist) is automatically included-->
@@ -19,27 +19,28 @@
         <joint name="arm_7_joint"/>
     </group>
     <group name="tool">
-        <link name="front_21453"/>
+        <link name="front"/>
     </group>
-    <passive_joint name="hingejoint_11838" />
-    <passive_joint name="hingejoint_11841" />
-    <passive_joint name="hingejoint_11873" />
-    <passive_joint name="hingejoint_11876" />
-    <passive_joint name="hingejoint_11908" />
-    <passive_joint name="hingejoint_11911" />
-    <passive_joint name="hingejoint_11943" />
-    <passive_joint name="hingejoint_11946" />
     <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
-    <end_effector name="tool_ee" parent_link="arm_7_link_21439" group="tool" parent_group="arm"/>
+    <end_effector name="tool_ee" parent_link="arm_7_link" group="tool" parent_group="arm"/>
     <!--VIRTUAL JOINT: Purpose: this element defines a virtual joint between a robot link and an external frame of reference (considered fixed with respect to the robot)-->
     <virtual_joint name="virtual_joint" type="fixed" parent_frame="world" child_link="base_link"/>
+    <!--PASSIVE JOINT: Purpose: this element is used to mark joints that are not actuated-->
+    <passive_joint name="CASTER_WHEEL_BACK_LEFT_JOINT"/>
+    <passive_joint name="SMALL_WHEEL_JOINT"/>
+    <passive_joint name="CASTER_WHEEL_BACK_RIGHT_JOINT"/>
+    <passive_joint name="SMALL_WHEEL_JOINT_0"/>
+    <passive_joint name="CASTER_WHEEL_FRONT_LEFT_JOINT"/>
+    <passive_joint name="SMALL_WHEEL_JOINT_1"/>
+    <passive_joint name="CASTER_WHEEL_FRONT_RIGHT_JOINT"/>
+    <passive_joint name="SMALL_WHEEL_JOINT_2"/>
     <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
-    <disable_collisions link1="Hokuyo URG-04LX-UG01" link2="TIAGo front arm_21279" reason="Never"/>
-    <disable_collisions link1="Hokuyo URG-04LX-UG01" link2="TIAGo front arm_21294" reason="Never"/>
+    <disable_collisions link1="Hokuyo URG-04LX-UG01" link2="TIAGo front arm" reason="Never"/>
+    <disable_collisions link1="Hokuyo URG-04LX-UG01" link2="TIAGo front arm_3" reason="Never"/>
     <disable_collisions link1="Hokuyo URG-04LX-UG01" link2="Torso" reason="Never"/>
-    <disable_collisions link1="Hokuyo URG-04LX-UG01" link2="arm_2_link_21327" reason="Never"/>
-    <disable_collisions link1="Hokuyo URG-04LX-UG01" link2="arm_3_link_21341" reason="Never"/>
-    <disable_collisions link1="Hokuyo URG-04LX-UG01" link2="arm_4_link_21375" reason="Never"/>
+    <disable_collisions link1="Hokuyo URG-04LX-UG01" link2="arm_2_link" reason="Never"/>
+    <disable_collisions link1="Hokuyo URG-04LX-UG01" link2="arm_3_link" reason="Never"/>
+    <disable_collisions link1="Hokuyo URG-04LX-UG01" link2="arm_4_link" reason="Never"/>
     <disable_collisions link1="Hokuyo URG-04LX-UG01" link2="base_cover_link" reason="Never"/>
     <disable_collisions link1="Hokuyo URG-04LX-UG01" link2="base_link" reason="Adjacent"/>
     <disable_collisions link1="Hokuyo URG-04LX-UG01" link2="caster_back_left_1_link" reason="Never"/>
@@ -55,56 +56,57 @@
     <disable_collisions link1="Hokuyo URG-04LX-UG01" link2="torso_lift_link" reason="Never"/>
     <disable_collisions link1="Hokuyo URG-04LX-UG01" link2="wheel_left_link" reason="Never"/>
     <disable_collisions link1="Hokuyo URG-04LX-UG01" link2="wheel_right_link" reason="Never"/>
-    <disable_collisions link1="TIAGo front arm_21279" link2="TIAGo front arm_21294" reason="Adjacent"/>
-    <disable_collisions link1="TIAGo front arm_21279" link2="Torso" reason="Default"/>
-    <disable_collisions link1="TIAGo front arm_21279" link2="arm_2_link_21327" reason="Never"/>
-    <disable_collisions link1="TIAGo front arm_21279" link2="arm_3_link_21341" reason="Never"/>
-    <disable_collisions link1="TIAGo front arm_21279" link2="arm_4_link_21375" reason="Never"/>
-    <disable_collisions link1="TIAGo front arm_21279" link2="arm_5_link_21409" reason="Never"/>
-    <disable_collisions link1="TIAGo front arm_21279" link2="arm_6_link_21424" reason="Never"/>
-    <disable_collisions link1="TIAGo front arm_21279" link2="arm_7_link_21439" reason="Never"/>
-    <disable_collisions link1="TIAGo front arm_21279" link2="base_cover_link" reason="Never"/>
-    <disable_collisions link1="TIAGo front arm_21279" link2="base_link" reason="Never"/>
-    <disable_collisions link1="TIAGo front arm_21279" link2="caster_back_left_1_link" reason="Never"/>
-    <disable_collisions link1="TIAGo front arm_21279" link2="caster_back_left_2_link" reason="Never"/>
-    <disable_collisions link1="TIAGo front arm_21279" link2="caster_back_right_1_link" reason="Never"/>
-    <disable_collisions link1="TIAGo front arm_21279" link2="caster_back_right_2_link" reason="Never"/>
-    <disable_collisions link1="TIAGo front arm_21279" link2="caster_front_left_1_link" reason="Never"/>
-    <disable_collisions link1="TIAGo front arm_21279" link2="caster_front_left_2_link" reason="Never"/>
-    <disable_collisions link1="TIAGo front arm_21279" link2="caster_front_right_1_link" reason="Never"/>
-    <disable_collisions link1="TIAGo front arm_21279" link2="caster_front_right_2_link" reason="Never"/>
-    <disable_collisions link1="TIAGo front arm_21279" link2="head_1_link" reason="Never"/>
-    <disable_collisions link1="TIAGo front arm_21279" link2="head_2_link" reason="Never"/>
-    <disable_collisions link1="TIAGo front arm_21279" link2="torso_lift_link" reason="Adjacent"/>
-    <disable_collisions link1="TIAGo front arm_21279" link2="wheel_left_link" reason="Never"/>
-    <disable_collisions link1="TIAGo front arm_21279" link2="wheel_right_link" reason="Never"/>
-    <disable_collisions link1="TIAGo front arm_21294" link2="Torso" reason="Never"/>
-    <disable_collisions link1="TIAGo front arm_21294" link2="arm_2_link_21327" reason="Adjacent"/>
-    <disable_collisions link1="TIAGo front arm_21294" link2="arm_3_link_21341" reason="Never"/>
-    <disable_collisions link1="TIAGo front arm_21294" link2="arm_4_link_21375" reason="Never"/>
-    <disable_collisions link1="TIAGo front arm_21294" link2="arm_5_link_21409" reason="Never"/>
-    <disable_collisions link1="TIAGo front arm_21294" link2="arm_6_link_21424" reason="Never"/>
-    <disable_collisions link1="TIAGo front arm_21294" link2="arm_7_link_21439" reason="Never"/>
-    <disable_collisions link1="TIAGo front arm_21294" link2="base_cover_link" reason="Never"/>
-    <disable_collisions link1="TIAGo front arm_21294" link2="base_link" reason="Never"/>
-    <disable_collisions link1="TIAGo front arm_21294" link2="caster_back_left_1_link" reason="Never"/>
-    <disable_collisions link1="TIAGo front arm_21294" link2="caster_back_left_2_link" reason="Never"/>
-    <disable_collisions link1="TIAGo front arm_21294" link2="caster_back_right_1_link" reason="Never"/>
-    <disable_collisions link1="TIAGo front arm_21294" link2="caster_back_right_2_link" reason="Never"/>
-    <disable_collisions link1="TIAGo front arm_21294" link2="caster_front_left_1_link" reason="Never"/>
-    <disable_collisions link1="TIAGo front arm_21294" link2="caster_front_left_2_link" reason="Never"/>
-    <disable_collisions link1="TIAGo front arm_21294" link2="caster_front_right_1_link" reason="Never"/>
-    <disable_collisions link1="TIAGo front arm_21294" link2="caster_front_right_2_link" reason="Never"/>
-    <disable_collisions link1="TIAGo front arm_21294" link2="front_21453" reason="Never"/>
-    <disable_collisions link1="TIAGo front arm_21294" link2="gripper_right_finger_link_22014" reason="Never"/>
-    <disable_collisions link1="TIAGo front arm_21294" link2="head_1_link" reason="Never"/>
-    <disable_collisions link1="TIAGo front arm_21294" link2="head_2_link" reason="Never"/>
-    <disable_collisions link1="TIAGo front arm_21294" link2="torso_lift_link" reason="Default"/>
-    <disable_collisions link1="TIAGo front arm_21294" link2="wheel_left_link" reason="Never"/>
-    <disable_collisions link1="TIAGo front arm_21294" link2="wheel_right_link" reason="Never"/>
-    <disable_collisions link1="TIAGo front arm_21294" link2="wrist_ft_tool_link_21451" reason="Never"/>
-    <disable_collisions link1="Torso" link2="arm_2_link_21327" reason="Never"/>
-    <disable_collisions link1="Torso" link2="arm_3_link_21341" reason="Never"/>
+    <disable_collisions link1="TIAGo front arm" link2="TIAGo front arm_3" reason="Adjacent"/>
+    <disable_collisions link1="TIAGo front arm" link2="Torso" reason="Default"/>
+    <disable_collisions link1="TIAGo front arm" link2="arm_2_link" reason="Never"/>
+    <disable_collisions link1="TIAGo front arm" link2="arm_3_link" reason="Never"/>
+    <disable_collisions link1="TIAGo front arm" link2="arm_4_link" reason="Never"/>
+    <disable_collisions link1="TIAGo front arm" link2="arm_5_link" reason="Never"/>
+    <disable_collisions link1="TIAGo front arm" link2="arm_6_link" reason="Never"/>
+    <disable_collisions link1="TIAGo front arm" link2="arm_7_link" reason="Never"/>
+    <disable_collisions link1="TIAGo front arm" link2="base_cover_link" reason="Never"/>
+    <disable_collisions link1="TIAGo front arm" link2="base_link" reason="Never"/>
+    <disable_collisions link1="TIAGo front arm" link2="caster_back_left_1_link" reason="Never"/>
+    <disable_collisions link1="TIAGo front arm" link2="caster_back_left_2_link" reason="Never"/>
+    <disable_collisions link1="TIAGo front arm" link2="caster_back_right_1_link" reason="Never"/>
+    <disable_collisions link1="TIAGo front arm" link2="caster_back_right_2_link" reason="Never"/>
+    <disable_collisions link1="TIAGo front arm" link2="caster_front_left_1_link" reason="Never"/>
+    <disable_collisions link1="TIAGo front arm" link2="caster_front_left_2_link" reason="Never"/>
+    <disable_collisions link1="TIAGo front arm" link2="caster_front_right_1_link" reason="Never"/>
+    <disable_collisions link1="TIAGo front arm" link2="caster_front_right_2_link" reason="Never"/>
+    <disable_collisions link1="TIAGo front arm" link2="head_1_link" reason="Never"/>
+    <disable_collisions link1="TIAGo front arm" link2="head_2_link" reason="Never"/>
+    <disable_collisions link1="TIAGo front arm" link2="torso_lift_link" reason="Adjacent"/>
+    <disable_collisions link1="TIAGo front arm" link2="wheel_left_link" reason="Never"/>
+    <disable_collisions link1="TIAGo front arm" link2="wheel_right_link" reason="Never"/>
+    <disable_collisions link1="TIAGo front arm" link2="wrist_ft_tool_link" reason="Never"/>
+    <disable_collisions link1="TIAGo front arm_3" link2="Torso" reason="Never"/>
+    <disable_collisions link1="TIAGo front arm_3" link2="arm_2_link" reason="Adjacent"/>
+    <disable_collisions link1="TIAGo front arm_3" link2="arm_3_link" reason="Never"/>
+    <disable_collisions link1="TIAGo front arm_3" link2="arm_4_link" reason="Never"/>
+    <disable_collisions link1="TIAGo front arm_3" link2="arm_5_link" reason="Never"/>
+    <disable_collisions link1="TIAGo front arm_3" link2="arm_6_link" reason="Never"/>
+    <disable_collisions link1="TIAGo front arm_3" link2="arm_7_link" reason="Never"/>
+    <disable_collisions link1="TIAGo front arm_3" link2="base_cover_link" reason="Never"/>
+    <disable_collisions link1="TIAGo front arm_3" link2="base_link" reason="Never"/>
+    <disable_collisions link1="TIAGo front arm_3" link2="caster_back_left_1_link" reason="Never"/>
+    <disable_collisions link1="TIAGo front arm_3" link2="caster_back_left_2_link" reason="Never"/>
+    <disable_collisions link1="TIAGo front arm_3" link2="caster_back_right_1_link" reason="Never"/>
+    <disable_collisions link1="TIAGo front arm_3" link2="caster_back_right_2_link" reason="Never"/>
+    <disable_collisions link1="TIAGo front arm_3" link2="caster_front_left_1_link" reason="Never"/>
+    <disable_collisions link1="TIAGo front arm_3" link2="caster_front_left_2_link" reason="Never"/>
+    <disable_collisions link1="TIAGo front arm_3" link2="caster_front_right_1_link" reason="Never"/>
+    <disable_collisions link1="TIAGo front arm_3" link2="caster_front_right_2_link" reason="Never"/>
+    <disable_collisions link1="TIAGo front arm_3" link2="front" reason="Never"/>
+    <disable_collisions link1="TIAGo front arm_3" link2="gripper_left_finger_link" reason="Never"/>
+    <disable_collisions link1="TIAGo front arm_3" link2="head_1_link" reason="Never"/>
+    <disable_collisions link1="TIAGo front arm_3" link2="head_2_link" reason="Never"/>
+    <disable_collisions link1="TIAGo front arm_3" link2="torso_lift_link" reason="Default"/>
+    <disable_collisions link1="TIAGo front arm_3" link2="wheel_left_link" reason="Never"/>
+    <disable_collisions link1="TIAGo front arm_3" link2="wheel_right_link" reason="Never"/>
+    <disable_collisions link1="TIAGo front arm_3" link2="wrist_ft_tool_link" reason="Never"/>
+    <disable_collisions link1="Torso" link2="arm_2_link" reason="Never"/>
+    <disable_collisions link1="Torso" link2="arm_3_link" reason="Never"/>
     <disable_collisions link1="Torso" link2="base_cover_link" reason="Never"/>
     <disable_collisions link1="Torso" link2="base_link" reason="Adjacent"/>
     <disable_collisions link1="Torso" link2="caster_back_left_1_link" reason="Never"/>
@@ -120,98 +122,99 @@
     <disable_collisions link1="Torso" link2="torso_lift_link" reason="Adjacent"/>
     <disable_collisions link1="Torso" link2="wheel_left_link" reason="Never"/>
     <disable_collisions link1="Torso" link2="wheel_right_link" reason="Never"/>
-    <disable_collisions link1="arm_2_link_21327" link2="arm_3_link_21341" reason="Adjacent"/>
-    <disable_collisions link1="arm_2_link_21327" link2="arm_4_link_21375" reason="Never"/>
-    <disable_collisions link1="arm_2_link_21327" link2="arm_5_link_21409" reason="Never"/>
-    <disable_collisions link1="arm_2_link_21327" link2="arm_6_link_21424" reason="Never"/>
-    <disable_collisions link1="arm_2_link_21327" link2="arm_7_link_21439" reason="Never"/>
-    <disable_collisions link1="arm_2_link_21327" link2="base_cover_link" reason="Never"/>
-    <disable_collisions link1="arm_2_link_21327" link2="base_link" reason="Never"/>
-    <disable_collisions link1="arm_2_link_21327" link2="caster_back_left_1_link" reason="Never"/>
-    <disable_collisions link1="arm_2_link_21327" link2="caster_back_left_2_link" reason="Never"/>
-    <disable_collisions link1="arm_2_link_21327" link2="caster_back_right_1_link" reason="Never"/>
-    <disable_collisions link1="arm_2_link_21327" link2="caster_back_right_2_link" reason="Never"/>
-    <disable_collisions link1="arm_2_link_21327" link2="caster_front_left_1_link" reason="Never"/>
-    <disable_collisions link1="arm_2_link_21327" link2="caster_front_left_2_link" reason="Never"/>
-    <disable_collisions link1="arm_2_link_21327" link2="caster_front_right_1_link" reason="Never"/>
-    <disable_collisions link1="arm_2_link_21327" link2="caster_front_right_2_link" reason="Never"/>
-    <disable_collisions link1="arm_2_link_21327" link2="front_21453" reason="Never"/>
-    <disable_collisions link1="arm_2_link_21327" link2="gripper_left_finger_link_21981" reason="Never"/>
-    <disable_collisions link1="arm_2_link_21327" link2="gripper_right_finger_link_22014" reason="Never"/>
-    <disable_collisions link1="arm_2_link_21327" link2="head_1_link" reason="Never"/>
-    <disable_collisions link1="arm_2_link_21327" link2="head_2_link" reason="Never"/>
-    <disable_collisions link1="arm_2_link_21327" link2="torso_lift_link" reason="Never"/>
-    <disable_collisions link1="arm_2_link_21327" link2="wheel_left_link" reason="Never"/>
-    <disable_collisions link1="arm_2_link_21327" link2="wheel_right_link" reason="Never"/>
-    <disable_collisions link1="arm_2_link_21327" link2="wrist_ft_tool_link_21451" reason="Never"/>
-    <disable_collisions link1="arm_3_link_21341" link2="arm_4_link_21375" reason="Adjacent"/>
-    <disable_collisions link1="arm_3_link_21341" link2="arm_5_link_21409" reason="Never"/>
-    <disable_collisions link1="arm_3_link_21341" link2="arm_6_link_21424" reason="Never"/>
-    <disable_collisions link1="arm_3_link_21341" link2="arm_7_link_21439" reason="Never"/>
-    <disable_collisions link1="arm_3_link_21341" link2="base_cover_link" reason="Never"/>
-    <disable_collisions link1="arm_3_link_21341" link2="base_link" reason="Never"/>
-    <disable_collisions link1="arm_3_link_21341" link2="caster_back_left_1_link" reason="Never"/>
-    <disable_collisions link1="arm_3_link_21341" link2="caster_back_left_2_link" reason="Never"/>
-    <disable_collisions link1="arm_3_link_21341" link2="caster_back_right_1_link" reason="Never"/>
-    <disable_collisions link1="arm_3_link_21341" link2="caster_back_right_2_link" reason="Never"/>
-    <disable_collisions link1="arm_3_link_21341" link2="caster_front_left_1_link" reason="Never"/>
-    <disable_collisions link1="arm_3_link_21341" link2="caster_front_left_2_link" reason="Never"/>
-    <disable_collisions link1="arm_3_link_21341" link2="caster_front_right_1_link" reason="Never"/>
-    <disable_collisions link1="arm_3_link_21341" link2="caster_front_right_2_link" reason="Never"/>
-    <disable_collisions link1="arm_3_link_21341" link2="front_21453" reason="Never"/>
-    <disable_collisions link1="arm_3_link_21341" link2="gripper_left_finger_link_21981" reason="Never"/>
-    <disable_collisions link1="arm_3_link_21341" link2="gripper_right_finger_link_22014" reason="Never"/>
-    <disable_collisions link1="arm_3_link_21341" link2="head_1_link" reason="Never"/>
-    <disable_collisions link1="arm_3_link_21341" link2="torso_lift_link" reason="Never"/>
-    <disable_collisions link1="arm_3_link_21341" link2="wheel_left_link" reason="Never"/>
-    <disable_collisions link1="arm_3_link_21341" link2="wheel_right_link" reason="Never"/>
-    <disable_collisions link1="arm_3_link_21341" link2="wrist_ft_tool_link_21451" reason="Never"/>
-    <disable_collisions link1="arm_4_link_21375" link2="arm_5_link_21409" reason="Adjacent"/>
-    <disable_collisions link1="arm_4_link_21375" link2="arm_6_link_21424" reason="Never"/>
-    <disable_collisions link1="arm_4_link_21375" link2="arm_7_link_21439" reason="Never"/>
-    <disable_collisions link1="arm_4_link_21375" link2="caster_back_left_1_link" reason="Never"/>
-    <disable_collisions link1="arm_4_link_21375" link2="caster_back_left_2_link" reason="Never"/>
-    <disable_collisions link1="arm_4_link_21375" link2="caster_back_right_1_link" reason="Never"/>
-    <disable_collisions link1="arm_4_link_21375" link2="caster_back_right_2_link" reason="Never"/>
-    <disable_collisions link1="arm_4_link_21375" link2="caster_front_left_1_link" reason="Never"/>
-    <disable_collisions link1="arm_4_link_21375" link2="caster_front_left_2_link" reason="Never"/>
-    <disable_collisions link1="arm_4_link_21375" link2="caster_front_right_1_link" reason="Never"/>
-    <disable_collisions link1="arm_4_link_21375" link2="caster_front_right_2_link" reason="Never"/>
-    <disable_collisions link1="arm_4_link_21375" link2="front_21453" reason="Never"/>
-    <disable_collisions link1="arm_4_link_21375" link2="gripper_left_finger_link_21981" reason="Never"/>
-    <disable_collisions link1="arm_4_link_21375" link2="gripper_right_finger_link_22014" reason="Never"/>
-    <disable_collisions link1="arm_4_link_21375" link2="wheel_left_link" reason="Never"/>
-    <disable_collisions link1="arm_4_link_21375" link2="wheel_right_link" reason="Never"/>
-    <disable_collisions link1="arm_4_link_21375" link2="wrist_ft_tool_link_21451" reason="Never"/>
-    <disable_collisions link1="arm_5_link_21409" link2="arm_6_link_21424" reason="Adjacent"/>
-    <disable_collisions link1="arm_5_link_21409" link2="caster_back_left_1_link" reason="Never"/>
-    <disable_collisions link1="arm_5_link_21409" link2="caster_back_left_2_link" reason="Never"/>
-    <disable_collisions link1="arm_5_link_21409" link2="caster_back_right_1_link" reason="Never"/>
-    <disable_collisions link1="arm_5_link_21409" link2="caster_back_right_2_link" reason="Never"/>
-    <disable_collisions link1="arm_5_link_21409" link2="caster_front_left_2_link" reason="Never"/>
-    <disable_collisions link1="arm_5_link_21409" link2="caster_front_right_2_link" reason="Never"/>
-    <disable_collisions link1="arm_5_link_21409" link2="front_21453" reason="Never"/>
-    <disable_collisions link1="arm_5_link_21409" link2="gripper_left_finger_link_21981" reason="Never"/>
-    <disable_collisions link1="arm_5_link_21409" link2="gripper_right_finger_link_22014" reason="Never"/>
-    <disable_collisions link1="arm_5_link_21409" link2="wrist_ft_tool_link_21451" reason="Never"/>
-    <disable_collisions link1="arm_6_link_21424" link2="arm_7_link_21439" reason="Adjacent"/>
-    <disable_collisions link1="arm_6_link_21424" link2="caster_back_left_1_link" reason="Never"/>
-    <disable_collisions link1="arm_6_link_21424" link2="caster_back_left_2_link" reason="Never"/>
-    <disable_collisions link1="arm_6_link_21424" link2="caster_back_right_1_link" reason="Never"/>
-    <disable_collisions link1="arm_6_link_21424" link2="caster_back_right_2_link" reason="Never"/>
-    <disable_collisions link1="arm_6_link_21424" link2="caster_front_left_2_link" reason="Never"/>
-    <disable_collisions link1="arm_6_link_21424" link2="front_21453" reason="Never"/>
-    <disable_collisions link1="arm_6_link_21424" link2="gripper_left_finger_link_21981" reason="Never"/>
-    <disable_collisions link1="arm_6_link_21424" link2="gripper_right_finger_link_22014" reason="Never"/>
-    <disable_collisions link1="arm_6_link_21424" link2="wrist_ft_tool_link_21451" reason="Never"/>
-    <disable_collisions link1="arm_7_link_21439" link2="caster_back_left_1_link" reason="Never"/>
-    <disable_collisions link1="arm_7_link_21439" link2="caster_back_left_2_link" reason="Never"/>
-    <disable_collisions link1="arm_7_link_21439" link2="caster_back_right_1_link" reason="Never"/>
-    <disable_collisions link1="arm_7_link_21439" link2="caster_back_right_2_link" reason="Never"/>
-    <disable_collisions link1="arm_7_link_21439" link2="front_21453" reason="Never"/>
-    <disable_collisions link1="arm_7_link_21439" link2="gripper_left_finger_link_21981" reason="Never"/>
-    <disable_collisions link1="arm_7_link_21439" link2="gripper_right_finger_link_22014" reason="Never"/>
-    <disable_collisions link1="arm_7_link_21439" link2="wrist_ft_tool_link_21451" reason="Adjacent"/>
+    <disable_collisions link1="arm_2_link" link2="arm_3_link" reason="Adjacent"/>
+    <disable_collisions link1="arm_2_link" link2="arm_4_link" reason="Never"/>
+    <disable_collisions link1="arm_2_link" link2="arm_5_link" reason="Never"/>
+    <disable_collisions link1="arm_2_link" link2="arm_6_link" reason="Never"/>
+    <disable_collisions link1="arm_2_link" link2="arm_7_link" reason="Never"/>
+    <disable_collisions link1="arm_2_link" link2="base_cover_link" reason="Never"/>
+    <disable_collisions link1="arm_2_link" link2="base_link" reason="Never"/>
+    <disable_collisions link1="arm_2_link" link2="caster_back_left_1_link" reason="Never"/>
+    <disable_collisions link1="arm_2_link" link2="caster_back_left_2_link" reason="Never"/>
+    <disable_collisions link1="arm_2_link" link2="caster_back_right_1_link" reason="Never"/>
+    <disable_collisions link1="arm_2_link" link2="caster_back_right_2_link" reason="Never"/>
+    <disable_collisions link1="arm_2_link" link2="caster_front_left_1_link" reason="Never"/>
+    <disable_collisions link1="arm_2_link" link2="caster_front_left_2_link" reason="Never"/>
+    <disable_collisions link1="arm_2_link" link2="caster_front_right_1_link" reason="Never"/>
+    <disable_collisions link1="arm_2_link" link2="caster_front_right_2_link" reason="Never"/>
+    <disable_collisions link1="arm_2_link" link2="front" reason="Never"/>
+    <disable_collisions link1="arm_2_link" link2="gripper_left_finger_link" reason="Never"/>
+    <disable_collisions link1="arm_2_link" link2="gripper_right_finger_link" reason="Never"/>
+    <disable_collisions link1="arm_2_link" link2="head_1_link" reason="Never"/>
+    <disable_collisions link1="arm_2_link" link2="head_2_link" reason="Never"/>
+    <disable_collisions link1="arm_2_link" link2="torso_lift_link" reason="Never"/>
+    <disable_collisions link1="arm_2_link" link2="wheel_left_link" reason="Never"/>
+    <disable_collisions link1="arm_2_link" link2="wheel_right_link" reason="Never"/>
+    <disable_collisions link1="arm_2_link" link2="wrist_ft_tool_link" reason="Never"/>
+    <disable_collisions link1="arm_3_link" link2="arm_4_link" reason="Adjacent"/>
+    <disable_collisions link1="arm_3_link" link2="arm_5_link" reason="Never"/>
+    <disable_collisions link1="arm_3_link" link2="arm_6_link" reason="Never"/>
+    <disable_collisions link1="arm_3_link" link2="arm_7_link" reason="Never"/>
+    <disable_collisions link1="arm_3_link" link2="base_cover_link" reason="Never"/>
+    <disable_collisions link1="arm_3_link" link2="base_link" reason="Never"/>
+    <disable_collisions link1="arm_3_link" link2="caster_back_left_1_link" reason="Never"/>
+    <disable_collisions link1="arm_3_link" link2="caster_back_left_2_link" reason="Never"/>
+    <disable_collisions link1="arm_3_link" link2="caster_back_right_1_link" reason="Never"/>
+    <disable_collisions link1="arm_3_link" link2="caster_back_right_2_link" reason="Never"/>
+    <disable_collisions link1="arm_3_link" link2="caster_front_left_1_link" reason="Never"/>
+    <disable_collisions link1="arm_3_link" link2="caster_front_left_2_link" reason="Never"/>
+    <disable_collisions link1="arm_3_link" link2="caster_front_right_1_link" reason="Never"/>
+    <disable_collisions link1="arm_3_link" link2="caster_front_right_2_link" reason="Never"/>
+    <disable_collisions link1="arm_3_link" link2="front" reason="Never"/>
+    <disable_collisions link1="arm_3_link" link2="gripper_left_finger_link" reason="Never"/>
+    <disable_collisions link1="arm_3_link" link2="gripper_right_finger_link" reason="Never"/>
+    <disable_collisions link1="arm_3_link" link2="head_1_link" reason="Never"/>
+    <disable_collisions link1="arm_3_link" link2="torso_lift_link" reason="Never"/>
+    <disable_collisions link1="arm_3_link" link2="wheel_left_link" reason="Never"/>
+    <disable_collisions link1="arm_3_link" link2="wheel_right_link" reason="Never"/>
+    <disable_collisions link1="arm_3_link" link2="wrist_ft_tool_link" reason="Never"/>
+    <disable_collisions link1="arm_4_link" link2="arm_5_link" reason="Adjacent"/>
+    <disable_collisions link1="arm_4_link" link2="arm_6_link" reason="Never"/>
+    <disable_collisions link1="arm_4_link" link2="arm_7_link" reason="Never"/>
+    <disable_collisions link1="arm_4_link" link2="caster_back_left_1_link" reason="Never"/>
+    <disable_collisions link1="arm_4_link" link2="caster_back_left_2_link" reason="Never"/>
+    <disable_collisions link1="arm_4_link" link2="caster_back_right_1_link" reason="Never"/>
+    <disable_collisions link1="arm_4_link" link2="caster_back_right_2_link" reason="Never"/>
+    <disable_collisions link1="arm_4_link" link2="caster_front_left_1_link" reason="Never"/>
+    <disable_collisions link1="arm_4_link" link2="caster_front_left_2_link" reason="Never"/>
+    <disable_collisions link1="arm_4_link" link2="caster_front_right_1_link" reason="Never"/>
+    <disable_collisions link1="arm_4_link" link2="caster_front_right_2_link" reason="Never"/>
+    <disable_collisions link1="arm_4_link" link2="front" reason="Never"/>
+    <disable_collisions link1="arm_4_link" link2="gripper_left_finger_link" reason="Never"/>
+    <disable_collisions link1="arm_4_link" link2="gripper_right_finger_link" reason="Never"/>
+    <disable_collisions link1="arm_4_link" link2="wheel_left_link" reason="Never"/>
+    <disable_collisions link1="arm_4_link" link2="wheel_right_link" reason="Never"/>
+    <disable_collisions link1="arm_4_link" link2="wrist_ft_tool_link" reason="Never"/>
+    <disable_collisions link1="arm_5_link" link2="arm_6_link" reason="Adjacent"/>
+    <disable_collisions link1="arm_5_link" link2="caster_back_left_1_link" reason="Never"/>
+    <disable_collisions link1="arm_5_link" link2="caster_back_left_2_link" reason="Never"/>
+    <disable_collisions link1="arm_5_link" link2="caster_back_right_1_link" reason="Never"/>
+    <disable_collisions link1="arm_5_link" link2="caster_back_right_2_link" reason="Never"/>
+    <disable_collisions link1="arm_5_link" link2="caster_front_left_2_link" reason="Never"/>
+    <disable_collisions link1="arm_5_link" link2="caster_front_right_2_link" reason="Never"/>
+    <disable_collisions link1="arm_5_link" link2="front" reason="Never"/>
+    <disable_collisions link1="arm_5_link" link2="gripper_left_finger_link" reason="Never"/>
+    <disable_collisions link1="arm_5_link" link2="gripper_right_finger_link" reason="Never"/>
+    <disable_collisions link1="arm_5_link" link2="wrist_ft_tool_link" reason="Never"/>
+    <disable_collisions link1="arm_6_link" link2="arm_7_link" reason="Adjacent"/>
+    <disable_collisions link1="arm_6_link" link2="caster_back_left_1_link" reason="Never"/>
+    <disable_collisions link1="arm_6_link" link2="caster_back_left_2_link" reason="Never"/>
+    <disable_collisions link1="arm_6_link" link2="caster_back_right_1_link" reason="Never"/>
+    <disable_collisions link1="arm_6_link" link2="caster_back_right_2_link" reason="Never"/>
+    <disable_collisions link1="arm_6_link" link2="caster_front_left_2_link" reason="Never"/>
+    <disable_collisions link1="arm_6_link" link2="caster_front_right_2_link" reason="Never"/>
+    <disable_collisions link1="arm_6_link" link2="front" reason="Never"/>
+    <disable_collisions link1="arm_6_link" link2="gripper_left_finger_link" reason="Never"/>
+    <disable_collisions link1="arm_6_link" link2="gripper_right_finger_link" reason="Never"/>
+    <disable_collisions link1="arm_6_link" link2="wrist_ft_tool_link" reason="Never"/>
+    <disable_collisions link1="arm_7_link" link2="caster_back_left_1_link" reason="Never"/>
+    <disable_collisions link1="arm_7_link" link2="caster_back_left_2_link" reason="Never"/>
+    <disable_collisions link1="arm_7_link" link2="caster_back_right_1_link" reason="Never"/>
+    <disable_collisions link1="arm_7_link" link2="caster_back_right_2_link" reason="Never"/>
+    <disable_collisions link1="arm_7_link" link2="front" reason="Never"/>
+    <disable_collisions link1="arm_7_link" link2="gripper_left_finger_link" reason="Never"/>
+    <disable_collisions link1="arm_7_link" link2="gripper_right_finger_link" reason="Never"/>
+    <disable_collisions link1="arm_7_link" link2="wrist_ft_tool_link" reason="Adjacent"/>
     <disable_collisions link1="base_cover_link" link2="base_link" reason="Adjacent"/>
     <disable_collisions link1="base_cover_link" link2="caster_back_left_1_link" reason="Never"/>
     <disable_collisions link1="base_cover_link" link2="caster_back_left_2_link" reason="Never"/>
@@ -246,50 +249,49 @@
     <disable_collisions link1="caster_back_left_1_link" link2="caster_front_left_2_link" reason="Never"/>
     <disable_collisions link1="caster_back_left_1_link" link2="caster_front_right_1_link" reason="Never"/>
     <disable_collisions link1="caster_back_left_1_link" link2="caster_front_right_2_link" reason="Never"/>
-    <disable_collisions link1="caster_back_left_1_link" link2="front_21453" reason="Never"/>
+    <disable_collisions link1="caster_back_left_1_link" link2="front" reason="Never"/>
     <disable_collisions link1="caster_back_left_1_link" link2="head_1_link" reason="Never"/>
     <disable_collisions link1="caster_back_left_1_link" link2="head_2_link" reason="Never"/>
     <disable_collisions link1="caster_back_left_1_link" link2="torso_lift_link" reason="Never"/>
     <disable_collisions link1="caster_back_left_1_link" link2="wheel_left_link" reason="Never"/>
     <disable_collisions link1="caster_back_left_1_link" link2="wheel_right_link" reason="Never"/>
-    <disable_collisions link1="caster_back_left_1_link" link2="wrist_ft_tool_link_21451" reason="Never"/>
+    <disable_collisions link1="caster_back_left_1_link" link2="wrist_ft_tool_link" reason="Never"/>
     <disable_collisions link1="caster_back_left_2_link" link2="caster_back_right_1_link" reason="Never"/>
     <disable_collisions link1="caster_back_left_2_link" link2="caster_back_right_2_link" reason="Never"/>
     <disable_collisions link1="caster_back_left_2_link" link2="caster_front_left_1_link" reason="Never"/>
     <disable_collisions link1="caster_back_left_2_link" link2="caster_front_left_2_link" reason="Never"/>
     <disable_collisions link1="caster_back_left_2_link" link2="caster_front_right_1_link" reason="Never"/>
     <disable_collisions link1="caster_back_left_2_link" link2="caster_front_right_2_link" reason="Never"/>
-    <disable_collisions link1="caster_back_left_2_link" link2="front_21453" reason="Never"/>
-    <disable_collisions link1="caster_back_left_2_link" link2="gripper_left_finger_link_21981" reason="Never"/>
+    <disable_collisions link1="caster_back_left_2_link" link2="front" reason="Never"/>
     <disable_collisions link1="caster_back_left_2_link" link2="head_1_link" reason="Never"/>
     <disable_collisions link1="caster_back_left_2_link" link2="head_2_link" reason="Never"/>
     <disable_collisions link1="caster_back_left_2_link" link2="torso_lift_link" reason="Never"/>
     <disable_collisions link1="caster_back_left_2_link" link2="wheel_left_link" reason="Never"/>
     <disable_collisions link1="caster_back_left_2_link" link2="wheel_right_link" reason="Never"/>
-    <disable_collisions link1="caster_back_left_2_link" link2="wrist_ft_tool_link_21451" reason="Never"/>
+    <disable_collisions link1="caster_back_left_2_link" link2="wrist_ft_tool_link" reason="Never"/>
     <disable_collisions link1="caster_back_right_1_link" link2="caster_back_right_2_link" reason="Adjacent"/>
     <disable_collisions link1="caster_back_right_1_link" link2="caster_front_left_1_link" reason="Never"/>
     <disable_collisions link1="caster_back_right_1_link" link2="caster_front_left_2_link" reason="Never"/>
     <disable_collisions link1="caster_back_right_1_link" link2="caster_front_right_1_link" reason="Never"/>
     <disable_collisions link1="caster_back_right_1_link" link2="caster_front_right_2_link" reason="Never"/>
-    <disable_collisions link1="caster_back_right_1_link" link2="front_21453" reason="Never"/>
+    <disable_collisions link1="caster_back_right_1_link" link2="front" reason="Never"/>
     <disable_collisions link1="caster_back_right_1_link" link2="head_1_link" reason="Never"/>
     <disable_collisions link1="caster_back_right_1_link" link2="head_2_link" reason="Never"/>
     <disable_collisions link1="caster_back_right_1_link" link2="torso_lift_link" reason="Never"/>
     <disable_collisions link1="caster_back_right_1_link" link2="wheel_left_link" reason="Never"/>
     <disable_collisions link1="caster_back_right_1_link" link2="wheel_right_link" reason="Never"/>
-    <disable_collisions link1="caster_back_right_1_link" link2="wrist_ft_tool_link_21451" reason="Never"/>
+    <disable_collisions link1="caster_back_right_1_link" link2="wrist_ft_tool_link" reason="Never"/>
     <disable_collisions link1="caster_back_right_2_link" link2="caster_front_left_1_link" reason="Never"/>
     <disable_collisions link1="caster_back_right_2_link" link2="caster_front_left_2_link" reason="Never"/>
     <disable_collisions link1="caster_back_right_2_link" link2="caster_front_right_1_link" reason="Never"/>
     <disable_collisions link1="caster_back_right_2_link" link2="caster_front_right_2_link" reason="Never"/>
-    <disable_collisions link1="caster_back_right_2_link" link2="front_21453" reason="Never"/>
+    <disable_collisions link1="caster_back_right_2_link" link2="front" reason="Never"/>
     <disable_collisions link1="caster_back_right_2_link" link2="head_1_link" reason="Never"/>
     <disable_collisions link1="caster_back_right_2_link" link2="head_2_link" reason="Never"/>
     <disable_collisions link1="caster_back_right_2_link" link2="torso_lift_link" reason="Never"/>
     <disable_collisions link1="caster_back_right_2_link" link2="wheel_left_link" reason="Never"/>
     <disable_collisions link1="caster_back_right_2_link" link2="wheel_right_link" reason="Never"/>
-    <disable_collisions link1="caster_back_right_2_link" link2="wrist_ft_tool_link_21451" reason="Never"/>
+    <disable_collisions link1="caster_back_right_2_link" link2="wrist_ft_tool_link" reason="Never"/>
     <disable_collisions link1="caster_front_left_1_link" link2="caster_front_left_2_link" reason="Adjacent"/>
     <disable_collisions link1="caster_front_left_1_link" link2="caster_front_right_1_link" reason="Never"/>
     <disable_collisions link1="caster_front_left_1_link" link2="caster_front_right_2_link" reason="Never"/>
@@ -316,12 +318,12 @@
     <disable_collisions link1="caster_front_right_2_link" link2="torso_lift_link" reason="Never"/>
     <disable_collisions link1="caster_front_right_2_link" link2="wheel_left_link" reason="Never"/>
     <disable_collisions link1="caster_front_right_2_link" link2="wheel_right_link" reason="Never"/>
-    <disable_collisions link1="front_21453" link2="gripper_left_finger_link_21981" reason="Adjacent"/>
-    <disable_collisions link1="front_21453" link2="gripper_right_finger_link_22014" reason="Adjacent"/>
-    <disable_collisions link1="front_21453" link2="wrist_ft_tool_link_21451" reason="Adjacent"/>
-    <disable_collisions link1="gripper_left_finger_link_21981" link2="gripper_right_finger_link_22014" reason="Never"/>
-    <disable_collisions link1="gripper_left_finger_link_21981" link2="wrist_ft_tool_link_21451" reason="Never"/>
-    <disable_collisions link1="gripper_right_finger_link_22014" link2="wrist_ft_tool_link_21451" reason="Never"/>
+    <disable_collisions link1="front" link2="gripper_left_finger_link" reason="Adjacent"/>
+    <disable_collisions link1="front" link2="gripper_right_finger_link" reason="Adjacent"/>
+    <disable_collisions link1="front" link2="wrist_ft_tool_link" reason="Adjacent"/>
+    <disable_collisions link1="gripper_left_finger_link" link2="gripper_right_finger_link" reason="Never"/>
+    <disable_collisions link1="gripper_left_finger_link" link2="wrist_ft_tool_link" reason="Never"/>
+    <disable_collisions link1="gripper_right_finger_link" link2="wrist_ft_tool_link" reason="Never"/>
     <disable_collisions link1="head_1_link" link2="head_2_link" reason="Adjacent"/>
     <disable_collisions link1="head_1_link" link2="torso_lift_link" reason="Adjacent"/>
     <disable_collisions link1="head_1_link" link2="wheel_left_link" reason="Never"/>
