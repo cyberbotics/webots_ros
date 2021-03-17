@@ -5,6 +5,11 @@ WorldInfo {
   ]
   title "TIAGo Steel"
   basicTimeStep 16
+  contactProperties [
+    ContactProperties {
+      softCFM 1e-05
+    }
+  ]
 }
 Viewpoint {
   orientation 0.4925721069109625 0.36674151919891895 0.7892232748652084 1.5125517327991547

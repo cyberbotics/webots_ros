@@ -79,4 +79,7 @@
         publish_transforms_updates: true
   </rosparam>
   <node name="move_group" pkg="moveit_ros_move_group" type="move_group" respawn="true" output="screen" respawn_delay="5" />
+
+  <!-- Coordinate system fix -->
+  <node pkg="tf" type="static_transform_publisher" name="pioneer_lidar_tf" args="0 0 0 0.5 0.5 -0.5 0.5 'Hokuyo URG-04LX-UG01' '/tiago/Hokuyo_URG_04LX_UG01' 100"/>
 </launch>
