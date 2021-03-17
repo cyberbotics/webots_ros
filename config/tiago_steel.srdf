@@ -21,14 +21,14 @@
     <group name="tool">
         <link name="front_21453"/>
     </group>
-    <passive_joint name="hingejoint_5726" />
-    <passive_joint name="hingejoint_5729" />
-    <passive_joint name="hingejoint_5761" />
-    <passive_joint name="hingejoint_5764" />
-    <passive_joint name="hingejoint_5796" />
-    <passive_joint name="hingejoint_5799" />
-    <passive_joint name="hingejoint_5831" />
-    <passive_joint name="hingejoint_5834" />
+    <passive_joint name="hingejoint_11838" />
+    <passive_joint name="hingejoint_11841" />
+    <passive_joint name="hingejoint_11873" />
+    <passive_joint name="hingejoint_11876" />
+    <passive_joint name="hingejoint_11908" />
+    <passive_joint name="hingejoint_11911" />
+    <passive_joint name="hingejoint_11943" />
+    <passive_joint name="hingejoint_11946" />
     <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
     <end_effector name="tool_ee" parent_link="arm_7_link_21439" group="tool" parent_group="arm"/>
     <!--VIRTUAL JOINT: Purpose: this element defines a virtual joint between a robot link and an external frame of reference (considered fixed with respect to the robot)-->
