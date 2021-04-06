@@ -3008,7 +3008,7 @@ int main(int argc, char **argv) {
     n.serviceClient<webots_ros::node_get_pose>(model_name + "/supervisor/node/get_pose");
 
   supervisor_node_get_pose_srv.request.node_from = from_def_node;
-  supervisor_node_get_pose_srv.request.node_to = from_def_node;
+  supervisor_node_get_pose_srv.request.node = from_def_node;
   supervisor_node_get_pose_client.call(supervisor_node_get_pose_srv);
   ROS_INFO("From_def get_pose rotation is:\nw=%f x=%f y=%f z=%f.",
            supervisor_node_get_pose_srv.response.pose.rotation.w,
