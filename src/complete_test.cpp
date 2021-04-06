@@ -105,7 +105,7 @@
 #include <webots_ros/node_get_orientation.h>
 #include <webots_ros/node_get_parent_node.h>
 #include <webots_ros/node_get_position.h>
-#include <webots_ros/node_get_relative_pose.h>
+#include <webots_ros/node_get_pose.h>
 #include <webots_ros/node_get_static_balance.h>
 #include <webots_ros/node_get_status.h>
 #include <webots_ros/node_get_string.h>
@@ -3001,26 +3001,26 @@ int main(int argc, char **argv) {
   supervisor_node_get_orientation_client.shutdown();
   time_step_client.call(time_step_srv);
 
-  // supervisor_node_get_relative_pose
-  ros::ServiceClient supervisor_node_get_relative_pose_client;
-  webots_ros::node_get_relative_pose supervisor_node_get_relative_pose_srv;
-  supervisor_node_get_relative_pose_client =
-    n.serviceClient<webots_ros::node_get_relative_pose>(model_name + "/supervisor/node/get_relative_pose");
+  // supervisor_node_get_pose
+  ros::ServiceClient supervisor_node_get_pose_client;
+  webots_ros::node_get_pose supervisor_node_get_pose_srv;
+  supervisor_node_get_pose_client =
+    n.serviceClient<webots_ros::node_get_pose>(model_name + "/supervisor/node/get_pose");
 
-  supervisor_node_get_relative_pose_srv.request.node_from = from_def_node;
-  supervisor_node_get_relative_pose_srv.request.node_to = from_def_node;
-  supervisor_node_get_relative_pose_client.call(supervisor_node_get_relative_pose_srv);
-  ROS_INFO("From_def get_relative_pose rotation is:\nw=%f x=%f y=%f z=%f.",
-           supervisor_node_get_relative_pose_srv.response.pose.rotation.w,
-           supervisor_node_get_relative_pose_srv.response.pose.rotation.x,
-           supervisor_node_get_relative_pose_srv.response.pose.rotation.y,
-           supervisor_node_get_relative_pose_srv.response.pose.rotation.z);
-  ROS_INFO("From_def get_relative_pose translation is:\nw=%f x=%f y=%f.",
-           supervisor_node_get_relative_pose_srv.response.pose.translation.x,
-           supervisor_node_get_relative_pose_srv.response.pose.translation.y,
-           supervisor_node_get_relative_pose_srv.response.pose.translation.z);
+  supervisor_node_get_pose_srv.request.node_from = from_def_node;
+  supervisor_node_get_pose_srv.request.node_to = from_def_node;
+  supervisor_node_get_pose_client.call(supervisor_node_get_pose_srv);
+  ROS_INFO("From_def get_pose rotation is:\nw=%f x=%f y=%f z=%f.",
+           supervisor_node_get_pose_srv.response.pose.rotation.w,
+           supervisor_node_get_pose_srv.response.pose.rotation.x,
+           supervisor_node_get_pose_srv.response.pose.rotation.y,
+           supervisor_node_get_pose_srv.response.pose.rotation.z);
+  ROS_INFO("From_def get_pose translation is:\nw=%f x=%f y=%f.",
+           supervisor_node_get_pose_srv.response.pose.translation.x,
+           supervisor_node_get_pose_srv.response.pose.translation.y,
+           supervisor_node_get_pose_srv.response.pose.translation.z);
 
-  supervisor_node_get_relative_pose_client.shutdown();
+  supervisor_node_get_pose_client.shutdown();
   time_step_client.call(time_step_srv);
 
   // supervisor_node_get_center_of_mass
