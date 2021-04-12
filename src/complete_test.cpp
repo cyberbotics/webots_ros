@@ -3015,7 +3015,7 @@ int main(int argc, char **argv) {
            supervisor_node_get_pose_srv.response.pose.rotation.x,
            supervisor_node_get_pose_srv.response.pose.rotation.y,
            supervisor_node_get_pose_srv.response.pose.rotation.z);
-  ROS_INFO("From_def get_pose translation is:\nw=%f x=%f y=%f.",
+  ROS_INFO("From_def get_pose translation is:\nx=%f y=%f z=%f.",
            supervisor_node_get_pose_srv.response.pose.translation.x,
            supervisor_node_get_pose_srv.response.pose.translation.y,
            supervisor_node_get_pose_srv.response.pose.translation.z);
