@@ -140,6 +140,7 @@ static vector<unsigned char> imageColor;
 static vector<float> imageRangeFinder;
 static int connectorPresence = 0;
 static double accelerometerValues[3] = {0, 0, 0};
+static double altimeterValue = 0;
 static double compassValues[3] = {0, 0, 0};
 static double GPSValues[3] = {0, 0, 0};
 static double GyroValues[3] = {0, 0, 0};
@@ -235,6 +236,11 @@ void accelerometerCallback(const sensor_msgs::Imu::ConstPtr &values) {
 
   ROS_INFO("Accelerometer values are x=%f y=%f z=%f (time: %d:%d).", accelerometerValues[0], accelerometerValues[1],
            accelerometerValues[2], values->header.stamp.sec, values->header.stamp.nsec);
+  callbackCalled = true;
+}
+
+void altimeterCallback(const webots_ros::Float64Stamped::ConstPtr &value) {
+  ROS_INFO("Altimeter value is z=%f (time: %d:%d).", value->data, value->header.stamp.sec, value->header.stamp.nsec);
   callbackCalled = true;
 }
 
