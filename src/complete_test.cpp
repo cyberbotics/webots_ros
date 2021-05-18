@@ -143,7 +143,6 @@ static vector<unsigned char> imageColor;
 static vector<float> imageRangeFinder;
 static int connectorPresence = 0;
 static double accelerometerValues[3] = {0, 0, 0};
-static double altimeterValue = 0;
 static double compassValues[3] = {0, 0, 0};
 static double GPSValues[3] = {0, 0, 0};
 static double GyroValues[3] = {0, 0, 0};
