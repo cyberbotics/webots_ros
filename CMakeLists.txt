@@ -4,7 +4,7 @@ project(webots_ros)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS roscpp rospy std_msgs sensor_msgs message_generation tf)
+find_package(catkin REQUIRED COMPONENTS roscpp rospy std_msgs sensor_msgs message_generation tf moveit_ros_planning_interface)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -99,10 +99,13 @@ find_package(catkin REQUIRED COMPONENTS roscpp rospy std_msgs sensor_msgs messag
     node_get_number_of_contact_points.srv
     node_get_name.srv
     node_get_orientation.srv
+    node_get_pose.srv
     node_get_parent_node.srv
     node_get_position.srv
     node_get_static_balance.srv
     node_get_status.srv
+    node_get_string.srv
+    node_set_string.srv
     node_get_type.srv
     node_get_velocity.srv
     node_remove.srv
@@ -232,16 +235,6 @@ target_link_libraries(panoramic_view_recorder
 	${catkin_LIBRARIES}
 )
 
-#instructions for pioneer3at node
-
-add_executable(pioneer3at src/pioneer3at.cpp)
-
-add_dependencies(pioneer3at webots_ros_generate_messages_cpp)
-
-target_link_libraries(pioneer3at
-	${catkin_LIBRARIES}
-)
-
 
 #############
 ## Install ##
@@ -265,9 +258,6 @@ install(TARGETS catch_the_bird
 install(TARGETS panoramic_view_recorder
         RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 
-install(TARGETS pioneer3at
-        RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
-
 catkin_install_python(PROGRAMS scripts/ros_controller.py
         DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 
@@ -284,4 +274,7 @@ install(DIRECTORY plugins
         DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
 
 install(DIRECTORY worlds
+        DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+
+install(DIRECTORY config
         DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
