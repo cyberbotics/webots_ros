@@ -3281,7 +3281,6 @@ int main(int argc, char **argv) {
     n.serviceClient<webots_ros::field_disable_sf_tracking>(model_name + "/supervisor/field/disable_sf_tracking");
 
   supervisor_field_disable_sf_tracking_srv.request.field = field;
-  supervisor_field_disable_sf_tracking_srv.request.sampling_period = 32;
   if (supervisor_field_disable_sf_tracking_client.call(supervisor_field_disable_sf_tracking_srv) &&
       supervisor_field_disable_sf_tracking_srv.response.success == 1)
     ROS_INFO("Field is successfully tracked.");
