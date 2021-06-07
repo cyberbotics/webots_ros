@@ -3258,6 +3258,41 @@ int main(int argc, char **argv) {
   supervisor_field_set_string_client.shutdown();
   time_step_client.call(time_step_srv);
 
+  // supervisor_field_enable_sf_tracking
+  ros::ServiceClient supervisor_field_enable_sf_tracking_client;
+  webots_ros::field_enable_sf_tracking supervisor_field_enable_sf_tracking_srv;
+  supervisor_field_enable_sf_tracking_client =
+    n.serviceClient<webots_ros::field_enable_sf_tracking>(model_name + "/supervisor/field/enable_sf_tracking");
+
+  supervisor_field_enable_sf_tracking_srv.request.field = field;
+  supervisor_field_enable_sf_tracking_srv.request.sampling_period = 32;
+  if (supervisor_field_enable_sf_tracking_client.call(supervisor_field_enable_sf_tracking_srv) &&
+      supervisor_field_enable_sf_tracking_srv.response.success == 1)
+    ROS_INFO("Field is successfully tracked.");
+  else
+    ROS_ERROR("Failed to call service field_enable_sf_tracking.");
+
+  supervisor_field_enable_sf_tracking_client.shutdown();
+  time_step_client.call(time_step_srv);
+
+  // supervisor_field_disable_sf_tracking
+  ros::ServiceClient supervisor_field_disable_sf_tracking_client;
+  webots_ros::field_disable_sf_tracking supervisor_field_disable_sf_tracking_srv;
+  supervisor_field_disable_sf_tracking_client =
+    n.serviceClient<webots_ros::field_disable_sf_tracking>(model_name + "/supervisor/field/disable_sf_tracking");
+
+  supervisor_field_disable_sf_tracking_srv.request.field = field;
+  supervisor_field_disable_sf_tracking_srv.request.sampling_period = 32;
+  if (supervisor_field_disable_sf_tracking_client.call(supervisor_field_disable_sf_tracking_srv) &&
+      supervisor_field_disable_sf_tracking_srv.response.success == 1)
+    ROS_INFO("Field is successfully tracked.");
+  else
+    ROS_ERROR("Failed to call service field_disable_sf_tracking.");
+
+  supervisor_field_disable_sf_tracking_client.shutdown();
+  time_step_client.call(time_step_srv);
+
+  // supervisor_field_get_string_client
   ros::ServiceClient supervisor_field_get_string_client;
   webots_ros::field_get_string supervisor_field_get_string_srv;
   supervisor_field_get_string_client =
