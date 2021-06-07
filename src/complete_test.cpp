@@ -68,8 +68,8 @@
 #include <webots_ros/display_image_paste.h>
 #include <webots_ros/display_image_save.h>
 #include <webots_ros/display_set_font.h>
-#include <webots_ros/field_enable_tracking.h>
-#include <webots_ros/field_disable_tracking.h>
+#include <webots_ros/field_enable_sf_tracking.h>
+#include <webots_ros/field_disable_sf_tracking.h>
 #include <webots_ros/field_get_bool.h>
 #include <webots_ros/field_get_color.h>
 #include <webots_ros/field_get_count.h>
