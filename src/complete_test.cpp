@@ -68,6 +68,8 @@
 #include <webots_ros/display_image_paste.h>
 #include <webots_ros/display_image_save.h>
 #include <webots_ros/display_set_font.h>
+#include <webots_ros/field_enable_sf_tracking.h>
+#include <webots_ros/field_disable_sf_tracking.h>
 #include <webots_ros/field_get_bool.h>
 #include <webots_ros/field_get_color.h>
 #include <webots_ros/field_get_count.h>
@@ -106,6 +108,8 @@
 #include <webots_ros/node_get_parent_node.h>
 #include <webots_ros/node_get_position.h>
 #include <webots_ros/node_get_pose.h>
+#include <webots_ros/node_enable_pose_tracking.h>
+#include <webots_ros/node_disable_pose_tracking.h>
 #include <webots_ros/node_get_static_balance.h>
 #include <webots_ros/node_get_status.h>
 #include <webots_ros/node_get_string.h>
@@ -3021,6 +3025,32 @@ int main(int argc, char **argv) {
            supervisor_node_get_pose_srv.response.pose.translation.z);
 
   supervisor_node_get_pose_client.shutdown();
+  time_step_client.call(time_step_srv);
+
+  // supervisor_node_enable_pose_tracking
+  ros::ServiceClient supervisor_node_enable_pose_tracking_client;
+  webots_ros::node_enable_pose_tracking supervisor_node_enable_pose_tracking_srv;
+  supervisor_node_enable_pose_tracking_client =
+    n.serviceClient<webots_ros::node_enable_pose_tracking>(model_name + "/supervisor/node/enable_pose_tracking");
+
+  supervisor_node_enable_pose_tracking_srv.request.node_from = from_def_node;
+  supervisor_node_enable_pose_tracking_srv.request.node = from_def_node;
+  supervisor_node_enable_pose_tracking_srv.request.sampling_period = 32;
+  supervisor_node_enable_pose_tracking_client.call(supervisor_node_enable_pose_tracking_srv);
+  supervisor_node_enable_pose_tracking_client.shutdown();
+  time_step_client.call(time_step_srv);
+
+  // supervisor_node_disable_pose_tracking
+  ros::ServiceClient supervisor_node_disable_pose_tracking_client;
+  webots_ros::node_disable_pose_tracking supervisor_node_disable_pose_tracking_srv;
+  supervisor_node_disable_pose_tracking_client =
+    n.serviceClient<webots_ros::node_disable_pose_tracking>(model_name + "/supervisor/node/disable_pose_tracking");
+
+  supervisor_node_disable_pose_tracking_srv.request.node_from = from_def_node;
+  supervisor_node_disable_pose_tracking_srv.request.node = from_def_node;
+  supervisor_node_disable_pose_tracking_srv.request.sampling_period = 32;
+  supervisor_node_disable_pose_tracking_client.call(supervisor_node_disable_pose_tracking_srv);
+  supervisor_node_disable_pose_tracking_client.shutdown();
   time_step_client.call(time_step_srv);
 
   // supervisor_node_get_center_of_mass
