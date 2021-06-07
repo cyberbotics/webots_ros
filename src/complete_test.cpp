@@ -3048,7 +3048,6 @@ int main(int argc, char **argv) {
 
   supervisor_node_disable_pose_tracking_srv.request.node_from = from_def_node;
   supervisor_node_disable_pose_tracking_srv.request.node = from_def_node;
-  supervisor_node_disable_pose_tracking_srv.request.sampling_period = 32;
   supervisor_node_disable_pose_tracking_client.call(supervisor_node_disable_pose_tracking_srv);
   supervisor_node_disable_pose_tracking_client.shutdown();
   time_step_client.call(time_step_srv);
