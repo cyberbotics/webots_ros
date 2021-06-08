@@ -3011,7 +3011,7 @@ int main(int argc, char **argv) {
   supervisor_node_get_pose_client =
     n.serviceClient<webots_ros::node_get_pose>(model_name + "/supervisor/node/get_pose");
 
-  supervisor_node_get_pose_srv.request.node_from = from_def_node;
+  supervisor_node_get_pose_srv.request.from_node = from_def_node;
   supervisor_node_get_pose_srv.request.node = from_def_node;
   supervisor_node_get_pose_client.call(supervisor_node_get_pose_srv);
   ROS_INFO("From_def get_pose rotation is:\nw=%f x=%f y=%f z=%f.",
@@ -3033,7 +3033,7 @@ int main(int argc, char **argv) {
   supervisor_node_enable_pose_tracking_client =
     n.serviceClient<webots_ros::node_enable_pose_tracking>(model_name + "/supervisor/node/enable_pose_tracking");
 
-  supervisor_node_enable_pose_tracking_srv.request.node_from = from_def_node;
+  supervisor_node_enable_pose_tracking_srv.request.from_node = from_def_node;
   supervisor_node_enable_pose_tracking_srv.request.node = from_def_node;
   supervisor_node_enable_pose_tracking_srv.request.sampling_period = 32;
   supervisor_node_enable_pose_tracking_client.call(supervisor_node_enable_pose_tracking_srv);
@@ -3046,7 +3046,7 @@ int main(int argc, char **argv) {
   supervisor_node_disable_pose_tracking_client =
     n.serviceClient<webots_ros::node_disable_pose_tracking>(model_name + "/supervisor/node/disable_pose_tracking");
 
-  supervisor_node_disable_pose_tracking_srv.request.node_from = from_def_node;
+  supervisor_node_disable_pose_tracking_srv.request.from_node = from_def_node;
   supervisor_node_disable_pose_tracking_srv.request.node = from_def_node;
   supervisor_node_disable_pose_tracking_client.call(supervisor_node_disable_pose_tracking_srv);
   supervisor_node_disable_pose_tracking_client.shutdown();

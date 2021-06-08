@@ -1,4 +1,4 @@
 uint64 node
-uint64 node_from
+uint64 from_node
 ---
 geometry_msgs/Transform pose
