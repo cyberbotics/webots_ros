@@ -94,6 +94,7 @@
 #include <webots_ros/field_set_vec3f.h>
 #include <webots_ros/lidar_get_frequency_info.h>
 #include <webots_ros/lidar_get_info.h>
+#include <webots_ros/motor_get_multiplier.h>
 #include <webots_ros/motor_set_control_pid.h>
 #include <webots_ros/node_add_force_or_torque.h>
 #include <webots_ros/node_add_force_with_offset.h>
@@ -2341,6 +2342,26 @@ int main(int argc, char **argv) {
   ROS_INFO("Max torque for rotational_motor is %f.", get_max_torque_srv.response.value);
 
   get_max_torque_client.shutdown();
+  time_step_client.call(time_step_srv);
+
+  ros::ServiceClient rotational_motor_get_multiplier_client;
+  webots_ros::get_float get_multiplier_srv;
+  rotational_motor_get_multiplier_client = n.serviceClient<webots_ros::get_float>(model_name + "/rotational_motor/get_multiplier");
+
+  rotational_motor_get_multiplier_client.call(get_multiplier_srv);
+  ROS_INFO("Multiplier for rotational_motor is %f.", get_multiplier_srv.response.value);
+
+  rotational_motor_get_multiplier_client.shutdown();
+  time_step_client.call(time_step_srv);
+
+  ros::ServiceClient linear_motor_get_multiplier_client;
+  webots_ros::get_float get_multiplier_srv;
+  linear_motor_get_multiplier_client = n.serviceClient<webots_ros::get_float>(model_name + "/linear_motor/get_multiplier");
+
+  linear_motor_get_multiplier_client.call(get_multiplier_srv);
+  ROS_INFO("Multiplier for linear_motor is %f.", get_multiplier_srv.response.value);
+
+  linear_motor_get_multiplier_client.shutdown();
   time_step_client.call(time_step_srv);
 
   ros::ServiceClient set_motor_feedback_client;
