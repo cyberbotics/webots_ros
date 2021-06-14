@@ -51,6 +51,8 @@ find_package(catkin REQUIRED COMPONENTS roscpp rospy std_msgs sensor_msgs messag
     display_image_paste.srv
     display_image_save.srv
     display_set_font.srv
+    field_disable_sf_tracking.srv
+    field_enable_sf_tracking.srv
     field_get_bool.srv
     field_get_color.srv
     field_get_count.srv
@@ -91,6 +93,8 @@ find_package(catkin REQUIRED COMPONENTS roscpp rospy std_msgs sensor_msgs messag
     mouse_get_state.srv
     node_add_force_or_torque.srv
     node_add_force_with_offset.srv
+    node_disable_pose_tracking.srv
+    node_enable_pose_tracking.srv
     node_get_center_of_mass.srv
     node_get_contact_point.srv
     node_get_contact_point_node.srv
