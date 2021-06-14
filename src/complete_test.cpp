@@ -3488,7 +3488,7 @@ int main(int argc, char **argv) {
   node_set_joint_position_srv.request.index = 1;
   node_set_joint_position_client.call(node_set_joint_position_srv);
   if (node_set_joint_position_srv.response.success == 1)
-    ROS_INFO("Joint set successfully.");
+    ROS_INFO("Joint position set successfully.");
   else
     ROS_ERROR("Failed to call service node_set_joint_position.");
 
