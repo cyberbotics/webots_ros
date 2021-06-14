@@ -104,8 +104,8 @@
 #include <webots_ros/node_get_number_of_contact_points.h>
 #include <webots_ros/node_get_orientation.h>
 #include <webots_ros/node_get_parent_node.h>
-#include <webots_ros/node_get_position.h>
 #include <webots_ros/node_get_pose.h>
+#include <webots_ros/node_get_position.h>
 #include <webots_ros/node_get_static_balance.h>
 #include <webots_ros/node_get_status.h>
 #include <webots_ros/node_get_string.h>
@@ -3005,21 +3005,16 @@ int main(int argc, char **argv) {
   // supervisor_node_get_pose
   ros::ServiceClient supervisor_node_get_pose_client;
   webots_ros::node_get_pose supervisor_node_get_pose_srv;
-  supervisor_node_get_pose_client =
-    n.serviceClient<webots_ros::node_get_pose>(model_name + "/supervisor/node/get_pose");
+  supervisor_node_get_pose_client = n.serviceClient<webots_ros::node_get_pose>(model_name + "/supervisor/node/get_pose");
 
   supervisor_node_get_pose_srv.request.node_from = from_def_node;
   supervisor_node_get_pose_srv.request.node = from_def_node;
   supervisor_node_get_pose_client.call(supervisor_node_get_pose_srv);
-  ROS_INFO("From_def get_pose rotation is:\nw=%f x=%f y=%f z=%f.",
-           supervisor_node_get_pose_srv.response.pose.rotation.w,
-           supervisor_node_get_pose_srv.response.pose.rotation.x,
-           supervisor_node_get_pose_srv.response.pose.rotation.y,
+  ROS_INFO("From_def get_pose rotation is:\nw=%f x=%f y=%f z=%f.", supervisor_node_get_pose_srv.response.pose.rotation.w,
+           supervisor_node_get_pose_srv.response.pose.rotation.x, supervisor_node_get_pose_srv.response.pose.rotation.y,
            supervisor_node_get_pose_srv.response.pose.rotation.z);
-  ROS_INFO("From_def get_pose translation is:\nx=%f y=%f z=%f.",
-           supervisor_node_get_pose_srv.response.pose.translation.x,
-           supervisor_node_get_pose_srv.response.pose.translation.y,
-           supervisor_node_get_pose_srv.response.pose.translation.z);
+  ROS_INFO("From_def get_pose translation is:\nx=%f y=%f z=%f.", supervisor_node_get_pose_srv.response.pose.translation.x,
+           supervisor_node_get_pose_srv.response.pose.translation.y, supervisor_node_get_pose_srv.response.pose.translation.z);
 
   supervisor_node_get_pose_client.shutdown();
   time_step_client.call(time_step_srv);
@@ -3269,6 +3264,16 @@ int main(int argc, char **argv) {
   } else
     ROS_ERROR("could not get CONE node from DEF.");
 
+  supervisor_get_from_def_srv.request.name = "HINGE_JOINT";
+  supervisor_get_from_def_srv.request.proto = 0;
+  supervisor_get_from_def_client.call(supervisor_get_from_def_srv);
+  uint64_t hinge_joint_node = 0;
+  if (supervisor_get_from_def_srv.response.node != 0) {
+    ROS_INFO("Got HINGE_JOINT node from DEF: %lu.", supervisor_get_from_def_srv.response.node);
+    hinge_joint_node = supervisor_get_from_def_srv.response.node;
+  } else
+    ROS_ERROR("could not get HINGE_JOINT node from DEF.");
+
   supervisor_node_get_type_name_client.shutdown();
   supervisor_get_from_def_client.shutdown();
   supervisor_field_get_node_client.shutdown();
@@ -3403,6 +3408,23 @@ int main(int argc, char **argv) {
     ROS_ERROR("Failed to call service node_get_parent_node.");
 
   node_get_parent_node_client.shutdown();
+  time_step_client.call(time_step_srv);
+
+  // node_set_joint_position
+  ros::ServiceClient node_set_joint_position_client;
+  webots_ros::node_set_joint_position node_set_joint_position_srv;
+  node_set_joint_position_client =
+    n.serviceClient<webots_ros::node_set_joint_position>(model_name + "/supervisor/node/set_joint_position");
+  node_set_joint_position_srv.request.node = hinge_joint_node;
+  node_set_joint_position_srv.request.position = 0.6;
+  node_set_joint_position_srv.request.index = 1;
+  node_set_joint_position_client.call(node_set_joint_position_srv);
+  if (node_set_joint_position_srv.response.success == 1)
+    ROS_INFO("Joint set successfully.");
+  else
+    ROS_ERROR("Failed to call service node_set_joint_position.");
+
+  node_set_joint_position_client.shutdown();
   time_step_client.call(time_step_srv);
 
   // movie
