@@ -1035,18 +1035,18 @@ int main(int argc, char **argv) {
   ////////////////////////////
 
   ros::ServiceClient set_altimeter_client;
-  webots::set_int altimeter_srv;
-  ros::subscriber sub_altimeter_32;
+  webots_ros::set_int altimeter_srv;
+  ros::Subscriber sub_altimeter_32;
 
-  set_altimeter_client = n.serviceClinet<webots_ros::set_int>(model_name + "/altimeter/enable");
+  set_altimeter_client = n.serviceClient<webots_ros::set_int>(model_name + "/altimeter/enable");
 
   ros::ServiceClient sampling_period_altimeter_client;
-  webot_ros::get_int sampling_period_altimeter_srv;
+  webots_ros::get_int sampling_period_altimeter_srv;
   sampling_period_altimeter_client = 
     n.serviceClient<webots_ros::get_int>(model_name + "/altimeter/get_sampling_period");
   
   altimeter_srv.request.value = 32;
-  if (set_altimeter_client.call(altimeter_srv) && altimeter_srv.response.succes) {
+  if (set_altimeter_client.call(altimeter_srv) && altimeter_srv.response.success) {
     ROS_INFO("Altimeter enabled.");
     sub_altimeter_32 = n.subscribe(model_name + "/altimeter/value", 1, altimeterCallback);
     callbackCalled = false;
