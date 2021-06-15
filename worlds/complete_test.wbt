@@ -78,6 +78,8 @@ Robot {
   translation 0 0 0.1
   rotation 1 0 0 1.5707963267948966
   children [
+    Altimeter {
+    }
     SliderJoint {
       device [
         Brake {
@@ -171,8 +173,9 @@ Robot {
     Camera {
       translation 0.14 0 0
       model "camera model"
+      fieldOfView 1.33
       focus Focus {
-        focalDistance 0.2
+        focalDistance 0.33
         focalLength 0.3
         maxFocalDistance 0.4
         minFocalDistance 0.1
@@ -222,7 +225,7 @@ Robot {
     }
     InertialUnit {
       name "inertial_unit"
-      noise 0.00001
+      noise 1e-05
     }
     LED {
       translation 0.1 0.05 0.1
@@ -284,7 +287,7 @@ Robot {
     "--clock"
     "--synchronize"
   ]
-  customData "INITIAL"
+  customData "OVERWRITTEN"
   supervisor TRUE
   battery [
     50, 50, 2
