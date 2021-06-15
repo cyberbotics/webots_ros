@@ -89,7 +89,6 @@ find_package(catkin REQUIRED COMPONENTS roscpp rospy std_msgs sensor_msgs messag
     lidar_get_info.srv
     lidar_get_layer_point_cloud.srv
     lidar_get_layer_range_image.srv
-    motor_get_multiplier.srv
     motor_set_control_pid.srv
     mouse_get_state.srv
     node_add_force_or_torque.srv
