@@ -68,6 +68,8 @@
 #include <webots_ros/display_image_paste.h>
 #include <webots_ros/display_image_save.h>
 #include <webots_ros/display_set_font.h>
+#include <webots_ros/field_enable_sf_tracking.h>
+#include <webots_ros/field_disable_sf_tracking.h>
 #include <webots_ros/field_get_bool.h>
 #include <webots_ros/field_get_color.h>
 #include <webots_ros/field_get_count.h>
@@ -106,6 +108,8 @@
 #include <webots_ros/node_get_parent_node.h>
 #include <webots_ros/node_get_position.h>
 #include <webots_ros/node_get_pose.h>
+#include <webots_ros/node_enable_pose_tracking.h>
+#include <webots_ros/node_disable_pose_tracking.h>
 #include <webots_ros/node_get_static_balance.h>
 #include <webots_ros/node_get_status.h>
 #include <webots_ros/node_get_string.h>
@@ -3064,7 +3068,7 @@ int main(int argc, char **argv) {
   supervisor_node_get_pose_client =
     n.serviceClient<webots_ros::node_get_pose>(model_name + "/supervisor/node/get_pose");
 
-  supervisor_node_get_pose_srv.request.node_from = from_def_node;
+  supervisor_node_get_pose_srv.request.from_node = from_def_node;
   supervisor_node_get_pose_srv.request.node = from_def_node;
   supervisor_node_get_pose_client.call(supervisor_node_get_pose_srv);
   ROS_INFO("From_def get_pose rotation is:\nw=%f x=%f y=%f z=%f.",
@@ -3078,6 +3082,31 @@ int main(int argc, char **argv) {
            supervisor_node_get_pose_srv.response.pose.translation.z);
 
   supervisor_node_get_pose_client.shutdown();
+  time_step_client.call(time_step_srv);
+
+  // supervisor_node_enable_pose_tracking
+  ros::ServiceClient supervisor_node_enable_pose_tracking_client;
+  webots_ros::node_enable_pose_tracking supervisor_node_enable_pose_tracking_srv;
+  supervisor_node_enable_pose_tracking_client =
+    n.serviceClient<webots_ros::node_enable_pose_tracking>(model_name + "/supervisor/node/enable_pose_tracking");
+
+  supervisor_node_enable_pose_tracking_srv.request.from_node = from_def_node;
+  supervisor_node_enable_pose_tracking_srv.request.node = from_def_node;
+  supervisor_node_enable_pose_tracking_srv.request.sampling_period = 32;
+  supervisor_node_enable_pose_tracking_client.call(supervisor_node_enable_pose_tracking_srv);
+  supervisor_node_enable_pose_tracking_client.shutdown();
+  time_step_client.call(time_step_srv);
+
+  // supervisor_node_disable_pose_tracking
+  ros::ServiceClient supervisor_node_disable_pose_tracking_client;
+  webots_ros::node_disable_pose_tracking supervisor_node_disable_pose_tracking_srv;
+  supervisor_node_disable_pose_tracking_client =
+    n.serviceClient<webots_ros::node_disable_pose_tracking>(model_name + "/supervisor/node/disable_pose_tracking");
+
+  supervisor_node_disable_pose_tracking_srv.request.from_node = from_def_node;
+  supervisor_node_disable_pose_tracking_srv.request.node = from_def_node;
+  supervisor_node_disable_pose_tracking_client.call(supervisor_node_disable_pose_tracking_srv);
+  supervisor_node_disable_pose_tracking_client.shutdown();
   time_step_client.call(time_step_srv);
 
   // supervisor_node_get_center_of_mass
@@ -3285,6 +3314,40 @@ int main(int argc, char **argv) {
   supervisor_field_set_string_client.shutdown();
   time_step_client.call(time_step_srv);
 
+  // supervisor_field_enable_sf_tracking
+  ros::ServiceClient supervisor_field_enable_sf_tracking_client;
+  webots_ros::field_enable_sf_tracking supervisor_field_enable_sf_tracking_srv;
+  supervisor_field_enable_sf_tracking_client =
+    n.serviceClient<webots_ros::field_enable_sf_tracking>(model_name + "/supervisor/field/enable_sf_tracking");
+
+  supervisor_field_enable_sf_tracking_srv.request.field = field;
+  supervisor_field_enable_sf_tracking_srv.request.sampling_period = 32;
+  if (supervisor_field_enable_sf_tracking_client.call(supervisor_field_enable_sf_tracking_srv) &&
+      supervisor_field_enable_sf_tracking_srv.response.success == 1)
+    ROS_INFO("Field is successfully tracked.");
+  else
+    ROS_ERROR("Failed to call service field_enable_sf_tracking.");
+
+  supervisor_field_enable_sf_tracking_client.shutdown();
+  time_step_client.call(time_step_srv);
+
+  // supervisor_field_disable_sf_tracking
+  ros::ServiceClient supervisor_field_disable_sf_tracking_client;
+  webots_ros::field_disable_sf_tracking supervisor_field_disable_sf_tracking_srv;
+  supervisor_field_disable_sf_tracking_client =
+    n.serviceClient<webots_ros::field_disable_sf_tracking>(model_name + "/supervisor/field/disable_sf_tracking");
+
+  supervisor_field_disable_sf_tracking_srv.request.field = field;
+  if (supervisor_field_disable_sf_tracking_client.call(supervisor_field_disable_sf_tracking_srv) &&
+      supervisor_field_disable_sf_tracking_srv.response.success == 1)
+    ROS_INFO("Field is successfully tracked.");
+  else
+    ROS_ERROR("Failed to call service field_disable_sf_tracking.");
+
+  supervisor_field_disable_sf_tracking_client.shutdown();
+  time_step_client.call(time_step_srv);
+
+  // supervisor_field_get_string_client
   ros::ServiceClient supervisor_field_get_string_client;
   webots_ros::field_get_string supervisor_field_get_string_srv;
   supervisor_field_get_string_client =
