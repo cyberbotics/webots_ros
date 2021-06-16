@@ -86,6 +86,7 @@ Robot {
         LinearMotor {
           name "linear_motor"
           maxPosition 100
+          multiplier 1.5
         }
       ]
       endPoint Solid {
@@ -143,6 +144,7 @@ Robot {
           name "rotational_motor"
           acceleration 5
           maxVelocity 2
+          multiplier 2.5
         }
       ]
       endPoint DEF TEST2 Solid {
