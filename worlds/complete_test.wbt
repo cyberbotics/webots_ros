@@ -110,7 +110,9 @@ Robot {
         }
       }
     }
-    HingeJoint {
+    DEF HINGE_JOINT HingeJoint {
+      jointParameters HingeJointParameters {
+      }
       device [
         PositionSensor {
           name "position_sensor"
@@ -224,7 +226,7 @@ Robot {
     }
     InertialUnit {
       name "inertial_unit"
-      noise 0.00001
+      noise 1e-05
     }
     LED {
       translation 0.1 0.05 0.1
