@@ -3130,28 +3130,28 @@ int main(int argc, char **argv) {
 
   // wb_supervisor_node_enable_contact_points_tracking
   ros::ServiceClient supervisor_node_enable_contact_points_tracking_client;
-  webots_ros::node_get_contact_points supervisor_node_enable_contact_points_tracking_srv;
+  webots_ros::node_enable_contact_points_tracking supervisor_node_enable_contact_points_tracking_srv;
   supervisor_node_enable_contact_points_tracking_client = n.serviceClient<webots_ros::node_enable_contact_points_tracking>(
     model_name + "/supervisor/node/enable_contact_points_tracking");
 
   supervisor_node_enable_contact_points_tracking_srv.request.node = from_def_node;
   supervisor_node_enable_contact_points_tracking_srv.request.include_descendants = false;
   supervisor_node_enable_contact_points_tracking_client.call(supervisor_node_enable_contact_points_tracking_srv);
-  ROS_INFO("Contact point tracking is success = ", supervisor_node_enable_contact_points_tracking_srv.response.success);
+  ROS_INFO("Contact point tracking is success = %d", supervisor_node_enable_contact_points_tracking_srv.response.success);
 
   supervisor_node_enable_contact_points_tracking_client.shutdown();
   time_step_client.call(time_step_srv);
 
   // wb_supervisor_node_disable_contact_points_tracking
   ros::ServiceClient supervisor_node_disable_contact_points_tracking_client;
-  webots_ros::node_get_contact_points supervisor_node_disable_contact_points_tracking_srv;
+  webots_ros::node_disable_contact_points_tracking supervisor_node_disable_contact_points_tracking_srv;
   supervisor_node_disable_contact_points_tracking_client = n.serviceClient<webots_ros::node_disable_contact_points_tracking>(
     model_name + "/supervisor/node/disable_contact_points_tracking");
 
   supervisor_node_disable_contact_points_tracking_srv.request.node = from_def_node;
   supervisor_node_disable_contact_points_tracking_srv.request.include_descendants = false;
   supervisor_node_disable_contact_points_tracking_client.call(supervisor_node_disable_contact_points_tracking_srv);
-  ROS_INFO("Contact point tracking is success = ", supervisor_node_disable_contact_points_tracking_srv.response.success);
+  ROS_INFO("Contact point tracking is success = %d", supervisor_node_disable_contact_points_tracking_srv.response.success);
 
   supervisor_node_disable_contact_points_tracking_client.shutdown();
   time_step_client.call(time_step_srv);
@@ -3165,7 +3165,7 @@ int main(int argc, char **argv) {
   supervisor_node_get_contact_points_srv.request.node = from_def_node;
   supervisor_node_get_contact_points_srv.request.include_descendants = false;
   supervisor_node_get_contact_points_client.call(supervisor_node_get_contact_points_srv);
-  ROS_INFO("From_def node got %d contact points.", supervisor_node_get_contact_points_srv.response.contact_points.size());
+  ROS_INFO("From_def node got %lu contact points.", supervisor_node_get_contact_points_srv.response.contact_points.size());
 
   supervisor_node_get_contact_points_client.shutdown();
   time_step_client.call(time_step_srv);
