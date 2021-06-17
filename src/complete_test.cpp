@@ -98,6 +98,9 @@
 #include <webots_ros/node_add_force_or_torque.h>
 #include <webots_ros/node_add_force_with_offset.h>
 #include <webots_ros/node_get_center_of_mass.h>
+#include <webots_ros/node_get_contact_points.h>
+#include <webots_ros/node_enable_contact_points_tracking.h>
+#include <webots_ros/node_disable_contact_points_tracking.h>
 #include <webots_ros/node_get_contact_point.h>
 #include <webots_ros/node_get_contact_point_node.h>
 #include <webots_ros/node_get_field.h>
@@ -3127,6 +3130,21 @@ int main(int argc, char **argv) {
   ROS_INFO("First contact point belong to node '%lu'", supervisor_node_get_contact_point_node_srv.response.node);
 
   supervisor_node_get_contact_point_node_client.shutdown();
+  time_step_client.call(time_step_srv);
+
+  // wb_supervisor_node_get_contact_points
+  ros::ServiceClient supervisor_node_get_contact_points_client;
+  webots_ros::node_get_contact_points supervisor_node_get_contact_points_srv;
+  supervisor_node_get_contact_points_client = n.serviceClient<webots_ros::node_get_contact_points>(
+    model_name + "/supervisor/node/get_contact_points");
+
+  supervisor_node_get_contact_points_srv.request.node = from_def_node;
+  supervisor_node_get_contact_points_srv.request.include_descendants = false;
+  supervisor_node_get_contact_points_client.call(supervisor_node_get_contact_points_srv);
+  ROS_INFO("From_def node got %d contact points.",
+           supervisor_node_get_contact_points_srv.response.contact_points.size());
+
+  supervisor_node_get_contact_points_client.shutdown();
   time_step_client.call(time_step_srv);
 
   // test get_static_balance
