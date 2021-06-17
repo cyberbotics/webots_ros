@@ -62,7 +62,7 @@ find_package(catkin REQUIRED COMPONENTS roscpp rospy std_msgs sensor_msgs messag
     field_get_rotation.srv
     field_get_string.srv
     field_get_type.srv
-    field_get_type_name.srv
+    field_get_name.srv
     field_get_vec2f.srv
     field_get_vec3f.srv
     field_import_node.srv
@@ -101,6 +101,7 @@ find_package(catkin REQUIRED COMPONENTS roscpp rospy std_msgs sensor_msgs messag
     node_get_field.srv
     node_get_id.srv
     node_get_number_of_contact_points.srv
+    node_get_number_of_fields.srv
     node_get_name.srv
     node_get_orientation.srv
     node_get_pose.srv

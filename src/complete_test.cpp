@@ -75,6 +75,7 @@
 #include <webots_ros/field_get_count.h>
 #include <webots_ros/field_get_float.h>
 #include <webots_ros/field_get_int32.h>
+#include <webots_ros/field_get_name.h>
 #include <webots_ros/field_get_node.h>
 #include <webots_ros/field_get_rotation.h>
 #include <webots_ros/field_get_string.h>
@@ -104,6 +105,7 @@
 #include <webots_ros/node_get_id.h>
 #include <webots_ros/node_get_name.h>
 #include <webots_ros/node_get_number_of_contact_points.h>
+#include <webots_ros/node_get_number_of_fields.h>
 #include <webots_ros/node_get_orientation.h>
 #include <webots_ros/node_get_parent_node.h>
 #include <webots_ros/node_get_pose.h>
@@ -3231,9 +3233,9 @@ int main(int argc, char **argv) {
   time_step_client.call(time_step_srv);
 
   ros::ServiceClient supervisor_field_get_type_name_client;
-  webots_ros::field_get_type_name supervisor_field_get_type_name_srv;
+  webots_ros::field_get_name supervisor_field_get_type_name_srv;
   supervisor_field_get_type_name_client =
-    n.serviceClient<webots_ros::field_get_type_name>(model_name + "/supervisor/field/get_type_name");
+    n.serviceClient<webots_ros::field_get_name>(model_name + "/supervisor/field/get_type_name");
 
   supervisor_field_get_type_name_srv.request.field = field;
   supervisor_field_get_type_name_client.call(supervisor_field_get_type_name_srv);
