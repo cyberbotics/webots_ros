@@ -115,6 +115,7 @@ find_package(catkin REQUIRED COMPONENTS roscpp rospy std_msgs sensor_msgs messag
     node_remove.srv
     node_reset_functions.srv
     node_move_viewpoint.srv
+    node_set_joint_position.srv
     node_set_visibility.srv
     node_set_velocity.srv
     pen_set_ink_color.srv

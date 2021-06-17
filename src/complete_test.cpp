@@ -106,8 +106,8 @@
 #include <webots_ros/node_get_number_of_contact_points.h>
 #include <webots_ros/node_get_orientation.h>
 #include <webots_ros/node_get_parent_node.h>
-#include <webots_ros/node_get_position.h>
 #include <webots_ros/node_get_pose.h>
+#include <webots_ros/node_get_position.h>
 #include <webots_ros/node_enable_pose_tracking.h>
 #include <webots_ros/node_disable_pose_tracking.h>
 #include <webots_ros/node_get_static_balance.h>
@@ -117,6 +117,7 @@
 #include <webots_ros/node_get_velocity.h>
 #include <webots_ros/node_remove.h>
 #include <webots_ros/node_reset_functions.h>
+#include <webots_ros/node_set_joint_position.h>
 #include <webots_ros/node_set_string.h>
 #include <webots_ros/node_set_velocity.h>
 #include <webots_ros/node_set_visibility.h>
@@ -2400,6 +2401,25 @@ int main(int argc, char **argv) {
   get_max_torque_client.shutdown();
   time_step_client.call(time_step_srv);
 
+  ros::ServiceClient rotational_motor_get_multiplier_client;
+  webots_ros::get_float get_multiplier_srv;
+  rotational_motor_get_multiplier_client = n.serviceClient<webots_ros::get_float>(model_name + "/rotational_motor/get_multiplier");
+
+  rotational_motor_get_multiplier_client.call(get_multiplier_srv);
+  ROS_INFO("Multiplier for rotational_motor is %f.", get_multiplier_srv.response.value);
+
+  rotational_motor_get_multiplier_client.shutdown();
+  time_step_client.call(time_step_srv);
+
+  ros::ServiceClient linear_motor_get_multiplier_client;
+  linear_motor_get_multiplier_client = n.serviceClient<webots_ros::get_float>(model_name + "/linear_motor/get_multiplier");
+
+  linear_motor_get_multiplier_client.call(get_multiplier_srv);
+  ROS_INFO("Multiplier for linear_motor is %f.", get_multiplier_srv.response.value);
+
+  linear_motor_get_multiplier_client.shutdown();
+  time_step_client.call(time_step_srv);
+
   ros::ServiceClient set_motor_feedback_client;
   webots_ros::set_int motor_feedback_srv;
   ros::Subscriber sub_motor_feedback_32;
@@ -3388,6 +3408,16 @@ int main(int argc, char **argv) {
   } else
     ROS_ERROR("could not get CONE node from DEF.");
 
+  supervisor_get_from_def_srv.request.name = "HINGE_JOINT";
+  supervisor_get_from_def_srv.request.proto = 0;
+  supervisor_get_from_def_client.call(supervisor_get_from_def_srv);
+  uint64_t hinge_joint_node = 0;
+  if (supervisor_get_from_def_srv.response.node != 0) {
+    ROS_INFO("Got HINGE_JOINT node from DEF: %lu.", supervisor_get_from_def_srv.response.node);
+    hinge_joint_node = supervisor_get_from_def_srv.response.node;
+  } else
+    ROS_ERROR("could not get HINGE_JOINT node from DEF.");
+
   supervisor_node_get_type_name_client.shutdown();
   supervisor_get_from_def_client.shutdown();
   supervisor_field_get_node_client.shutdown();
@@ -3522,6 +3552,23 @@ int main(int argc, char **argv) {
     ROS_ERROR("Failed to call service node_get_parent_node.");
 
   node_get_parent_node_client.shutdown();
+  time_step_client.call(time_step_srv);
+
+  // node_set_joint_position
+  ros::ServiceClient node_set_joint_position_client;
+  webots_ros::node_set_joint_position node_set_joint_position_srv;
+  node_set_joint_position_client =
+    n.serviceClient<webots_ros::node_set_joint_position>(model_name + "/supervisor/node/set_joint_position");
+  node_set_joint_position_srv.request.node = hinge_joint_node;
+  node_set_joint_position_srv.request.position = 0.6;
+  node_set_joint_position_srv.request.index = 1;
+  node_set_joint_position_client.call(node_set_joint_position_srv);
+  if (node_set_joint_position_srv.response.success == 1)
+    ROS_INFO("Joint position set successfully.");
+  else
+    ROS_ERROR("Failed to call service node_set_joint_position.");
+
+  node_set_joint_position_client.shutdown();
   time_step_client.call(time_step_srv);
 
   // movie

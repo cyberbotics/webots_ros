@@ -88,6 +88,7 @@ Robot {
         LinearMotor {
           name "linear_motor"
           maxPosition 100
+          multiplier 1.5
         }
       ]
       endPoint Solid {
@@ -111,7 +112,9 @@ Robot {
         }
       }
     }
-    HingeJoint {
+    DEF HINGE_JOINT HingeJoint {
+      jointParameters HingeJointParameters {
+      }
       device [
         PositionSensor {
           name "position_sensor"
@@ -145,6 +148,7 @@ Robot {
           name "rotational_motor"
           acceleration 5
           maxVelocity 2
+          multiplier 2.5
         }
       ]
       endPoint DEF TEST2 Solid {
