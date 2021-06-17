@@ -1,4 +1,4 @@
 uint64 node
 bool include_descendants
 ---
-webots_ros/ContactPoint[] points
+webots_ros/ContactPoint[] contact_points
