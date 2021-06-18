@@ -4,7 +4,7 @@ project(webots_ros)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS roscpp rospy std_msgs sensor_msgs message_generation tf moveit_ros_planning_interface)
+find_package(catkin REQUIRED COMPONENTS roscpp rospy std_msgs sensor_msgs message_generation tf)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -99,6 +99,7 @@ find_package(catkin REQUIRED COMPONENTS roscpp rospy std_msgs sensor_msgs messag
     node_get_contact_point.srv
     node_get_contact_point_node.srv
     node_get_field.srv
+    node_get_field_by_index.srv
     node_get_id.srv
     node_get_number_of_contact_points.srv
     node_get_number_of_fields.srv
