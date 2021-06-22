@@ -68,8 +68,8 @@
 #include <webots_ros/display_image_paste.h>
 #include <webots_ros/display_image_save.h>
 #include <webots_ros/display_set_font.h>
-#include <webots_ros/field_enable_sf_tracking.h>
 #include <webots_ros/field_disable_sf_tracking.h>
+#include <webots_ros/field_enable_sf_tracking.h>
 #include <webots_ros/field_get_bool.h>
 #include <webots_ros/field_get_color.h>
 #include <webots_ros/field_get_count.h>
@@ -97,9 +97,14 @@
 #include <webots_ros/motor_set_control_pid.h>
 #include <webots_ros/node_add_force_or_torque.h>
 #include <webots_ros/node_add_force_with_offset.h>
+#include <webots_ros/node_disable_contact_points_tracking.h>
+#include <webots_ros/node_disable_pose_tracking.h>
+#include <webots_ros/node_enable_contact_points_tracking.h>
+#include <webots_ros/node_enable_pose_tracking.h>
 #include <webots_ros/node_get_center_of_mass.h>
 #include <webots_ros/node_get_contact_point.h>
 #include <webots_ros/node_get_contact_point_node.h>
+#include <webots_ros/node_get_contact_points.h>
 #include <webots_ros/node_get_field.h>
 #include <webots_ros/node_get_id.h>
 #include <webots_ros/node_get_name.h>
@@ -108,8 +113,6 @@
 #include <webots_ros/node_get_parent_node.h>
 #include <webots_ros/node_get_pose.h>
 #include <webots_ros/node_get_position.h>
-#include <webots_ros/node_enable_pose_tracking.h>
-#include <webots_ros/node_disable_pose_tracking.h>
 #include <webots_ros/node_get_static_balance.h>
 #include <webots_ros/node_get_status.h>
 #include <webots_ros/node_get_string.h>
@@ -2346,7 +2349,8 @@ int main(int argc, char **argv) {
 
   ros::ServiceClient rotational_motor_get_multiplier_client;
   webots_ros::get_float get_multiplier_srv;
-  rotational_motor_get_multiplier_client = n.serviceClient<webots_ros::get_float>(model_name + "/rotational_motor/get_multiplier");
+  rotational_motor_get_multiplier_client =
+    n.serviceClient<webots_ros::get_float>(model_name + "/rotational_motor/get_multiplier");
 
   rotational_motor_get_multiplier_client.call(get_multiplier_srv);
   ROS_INFO("Multiplier for rotational_motor is %f.", get_multiplier_srv.response.value);
@@ -3028,21 +3032,16 @@ int main(int argc, char **argv) {
   // supervisor_node_get_pose
   ros::ServiceClient supervisor_node_get_pose_client;
   webots_ros::node_get_pose supervisor_node_get_pose_srv;
-  supervisor_node_get_pose_client =
-    n.serviceClient<webots_ros::node_get_pose>(model_name + "/supervisor/node/get_pose");
+  supervisor_node_get_pose_client = n.serviceClient<webots_ros::node_get_pose>(model_name + "/supervisor/node/get_pose");
 
   supervisor_node_get_pose_srv.request.from_node = from_def_node;
   supervisor_node_get_pose_srv.request.node = from_def_node;
   supervisor_node_get_pose_client.call(supervisor_node_get_pose_srv);
-  ROS_INFO("From_def get_pose rotation is:\nw=%f x=%f y=%f z=%f.",
-           supervisor_node_get_pose_srv.response.pose.rotation.w,
-           supervisor_node_get_pose_srv.response.pose.rotation.x,
-           supervisor_node_get_pose_srv.response.pose.rotation.y,
+  ROS_INFO("From_def get_pose rotation is:\nw=%f x=%f y=%f z=%f.", supervisor_node_get_pose_srv.response.pose.rotation.w,
+           supervisor_node_get_pose_srv.response.pose.rotation.x, supervisor_node_get_pose_srv.response.pose.rotation.y,
            supervisor_node_get_pose_srv.response.pose.rotation.z);
-  ROS_INFO("From_def get_pose translation is:\nx=%f y=%f z=%f.",
-           supervisor_node_get_pose_srv.response.pose.translation.x,
-           supervisor_node_get_pose_srv.response.pose.translation.y,
-           supervisor_node_get_pose_srv.response.pose.translation.z);
+  ROS_INFO("From_def get_pose translation is:\nx=%f y=%f z=%f.", supervisor_node_get_pose_srv.response.pose.translation.x,
+           supervisor_node_get_pose_srv.response.pose.translation.y, supervisor_node_get_pose_srv.response.pose.translation.z);
 
   supervisor_node_get_pose_client.shutdown();
   time_step_client.call(time_step_srv);
@@ -3127,6 +3126,48 @@ int main(int argc, char **argv) {
   ROS_INFO("First contact point belong to node '%lu'", supervisor_node_get_contact_point_node_srv.response.node);
 
   supervisor_node_get_contact_point_node_client.shutdown();
+  time_step_client.call(time_step_srv);
+
+  // wb_supervisor_node_enable_contact_points_tracking
+  ros::ServiceClient supervisor_node_enable_contact_points_tracking_client;
+  webots_ros::node_enable_contact_points_tracking supervisor_node_enable_contact_points_tracking_srv;
+  supervisor_node_enable_contact_points_tracking_client = n.serviceClient<webots_ros::node_enable_contact_points_tracking>(
+    model_name + "/supervisor/node/enable_contact_points_tracking");
+
+  supervisor_node_enable_contact_points_tracking_srv.request.node = from_def_node;
+  supervisor_node_enable_contact_points_tracking_srv.request.include_descendants = false;
+  supervisor_node_enable_contact_points_tracking_client.call(supervisor_node_enable_contact_points_tracking_srv);
+  ROS_INFO("Contact point tracking success = %d", supervisor_node_enable_contact_points_tracking_srv.response.success);
+
+  supervisor_node_enable_contact_points_tracking_client.shutdown();
+  time_step_client.call(time_step_srv);
+
+  // wb_supervisor_node_disable_contact_points_tracking
+  ros::ServiceClient supervisor_node_disable_contact_points_tracking_client;
+  webots_ros::node_disable_contact_points_tracking supervisor_node_disable_contact_points_tracking_srv;
+  supervisor_node_disable_contact_points_tracking_client = n.serviceClient<webots_ros::node_disable_contact_points_tracking>(
+    model_name + "/supervisor/node/disable_contact_points_tracking");
+
+  supervisor_node_disable_contact_points_tracking_srv.request.node = from_def_node;
+  supervisor_node_disable_contact_points_tracking_srv.request.include_descendants = false;
+  supervisor_node_disable_contact_points_tracking_client.call(supervisor_node_disable_contact_points_tracking_srv);
+  ROS_INFO("Contact point tracking success = %d", supervisor_node_disable_contact_points_tracking_srv.response.success);
+
+  supervisor_node_disable_contact_points_tracking_client.shutdown();
+  time_step_client.call(time_step_srv);
+
+  // wb_supervisor_node_get_contact_points
+  ros::ServiceClient supervisor_node_get_contact_points_client;
+  webots_ros::node_get_contact_points supervisor_node_get_contact_points_srv;
+  supervisor_node_get_contact_points_client =
+    n.serviceClient<webots_ros::node_get_contact_points>(model_name + "/supervisor/node/get_contact_points");
+
+  supervisor_node_get_contact_points_srv.request.node = from_def_node;
+  supervisor_node_get_contact_points_srv.request.include_descendants = false;
+  supervisor_node_get_contact_points_client.call(supervisor_node_get_contact_points_srv);
+  ROS_INFO("From_def node got %lu contact points.", supervisor_node_get_contact_points_srv.response.contact_points.size());
+
+  supervisor_node_get_contact_points_client.shutdown();
   time_step_client.call(time_step_srv);
 
   // test get_static_balance
