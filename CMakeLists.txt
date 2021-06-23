@@ -29,6 +29,7 @@ find_package(catkin REQUIRED COMPONENTS roscpp rospy std_msgs sensor_msgs messag
     RadarTarget.msg
     RecognitionObject.msg
     StringStamped.msg
+    ContactPoint.msg
   )
 
 ## Generate services in the 'srv' folder
@@ -93,10 +94,13 @@ find_package(catkin REQUIRED COMPONENTS roscpp rospy std_msgs sensor_msgs messag
     mouse_get_state.srv
     node_add_force_or_torque.srv
     node_add_force_with_offset.srv
+    node_disable_contact_points_tracking.srv
     node_disable_pose_tracking.srv
+    node_enable_contact_points_tracking.srv
     node_enable_pose_tracking.srv
     node_get_center_of_mass.srv
     node_get_contact_point.srv
+    node_get_contact_points.srv
     node_get_contact_point_node.srv
     node_get_field.srv
     node_get_field_by_index.srv
