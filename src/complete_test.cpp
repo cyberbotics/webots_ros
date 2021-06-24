@@ -75,11 +75,11 @@
 #include <webots_ros/field_get_count.h>
 #include <webots_ros/field_get_float.h>
 #include <webots_ros/field_get_int32.h>
+#include <webots_ros/field_get_name.h>
 #include <webots_ros/field_get_node.h>
 #include <webots_ros/field_get_rotation.h>
 #include <webots_ros/field_get_string.h>
 #include <webots_ros/field_get_type.h>
-#include <webots_ros/field_get_type_name.h>
 #include <webots_ros/field_get_vec2f.h>
 #include <webots_ros/field_get_vec3f.h>
 #include <webots_ros/field_import_node.h>
@@ -106,9 +106,11 @@
 #include <webots_ros/node_get_contact_point_node.h>
 #include <webots_ros/node_get_contact_points.h>
 #include <webots_ros/node_get_field.h>
+#include <webots_ros/node_get_field_by_index.h>
 #include <webots_ros/node_get_id.h>
 #include <webots_ros/node_get_name.h>
 #include <webots_ros/node_get_number_of_contact_points.h>
+#include <webots_ros/node_get_number_of_fields.h>
 #include <webots_ros/node_get_orientation.h>
 #include <webots_ros/node_get_parent_node.h>
 #include <webots_ros/node_get_pose.h>
@@ -3260,6 +3262,38 @@ int main(int argc, char **argv) {
   supervisor_node_get_field_client.shutdown();
   time_step_client.call(time_step_srv);
 
+  ros::ServiceClient wb_supervisor_node_get_number_of_fields_client;
+  webots_ros::node_get_number_of_fields wb_supervisor_node_get_number_of_fields_srv;
+  wb_supervisor_node_get_number_of_fields_client =
+    n.serviceClient<webots_ros::node_get_number_of_fields>(model_name + "/supervisor/node/get_field_by_index");
+  wb_supervisor_node_get_number_of_fields_srv.request.node = root_node;
+  wb_supervisor_node_get_number_of_fields_srv.request.proto = 0;
+  wb_supervisor_node_get_number_of_fields_client.call(wb_supervisor_node_get_number_of_fields_srv);
+  ROS_INFO("World's root Group node have %d fields.", wb_supervisor_node_get_number_of_fields_srv.response.value);
+  wb_supervisor_node_get_number_of_fields_client.shutdown();
+  time_step_client.call(time_step_srv);
+
+  ros::ServiceClient wb_supervisor_node_get_field_by_index_client;
+  webots_ros::node_get_field_by_index wb_supervisor_node_get_field_by_index_srv;
+  wb_supervisor_node_get_field_by_index_client =
+    n.serviceClient<webots_ros::node_get_field_by_index>(model_name + "/supervisor/node/get_field_by_index");
+  wb_supervisor_node_get_field_by_index_srv.request.node = root_node;
+  wb_supervisor_node_get_field_by_index_srv.request.index = 0;
+  wb_supervisor_node_get_field_by_index_client.call(wb_supervisor_node_get_field_by_index_srv);
+  ROS_INFO("World's root Group node has a single 'children' field: %d.",
+           wb_supervisor_node_get_field_by_index_srv.response.field == field);
+  wb_supervisor_node_get_field_by_index_client.shutdown();
+  time_step_client.call(time_step_srv);
+
+  ros::ServiceClient supervisor_field_get_name_client;
+  webots_ros::field_get_name supervisor_field_get_name_srv;
+  supervisor_field_get_name_client = n.serviceClient<webots_ros::field_get_name>(model_name + "/supervisor/field/get_name");
+  supervisor_field_get_name_srv.request.field = field;
+  supervisor_field_get_name_client.call(supervisor_field_get_name_srv);
+  ROS_INFO("World's children field has name '%s'.", supervisor_field_get_name_srv.response.name.c_str());
+  supervisor_field_get_name_client.shutdown();
+  time_step_client.call(time_step_srv);
+
   ros::ServiceClient supervisor_field_get_type_client;
   webots_ros::field_get_type supervisor_field_get_type_srv;
   supervisor_field_get_type_client = n.serviceClient<webots_ros::field_get_type>(model_name + "/supervisor/field/get_type");
@@ -3272,9 +3306,9 @@ int main(int argc, char **argv) {
   time_step_client.call(time_step_srv);
 
   ros::ServiceClient supervisor_field_get_type_name_client;
-  webots_ros::field_get_type_name supervisor_field_get_type_name_srv;
+  webots_ros::field_get_name supervisor_field_get_type_name_srv;
   supervisor_field_get_type_name_client =
-    n.serviceClient<webots_ros::field_get_type_name>(model_name + "/supervisor/field/get_type_name");
+    n.serviceClient<webots_ros::field_get_name>(model_name + "/supervisor/field/get_type_name");
 
   supervisor_field_get_type_name_srv.request.field = field;
   supervisor_field_get_type_name_client.call(supervisor_field_get_type_name_srv);
