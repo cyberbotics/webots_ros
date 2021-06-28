@@ -182,7 +182,7 @@ void cameraCallback(const sensor_msgs::Image::ConstPtr &values) {
 }
 
 void cameraRecognitionCallback(const webots_ros::RecognitionObjects::ConstPtr &objects) {
-  const int objectsCount = objects->count;
+  const int objectsCount = objects->objects.size();
   ROS_INFO("Camera recognition saw %d objects (time: %d:%d).", objectsCount, objects->header.stamp.sec,
            objects->header.stamp.nsec);
   for (int i = 0; i < objectsCount; i++)
