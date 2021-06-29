@@ -34,6 +34,7 @@
 #include <webots_ros/Int8Stamped.h>
 #include <webots_ros/RadarTarget.h>
 #include <webots_ros/RecognitionObject.h>
+#include <webots_ros/RecognitionObjects.h>
 #include <webots_ros/StringStamped.h>
 #include <cstdlib>
 #include "ros/ros.h"
@@ -180,9 +181,12 @@ void cameraCallback(const sensor_msgs::Image::ConstPtr &values) {
   callbackCalled = true;
 }
 
-void cameraRecognitionCallback(const webots_ros::RecognitionObject::ConstPtr &object) {
-  ROS_INFO("Camera recognition saw a '%s' (time: %d:%d).", object->model.c_str(), object->header.stamp.sec,
-           object->header.stamp.nsec);
+void cameraRecognitionCallback(const webots_ros::RecognitionObjects::ConstPtr &objects) {
+  const int objectsCount = objects->objects.size();
+  ROS_INFO("Camera recognition saw %d objects (time: %d:%d).", objectsCount, objects->header.stamp.sec,
+           objects->header.stamp.nsec);
+  for (int i = 0; i < objectsCount; i++)
+    ROS_INFO("  Recognition object %d: '%s'.", i, objects->objects[i].model.c_str());
   callbackCalled = true;
 }
 

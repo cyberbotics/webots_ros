@@ -28,6 +28,7 @@ find_package(catkin REQUIRED COMPONENTS roscpp rospy std_msgs sensor_msgs messag
     Int8Stamped.msg
     RadarTarget.msg
     RecognitionObject.msg
+    RecognitionObjects.msg
     StringStamped.msg
     ContactPoint.msg
   )
