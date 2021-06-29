@@ -177,9 +177,8 @@ Robot {
     Camera {
       translation 0.14 0 0
       model "camera model"
-      fieldOfView 1.33
       focus Focus {
-        focalDistance 0.33
+        focalDistance 0.2
         focalLength 0.3
         maxFocalDistance 0.4
         minFocalDistance 0.1
@@ -291,7 +290,7 @@ Robot {
     "--clock"
     "--synchronize"
   ]
-  customData "OVERWRITTEN"
+  customData "INITIAL"
   supervisor TRUE
   battery [
     50, 50, 2
