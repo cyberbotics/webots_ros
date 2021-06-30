@@ -255,6 +255,11 @@ void accelerometerCallback(const sensor_msgs::Imu::ConstPtr &values) {
   callbackCalled = true;
 }
 
+void altimeterCallback(const webots_ros::Float64Stamped::ConstPtr &value) {
+  ROS_INFO("Altimeter value is z=%f (time: %d:%d).", value->data, value->header.stamp.sec, value->header.stamp.nsec);
+  callbackCalled = true;
+}
+
 void battery_sensorCallback(const webots_ros::Float64Stamped::ConstPtr &value) {
   ROS_INFO("Battery level is %f (time: %d:%d).", value->data, value->header.stamp.sec, value->header.stamp.nsec);
   callbackCalled = true;
@@ -1038,6 +1043,58 @@ int main(int argc, char **argv) {
 
   sampling_period_accelerometer_client.shutdown();
   time_step_client.call(time_step_srv);
+
+  ////////////////////////////
+  // ALTIMETER METHODS TEST //
+  ////////////////////////////
+
+  ros::ServiceClient set_altimeter_client;
+  webots_ros::set_int altimeter_srv;
+  ros::Subscriber sub_altimeter_32;
+
+  set_altimeter_client = n.serviceClient<webots_ros::set_int>(model_name + "/altimeter/enable");
+
+  ros::ServiceClient sampling_period_altimeter_client;
+  webots_ros::get_int sampling_period_altimeter_srv;
+  sampling_period_altimeter_client = 
+    n.serviceClient<webots_ros::get_int>(model_name + "/altimeter/get_sampling_period");
+  
+  altimeter_srv.request.value = 32;
+  if (set_altimeter_client.call(altimeter_srv) && altimeter_srv.response.success) {
+    ROS_INFO("Altimeter enabled.");
+    sub_altimeter_32 = n.subscribe(model_name + "/altimeter/value", 1, altimeterCallback);
+    callbackCalled = false;
+    while (sub_altimeter_32.getNumPublishers() == 0 && !callbackCalled) {
+      ros::spinOnce();
+      time_step_client.call(time_step_srv);
+    }
+  } else {
+    if (!altimeter_srv.response.success)
+      ROS_ERROR("Sampling period is not valid.");
+    ROS_ERROR("Failed to enable altimeter.");
+    return 1;
+  }
+
+  sub_altimeter_32.shutdown();
+
+  time_step_client.call(time_step_srv);
+
+  sampling_period_altimeter_client.call(sampling_period_altimeter_srv);
+  ROS_INFO("Altimeter is enabled with a sampling period of %d.", sampling_period_altimeter_srv.response.value);
+
+  time_step_client.call(time_step_srv);
+
+  time_step_client.call(time_step_srv);
+  time_step_client.call(time_step_srv);
+  time_step_client.call(time_step_srv);
+
+  sampling_period_altimeter_client.call(sampling_period_altimeter_srv);
+  ROS_INFO("Altimeter is disabled (sampling period is %d).", sampling_period_altimeter_srv.response.value);
+
+  set_altimeter_client.shutdown();
+  sampling_period_altimeter_client.shutdown();
+  time_step_client.call(time_step_srv);
+
 
   /////////////////////////////////
   // BATTERY SENSOR METHODS TEST //

@@ -78,6 +78,8 @@ Robot {
   translation 0 0 0.1
   rotation 1 0 0 1.5707963267948966
   children [
+    Altimeter {
+    }
     SliderJoint {
       device [
         Brake {
