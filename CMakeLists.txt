@@ -4,7 +4,7 @@ project(webots_ros)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS roscpp rospy std_msgs sensor_msgs message_generation tf)
+find_package(catkin REQUIRED COMPONENTS roscpp rospy std_msgs sensor_msgs message_generation tf moveit_ros_planning_interface)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -28,7 +28,9 @@ find_package(catkin REQUIRED COMPONENTS roscpp rospy std_msgs sensor_msgs messag
     Int8Stamped.msg
     RadarTarget.msg
     RecognitionObject.msg
+    RecognitionObjects.msg
     StringStamped.msg
+    ContactPoint.msg
   )
 
 ## Generate services in the 'srv' folder
@@ -51,6 +53,8 @@ find_package(catkin REQUIRED COMPONENTS roscpp rospy std_msgs sensor_msgs messag
     display_image_paste.srv
     display_image_save.srv
     display_set_font.srv
+    field_disable_sf_tracking.srv
+    field_enable_sf_tracking.srv
     field_get_bool.srv
     field_get_color.srv
     field_get_count.srv
@@ -60,7 +64,7 @@ find_package(catkin REQUIRED COMPONENTS roscpp rospy std_msgs sensor_msgs messag
     field_get_rotation.srv
     field_get_string.srv
     field_get_type.srv
-    field_get_type_name.srv
+    field_get_name.srv
     field_get_vec2f.srv
     field_get_vec3f.srv
     field_import_node.srv
@@ -91,23 +95,34 @@ find_package(catkin REQUIRED COMPONENTS roscpp rospy std_msgs sensor_msgs messag
     mouse_get_state.srv
     node_add_force_or_torque.srv
     node_add_force_with_offset.srv
+    node_disable_contact_points_tracking.srv
+    node_disable_pose_tracking.srv
+    node_enable_contact_points_tracking.srv
+    node_enable_pose_tracking.srv
     node_get_center_of_mass.srv
     node_get_contact_point.srv
+    node_get_contact_points.srv
     node_get_contact_point_node.srv
     node_get_field.srv
+    node_get_field_by_index.srv
     node_get_id.srv
     node_get_number_of_contact_points.srv
+    node_get_number_of_fields.srv
     node_get_name.srv
     node_get_orientation.srv
+    node_get_pose.srv
     node_get_parent_node.srv
     node_get_position.srv
     node_get_static_balance.srv
     node_get_status.srv
+    node_get_string.srv
+    node_set_string.srv
     node_get_type.srv
     node_get_velocity.srv
     node_remove.srv
     node_reset_functions.srv
     node_move_viewpoint.srv
+    node_set_joint_position.srv
     node_set_visibility.srv
     node_set_velocity.srv
     pen_set_ink_color.srv
@@ -232,16 +247,6 @@ target_link_libraries(panoramic_view_recorder
 	${catkin_LIBRARIES}
 )
 
-#instructions for pioneer3at node
-
-add_executable(pioneer3at src/pioneer3at.cpp)
-
-add_dependencies(pioneer3at webots_ros_generate_messages_cpp)
-
-target_link_libraries(pioneer3at
-	${catkin_LIBRARIES}
-)
-
 
 #############
 ## Install ##
@@ -265,9 +270,6 @@ install(TARGETS catch_the_bird
 install(TARGETS panoramic_view_recorder
         RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 
-install(TARGETS pioneer3at
-        RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
-
 catkin_install_python(PROGRAMS scripts/ros_controller.py
         DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 
@@ -284,4 +286,7 @@ install(DIRECTORY plugins
         DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
 
 install(DIRECTORY worlds
+        DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+
+install(DIRECTORY config
         DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})

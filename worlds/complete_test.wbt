@@ -1,4 +1,4 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 WorldInfo {
 }
 Viewpoint {
@@ -78,6 +78,8 @@ Robot {
   translation 0 0 0.1
   rotation 1 0 0 1.5707963267948966
   children [
+    Altimeter {
+    }
     SliderJoint {
       device [
         Brake {
@@ -86,6 +88,7 @@ Robot {
         LinearMotor {
           name "linear_motor"
           maxPosition 100
+          multiplier 1.5
         }
       ]
       endPoint Solid {
@@ -109,7 +112,9 @@ Robot {
         }
       }
     }
-    HingeJoint {
+    DEF HINGE_JOINT HingeJoint {
+      jointParameters HingeJointParameters {
+      }
       device [
         PositionSensor {
           name "position_sensor"
@@ -143,6 +148,7 @@ Robot {
           name "rotational_motor"
           acceleration 5
           maxVelocity 2
+          multiplier 2.5
         }
       ]
       endPoint DEF TEST2 Solid {
@@ -222,7 +228,7 @@ Robot {
     }
     InertialUnit {
       name "inertial_unit"
-      noise 0.00001
+      noise 1e-05
     }
     LED {
       translation 0.1 0.05 0.1
