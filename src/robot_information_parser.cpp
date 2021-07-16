@@ -90,10 +90,8 @@ int main(int argc, char **argv) {
   getTypeClient.call(getTypeSrv);
   if (getTypeSrv.response.value == 40)
     ROS_INFO("This controller is on a basic robot.");
-  else if (getTypeSrv.response.value == 41)
-    ROS_INFO("This controller is on a supervisor robot.");
   else
-    ROS_INFO("This controller is on a differential wheels robot.");
+    ROS_INFO("This controller is on a supervisor robot.");
 
   if (getModelClient.call(getModelSrv)) {
     if (!getModelSrv.response.value.empty())

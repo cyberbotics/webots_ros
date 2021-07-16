@@ -2,7 +2,7 @@
 <package>
   <name>webots_ros</name>
   <!-- Version matches Webots version this way: (major - 2018).minor.maintenance -->
-  <version>4.0.0</version>
+  <version>4.1.0</version>
   <description>The ROS package containing examples for interfacing ROS with the standard ROS controller of Webots</description>
 
   <url>http://wiki.ros.org/webots_ros</url>
@@ -11,6 +11,7 @@
 
   <license>Apache 2.0</license>
 
+  <build_depend>moveit_ros_planning_interface</build_depend>
   <buildtool_depend>catkin</buildtool_depend>
   <build_depend>rospy</build_depend>
   <build_depend>roscpp</build_depend>
@@ -24,5 +25,9 @@
   <run_depend>sensor_msgs</run_depend>
   <run_depend>message_runtime</run_depend>
   <run_depend>tf</run_depend>
+  <run_depend>moveit_ros_planning_interface</run_depend>
+  <run_depend>ros_control</run_depend>
+  <run_depend>ros_controllers</run_depend>
+  <run_depend>robot_state_publisher</run_depend>
 
 </package>

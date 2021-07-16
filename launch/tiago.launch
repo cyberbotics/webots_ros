@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!-- ros_control -->
+  <rosparam>
+    arm_controller:
+      type: position_controllers/JointTrajectoryController
+      joints:
+        - arm_1_joint
+        - arm_2_joint
+        - arm_3_joint
+        - arm_4_joint
+        - arm_5_joint
+        - arm_6_joint
+        - arm_7_joint
+      constraints:
+        stopped_velocity_tolerance: 1
+    joint_controller:
+      type: joint_state_controller/JointStateController
+      publish_rate: 50
+    diff_drive_controller:
+      type: diff_drive_controller/DiffDriveController
+      left_wheel: wheel_left_joint
+      right_wheel: wheel_right_joint
+      pose_covariance_diagonal: [0.001, 0.001, 1000000.0, 1000000.0, 1000000.0, 1000.0]
+      twist_covariance_diagonal: [0.001, 0.001, 1000000.0, 1000000.0, 1000000.0, 1000.0]
+  </rosparam>
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="arm_controller joint_controller diff_drive_controller" />
+
+  <!-- Webots -->
+  <arg name="no_gui" default="false," doc="Start Webots with minimal GUI"/>
+  <include file="$(find webots_ros)/launch/webots.launch">
+    <arg name="mode" value="realtime"/>
+    <arg name="no_gui" value="$(arg no_gui)"/>
+    <arg name="world" value="$(find webots_ros)/worlds/tiago.wbt"/>
+  </include>
+  <arg name="auto_close" default="false" doc="Startup mode"/>
+
+  <!-- robot_state_publisher -->
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" respawn="true" respawn_delay="5" output="log" />
+
+  <!-- MoveIt -->
+  <param name="robot_description_semantic" textfile="$(find webots_ros)/config/tiago_steel.srdf" />
+  <rosparam>
+    robot_description_kinematics:
+      arm:
+        kinematics_solver: kdl_kinematics_plugin/KDLKinematicsPlugin
+        kinematics_solver_search_resolution: 0.005
+        kinematics_solver_timeout: 0.005
+    move_group:
+      planning_plugin: ompl_interface/OMPLPlanner
+      request_adapters: 
+        default_planner_request_adapters/AddTimeParameterization
+        default_planner_request_adapters/ResolveConstraintFrames
+        default_planner_request_adapters/FixWorkspaceBounds
+        default_planner_request_adapters/FixStartStateBounds
+        default_planner_request_adapters/FixStartStateCollision
+        default_planner_request_adapters/FixStartStatePathConstraints
+      start_state_max_bounds_error: 0.1
+      moveit_controller_manager: moveit_simple_controller_manager/MoveItSimpleControllerManager
+      moveit_manage_controllers: true
+      controller_list:
+        - name: arm_controller
+          action_ns: follow_joint_trajectory
+          default: True
+          type: FollowJointTrajectory
+          joints:
+            - arm_1_joint
+            - arm_2_joint
+            - arm_3_joint
+            - arm_4_joint
+            - arm_5_joint
+            - arm_6_joint
+            - arm_7_joint
+      planning_scene_monitor:
+        publish_planning_scene: true
+        publish_geometry_updates: true
+        publish_state_updates: true
+        publish_transforms_updates: true
+  </rosparam>
+  <node name="move_group" pkg="moveit_ros_move_group" type="move_group" respawn="true" output="screen" respawn_delay="5" />
+
+  <!-- Coordinate system fix -->
+  <node pkg="tf" type="static_transform_publisher" name="pioneer_lidar_tf" args="0 0 0 0.5 0.5 -0.5 0.5 'Hokuyo URG-04LX-UG01' '/tiago/Hokuyo_URG_04LX_UG01' 100"/>
+</launch>

@@ -1,0 +1,5 @@
+uint64 node
+int32 sampling_period
+uint64 from_node
+---
+int8 success

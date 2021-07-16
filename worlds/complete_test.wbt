@@ -1,20 +1,20 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 WorldInfo {
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.6194591910547989 0.7334082212488283 0.27996909047672397 0.888923
-  position 1.67801 1.75743 2.04642
+  orientation 0.8670407508271071 -0.2540217867377257 -0.4286178580830943 1.1991808309301875
+  position -1.2856898746073142 -2.3176378713303354 1.4855385133866121
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
 DEF GROUND RectangleArena {
+  rotation 1 0 0 1.5707963267948966
 }
 Solid {
-  translation 0.182984 0.05 0.12186
-  rotation 0 -1 0 0.934348
+  translation 0.182984 -0.12186 0.05
+  rotation 0.814092969139429 -0.410641350571121 -0.410641350571121 1.775041980102555
   children [
     Shape {
       appearance PBRAppearance {
@@ -34,7 +34,8 @@ Solid {
   }
 }
 DEF CONE Solid {
-  translation 0.240484 0.1 -0.258217
+  translation 0.240484 0.258217 0.1
+  rotation 1 0 0 1.5707963267948966
   children [
     Shape {
       appearance PBRAppearance {
@@ -55,7 +56,8 @@ DEF CONE Solid {
   ]
 }
 DEF RADAR_TARGET Solid {
-  translation 0 0 -1.86
+  translation 0 1.86 0
+  rotation 1 0 0 1.5707963267948966
   children [
     Shape {
       appearance PBRAppearance {
@@ -73,8 +75,11 @@ DEF RADAR_TARGET Solid {
   radarCrossSection 1
 }
 Robot {
-  translation 0 0.1 0
+  translation 0 0 0.1
+  rotation 1 0 0 1.5707963267948966
   children [
+    Altimeter {
+    }
     SliderJoint {
       device [
         Brake {
@@ -83,6 +88,7 @@ Robot {
         LinearMotor {
           name "linear_motor"
           maxPosition 100
+          multiplier 1.5
         }
       ]
       endPoint Solid {
@@ -106,7 +112,9 @@ Robot {
         }
       }
     }
-    HingeJoint {
+    DEF HINGE_JOINT HingeJoint {
+      jointParameters HingeJointParameters {
+      }
       device [
         PositionSensor {
           name "position_sensor"
@@ -140,6 +148,7 @@ Robot {
           name "rotational_motor"
           acceleration 5
           maxVelocity 2
+          multiplier 2.5
         }
       ]
       endPoint DEF TEST2 Solid {
@@ -219,7 +228,7 @@ Robot {
     }
     InertialUnit {
       name "inertial_unit"
-      noise 0.00001
+      noise 1e-05
     }
     LED {
       translation 0.1 0.05 0.1

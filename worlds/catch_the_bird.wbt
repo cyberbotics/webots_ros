@@ -1,19 +1,20 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 WorldInfo {
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.104674958073239 -0.9575576164575551 -0.26856389242876866 2.60605
-  position -1.59084 1.87221 -2.53085
+  orientation 0.8317372367594001 -0.2710211159782898 -0.4845211282098233 1.1840859377285968
+  position -1.4137324366994928 -2.042337130989267 1.4998046917960792
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
 RectangleArena {
+  rotation 1 0 0 1.5707963267948966
 }
 Robot {
-  translation -0.1 0.09 0
+  translation -0.1 0 0.09
+  rotation 1 0 0 1.5707963267948966
   children [
     HingeJoint {
       jointParameters HingeJointParameters {
@@ -72,7 +73,8 @@ Robot {
   controller "ros"
 }
 Solid {
-  translation 0.3 0.1 0
+  translation 0.3 0 0.1
+  rotation 1 0 0 1.5707963267948966
   children [
     Solid {
       translation 0 -0.09 0

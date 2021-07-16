@@ -23,7 +23,7 @@
 
 #include <webots_ros/field_get_node.h>
 #include <webots_ros/field_get_rotation.h>
-#include <webots_ros/field_get_type_name.h>
+#include <webots_ros/field_get_name.h>
 #include <webots_ros/field_get_vec3f.h>
 #include <webots_ros/field_set_rotation.h>
 #include <webots_ros/field_set_vec3f.h>
