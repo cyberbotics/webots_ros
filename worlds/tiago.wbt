@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2021c utf8
 WorldInfo {
   info [
     "TIAGo Steel simulation with MoveIt and differential drive integration (ROS)."
