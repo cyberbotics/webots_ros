@@ -161,6 +161,7 @@ static int connectorPresence = 0;
 static double accelerometerValues[3] = {0, 0, 0};
 static double compassValues[3] = {0, 0, 0};
 static double GPSValues[3] = {0, 0, 0};
+static double GPSSpeedVectorValues[3] = {0, 0, 0};
 static double GyroValues[3] = {0, 0, 0};
 static double inertialUnitValues[4] = {0, 0, 0, 0};
 static double touchSensorValues[3] = {0, 0, 0};
@@ -301,6 +302,19 @@ void GPSCallback(const geometry_msgs::PointStamped::ConstPtr &values) {
 
 void GPSSpeedCallback(const webots_ros::Float64Stamped::ConstPtr &value) {
   ROS_INFO("GPS speed is: %fkm/h (time: %d:%d).", value->data, value->header.stamp.sec, value->header.stamp.nsec);
+  callbackCalled = true;
+}
+
+void GPSSpeedVectorCallback(
+    const geometry_msgs::PointStamped::ConstPtr &values) {
+  GPSSpeedVectorValues[0] = values->point.x;
+  GPSSpeedVectorValues[1] = values->point.y;
+  GPSSpeedVectorValues[2] = values->point.z;
+
+  ROS_INFO("GPS speed vector values are x=%f y=%f z=%f (time: %d:%d).",
+           GPSSpeedVectorValues[0], GPSSpeedVectorValues[1],
+           GPSSpeedVectorValues[2], values->header.stamp.sec,
+           values->header.stamp.nsec);
   callbackCalled = true;
 }
 
@@ -1794,6 +1808,7 @@ int main(int argc, char **argv) {
   webots_ros::set_int GPS_srv;
   ros::Subscriber sub_GPS_32;
   ros::Subscriber sub_GPS_speed;
+  ros::Subscriber sub_GPS_speed_vector;
   set_GPS_client = n.serviceClient<webots_ros::set_int>(model_name + "/gps/enable");
 
   ros::ServiceClient sampling_period_GPS_client;
@@ -1815,6 +1830,13 @@ int main(int argc, char **argv) {
     sub_GPS_speed = n.subscribe(model_name + "/gps/speed", 1, GPSSpeedCallback);
     callbackCalled = false;
     while (sub_GPS_speed.getNumPublishers() == 0 && !callbackCalled) {
+      ros::spinOnce();
+      time_step_client.call(time_step_srv);
+    }
+    sub_GPS_speed_vector = n.subscribe(model_name + "/gps/speed_vector", 1,
+                                       GPSSpeedVectorCallback);
+    callbackCalled = false;
+    while (sub_GPS_speed_vector.getNumPublishers() == 0 && !callbackCalled) {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
