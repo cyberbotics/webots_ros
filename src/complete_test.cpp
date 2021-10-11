@@ -300,16 +300,14 @@ void GPSCallback(const geometry_msgs::PointStamped::ConstPtr &values) {
   callbackCalled = true;
 }
 
-void GPSSpeedVectorCallback(
-    const geometry_msgs::PointStamped::ConstPtr &values) {
+void GPSSpeedVectorCallback(const geometry_msgs::PointStamped::ConstPtr &values) {
   GPSSpeedVectorValues[0] = values->point.x;
   GPSSpeedVectorValues[1] = values->point.y;
   GPSSpeedVectorValues[2] = values->point.z;
 
   ROS_INFO("GPS speed vector values are x=%f y=%f z=%f (time: %d:%d).",
-           GPSSpeedVectorValues[0], GPSSpeedVectorValues[1],
-           GPSSpeedVectorValues[2], values->header.stamp.sec,
-           values->header.stamp.nsec);
+           GPSSpeedVectorValues[0], GPSSpeedVectorValues[1], GPSSpeedVectorValues[2],
+           values->header.stamp.sec, values->header.stamp.nsec);
   callbackCalled = true;
 }
 
@@ -1821,8 +1819,7 @@ int main(int argc, char **argv) {
     sub_GPS_32.shutdown();
     time_step_client.call(time_step_srv);
 
-    sub_GPS_speed_vector = n.subscribe(model_name + "/gps/speed_vector", 1,
-                                       GPSSpeedVectorCallback);
+    sub_GPS_speed_vector = n.subscribe(model_name + "/gps/speed_vector", 1, GPSSpeedVectorCallback);
     callbackCalled = false;
     while (sub_GPS_speed_vector.getNumPublishers() == 0 && !callbackCalled) {
       ros::spinOnce();
