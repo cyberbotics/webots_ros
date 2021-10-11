@@ -626,7 +626,7 @@ int main(int argc, char **argv) {
     sub_keyboard = n.subscribe(model_name + "/keyboard/key", 1, keyboardCallback);
     ROS_INFO("Topics for keyboard initialized.");
     callbackCalled = false;
-    while (sub_keyboard.getNumPublishers() == 0 && !callbackCalled) {
+    while (sub_keyboard.getNumPublishers() == 0 || !callbackCalled) {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
@@ -725,7 +725,7 @@ int main(int argc, char **argv) {
     sub_camera_color = n.subscribe(model_name + "/camera/image", 1, cameraCallback);
     ROS_INFO("Topic for camera color initialized.");
     callbackCalled = false;
-    while (sub_camera_color.getNumPublishers() == 0 && !callbackCalled) {
+    while (sub_camera_color.getNumPublishers() == 0 || !callbackCalled) {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
@@ -833,7 +833,7 @@ int main(int argc, char **argv) {
     sub_camera_recognition = n.subscribe(model_name + "/camera/recognition_objects", 1, cameraRecognitionCallback);
     ROS_INFO("Topic for camera recognition initialized.");
     callbackCalled = false;
-    while (sub_camera_recognition.getNumPublishers() == 0 && !callbackCalled) {
+    while (sub_camera_recognition.getNumPublishers() == 0 || !callbackCalled) {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
@@ -897,7 +897,7 @@ int main(int argc, char **argv) {
     n.subscribe(model_name + "/camera/recognition_segmentation_image", 1, segmentationCallback);
   ROS_INFO("Topic for camera recognition segmentation initialized.");
   callbackCalled = false;
-  while (sub_segmentation.getNumPublishers() == 0 && !callbackCalled) {
+  while (sub_segmentation.getNumPublishers() == 0 || !callbackCalled) {
     ros::spinOnce();
     time_step_client.call(time_step_srv);
   }
@@ -993,7 +993,7 @@ int main(int argc, char **argv) {
   if (set_accelerometer_client.call(accelerometer_srv) && accelerometer_srv.response.success) {
     sub_accelerometer_64 = n.subscribe(model_name + "/accelerometer/values", 1, accelerometerCallback);
     callbackCalled = false;
-    while (sub_accelerometer_64.getNumPublishers() == 0 && !callbackCalled) {
+    while (sub_accelerometer_64.getNumPublishers() == 0 || !callbackCalled) {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
@@ -1019,7 +1019,7 @@ int main(int argc, char **argv) {
   if (set_accelerometer_client.call(accelerometer_srv) && accelerometer_srv.response.success) {
     sub_accelerometer_32 = n.subscribe(model_name + "/accelerometer/values", 1, accelerometerCallback);
     callbackCalled = false;
-    while (sub_accelerometer_32.getNumPublishers() == 0 && !callbackCalled) {
+    while (sub_accelerometer_32.getNumPublishers() == 0 || !callbackCalled) {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
@@ -1080,7 +1080,7 @@ int main(int argc, char **argv) {
     ROS_INFO("Altimeter enabled.");
     sub_altimeter_32 = n.subscribe(model_name + "/altimeter/value", 1, altimeterCallback);
     callbackCalled = false;
-    while (sub_altimeter_32.getNumPublishers() == 0 && !callbackCalled) {
+    while (sub_altimeter_32.getNumPublishers() == 0 || !callbackCalled) {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
@@ -1131,7 +1131,7 @@ int main(int argc, char **argv) {
     ROS_INFO("Battery_sensor enabled.");
     sub_battery_sensor_32 = n.subscribe(model_name + "/battery_sensor/value", 1, battery_sensorCallback);
     callbackCalled = false;
-    while (sub_battery_sensor_32.getNumPublishers() == 0 && !callbackCalled) {
+    while (sub_battery_sensor_32.getNumPublishers() == 0 || !callbackCalled) {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
@@ -1180,7 +1180,7 @@ int main(int argc, char **argv) {
     ROS_INFO("Compass enabled.");
     sub_compass_32 = n.subscribe(model_name + "/compass/values", 1, compassCallback);
     callbackCalled = false;
-    while (sub_compass_32.getNumPublishers() == 0 && !callbackCalled) {
+    while (sub_compass_32.getNumPublishers() == 0 || !callbackCalled) {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
@@ -1236,7 +1236,7 @@ int main(int argc, char **argv) {
     ROS_INFO("Connector's presence sensor enabled.");
     sub_connector = n.subscribe(model_name + "/connector/presence", 1, connectorCallback);
     callbackCalled = false;
-    while (sub_connector.getNumPublishers() == 0 && !callbackCalled) {
+    while (sub_connector.getNumPublishers() == 0 || !callbackCalled) {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
@@ -1686,7 +1686,7 @@ int main(int argc, char **argv) {
     ROS_INFO("Distance_sensor enabled.");
     sub_distance_sensor_32 = n.subscribe(model_name + "/distance_sensor/value", 1, distance_sensorCallback);
     callbackCalled = false;
-    while (sub_distance_sensor_32.getNumPublishers() == 0 && !callbackCalled) {
+    while (sub_distance_sensor_32.getNumPublishers() == 0 || !callbackCalled) {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
@@ -1812,7 +1812,7 @@ int main(int argc, char **argv) {
     ROS_INFO("GPS enabled.");
     sub_GPS_32 = n.subscribe(model_name + "/gps/values", 1, GPSCallback);
     callbackCalled = false;
-    while (sub_GPS_32.getNumPublishers() == 0 && !callbackCalled) {
+    while (sub_GPS_32.getNumPublishers() == 0 || !callbackCalled) {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
@@ -1821,7 +1821,7 @@ int main(int argc, char **argv) {
 
     sub_GPS_speed_vector = n.subscribe(model_name + "/gps/speed_vector", 1, GPSSpeedVectorCallback);
     callbackCalled = false;
-    while (sub_GPS_speed_vector.getNumPublishers() == 0 && !callbackCalled) {
+    while (sub_GPS_speed_vector.getNumPublishers() == 0 || !callbackCalled) {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
@@ -1872,7 +1872,7 @@ int main(int argc, char **argv) {
     ROS_INFO("Gyro enabled.");
     sub_gyro_32 = n.subscribe(model_name + "/gyro/values", 1, gyroCallback);
     callbackCalled = false;
-    while (sub_gyro_32.getNumPublishers() == 0 && !callbackCalled) {
+    while (sub_gyro_32.getNumPublishers() == 0 || !callbackCalled) {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
@@ -1928,7 +1928,7 @@ int main(int argc, char **argv) {
     ROS_INFO("Inertial_unit enabled.");
     sub_inertial_unit_32 = n.subscribe(model_name + "/inertial_unit/quaternion", 1, inertialUnitCallback);
     callbackCalled = false;
-    while (sub_inertial_unit_32.getNumPublishers() == 0 && !callbackCalled) {
+    while (sub_inertial_unit_32.getNumPublishers() == 0 || !callbackCalled) {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
@@ -1979,7 +1979,7 @@ int main(int argc, char **argv) {
     callbackCalled = false;
     ROS_INFO("Topics for joystick initialized.");
 
-    while (sub_joystick.getNumPublishers() == 0 && !callbackCalled) {
+    while (sub_joystick.getNumPublishers() == 0 || !callbackCalled) {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
@@ -2052,7 +2052,7 @@ int main(int argc, char **argv) {
     callbackCalled = false;
     ROS_INFO("Topic for lidar initialized.");
 
-    while (sub_lidar.getNumPublishers() == 0 && !callbackCalled) {
+    while (sub_lidar.getNumPublishers() == 0 || !callbackCalled) {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
@@ -2115,7 +2115,7 @@ int main(int argc, char **argv) {
     ROS_INFO("Light_sensor enabled.");
     sub_light_sensor_32 = n.subscribe(model_name + "/light_sensor/value", 1, lightSensorCallback);
     callbackCalled = false;
-    while (sub_light_sensor_32.getNumPublishers() == 0 && !callbackCalled) {
+    while (sub_light_sensor_32.getNumPublishers() == 0 || !callbackCalled) {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
@@ -2461,7 +2461,7 @@ int main(int argc, char **argv) {
     ROS_INFO("Motor feedback enabled.");
     sub_motor_feedback_32 = n.subscribe(model_name + "/rotational_motor/torque_feedback", 1, motorSensorCallback);
     callbackCalled = false;
-    while (sub_motor_feedback_32.getNumPublishers() == 0 && !callbackCalled) {
+    while (sub_motor_feedback_32.getNumPublishers() == 0 || !callbackCalled) {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
@@ -2539,7 +2539,7 @@ int main(int argc, char **argv) {
     ROS_INFO("Position_sensor enabled.");
     sub_position_sensor_32 = n.subscribe(model_name + "/position_sensor/value", 1, positionSensorCallback);
     callbackCalled = false;
-    while (sub_position_sensor_32.getNumPublishers() == 0 && !callbackCalled) {
+    while (sub_position_sensor_32.getNumPublishers() == 0 || !callbackCalled) {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
@@ -2595,7 +2595,7 @@ int main(int argc, char **argv) {
     callbackCalled = false;
     ROS_INFO("Topics for radar initialized.");
 
-    while (sub_radar_target.getNumPublishers() == 0 && sub_radar_target_number.getNumPublishers() == 0 && !callbackCalled) {
+    while (sub_radar_target.getNumPublishers() == 0 || sub_radar_target_number.getNumPublishers() == 0 || !callbackCalled) {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
@@ -2658,7 +2658,7 @@ int main(int argc, char **argv) {
     callbackCalled = false;
     ROS_INFO("Topic for range-finder initialized.");
 
-    while (sub_range_finder_color.getNumPublishers() == 0 && !callbackCalled) {
+    while (sub_range_finder_color.getNumPublishers() == 0 || !callbackCalled) {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
@@ -2723,7 +2723,7 @@ int main(int argc, char **argv) {
     ROS_INFO("Receiver enabled.");
     sub_receiver_32 = n.subscribe(model_name + "/receiver/data", 1, receiverCallback);
     callbackCalled = false;
-    while (sub_receiver_32.getNumPublishers() == 0 && !callbackCalled) {
+    while (sub_receiver_32.getNumPublishers() == 0 || !callbackCalled) {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
@@ -2978,7 +2978,7 @@ int main(int argc, char **argv) {
     else
       sub_touch_sensor_32 = n.subscribe(model_name + "/touch_sensor/values", 1, touchSensor3DCallback);
     callbackCalled = false;
-    while (sub_touch_sensor_32.getNumPublishers() == 0 && !callbackCalled) {
+    while (sub_touch_sensor_32.getNumPublishers() == 0 || !callbackCalled) {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
