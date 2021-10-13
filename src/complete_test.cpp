@@ -1978,7 +1978,7 @@ int main(int argc, char **argv) {
   joystick_is_connected_client.call(joystick_is_connected_srv);
 
   enable_joystick_srv.request.value = 32;
-  if (joystick_is_connected_srv.response.value){
+  if (joystick_is_connected_srv.response.value) {
     if (enable_joystick_client.call(enable_joystick_srv) && enable_joystick_srv.response.success) {
       ROS_INFO("Joystick of %s has been enabled.", model_name.c_str());
       sub_joystick = n.subscribe(model_name + "/joystick/pressed_button", 1, joystickCallback);
@@ -1993,7 +1993,7 @@ int main(int argc, char **argv) {
     } else
       ROS_ERROR("Failed to enable joystick.");
   }
-  else{
+  else {
     ROS_ERROR("Failed to find a joystick.");
   }
   
