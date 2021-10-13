@@ -624,7 +624,7 @@ int main(int argc, char **argv) {
   if (enable_keyboard_client.call(enable_keyboard_srv) && enable_keyboard_srv.response.success) {
     ROS_INFO("Keyboard of %s has been enabled.", model_name.c_str());
     sub_keyboard = n.subscribe(model_name + "/keyboard/key", 1, keyboardCallback);
-    ROS_INFO("Topics for keyboard initialized. PLEASE HIT A KEY");
+    ROS_INFO("Topics for keyboard initialized. PLEASE HIT A KEY!");
     callbackCalled = false;
     while (sub_keyboard.getNumPublishers() == 0 || !callbackCalled) {
       ros::spinOnce();
@@ -1971,30 +1971,27 @@ int main(int argc, char **argv) {
   ros::ServiceClient enable_joystick_client = n.serviceClient<webots_ros::set_int>(model_name + "/joystick/enable");
   webots_ros::set_int enable_joystick_srv;
   ros::Subscriber sub_joystick;
-
-  ros::ServiceClient joystick_is_connected_client;
+  ros::ServiceClient joystick_is_connected_client = n.serviceClient<webots_ros::get_bool>(model_name + "/joystick/is_connected");
   webots_ros::get_bool joystick_is_connected_srv;
-  joystick_is_connected_client = n.serviceClient<webots_ros::get_string>(model_name + "/joystick/is_connected");
-  joystick_is_connected_client.call(joystick_is_connected_srv);
 
   enable_joystick_srv.request.value = 32;
-  if (joystick_is_connected_srv.response.value) {
-    if (enable_joystick_client.call(enable_joystick_srv) && enable_joystick_srv.response.success) {
+  if (enable_joystick_client.call(enable_joystick_srv) && enable_joystick_srv.response.success) {
+    // Webots need a step to enable the joystick
+    ros::Duration(0.032).sleep();
+    if (joystick_is_connected_client.call(joystick_is_connected_srv) && joystick_is_connected_srv.response.value) {
       ROS_INFO("Joystick of %s has been enabled.", model_name.c_str());
       sub_joystick = n.subscribe(model_name + "/joystick/pressed_button", 1, joystickCallback);
+      ROS_INFO("Topics for joystick initialized. PLEASE PRESS A BUTTON!");
       callbackCalled = false;
-      ROS_INFO("Topics for joystick initialized.");
-
       while (sub_joystick.getNumPublishers() == 0 || !callbackCalled) {
         ros::spinOnce();
         time_step_client.call(time_step_srv);
       }
       ROS_INFO("Topics for joystick connected.");
     } else
-      ROS_ERROR("Failed to enable joystick.");
-  }
-  else
-    ROS_ERROR("Failed to find a joystick.");
+      ROS_WARN("No joystick connected, test skipped.");
+  } else
+    ROS_ERROR("Failed to enable joystick.");
   
   sub_joystick.shutdown();
 
