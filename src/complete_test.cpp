@@ -1992,7 +1992,7 @@ int main(int argc, char **argv) {
       ROS_WARN("No joystick connected, test skipped.");
   } else
     ROS_ERROR("Failed to enable joystick.");
-  
+
   sub_joystick.shutdown();
 
   enable_joystick_client.shutdown();
