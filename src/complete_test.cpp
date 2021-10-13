@@ -1993,9 +1993,8 @@ int main(int argc, char **argv) {
     } else
       ROS_ERROR("Failed to enable joystick.");
   }
-  else {
+  else
     ROS_ERROR("Failed to find a joystick.");
-  }
   
   sub_joystick.shutdown();
 
