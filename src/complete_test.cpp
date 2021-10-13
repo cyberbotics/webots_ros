@@ -624,7 +624,7 @@ int main(int argc, char **argv) {
   if (enable_keyboard_client.call(enable_keyboard_srv) && enable_keyboard_srv.response.success) {
     ROS_INFO("Keyboard of %s has been enabled.", model_name.c_str());
     sub_keyboard = n.subscribe(model_name + "/keyboard/key", 1, keyboardCallback);
-    ROS_INFO("Topics for keyboard initialized.");
+    ROS_INFO("Topics for keyboard initialized. PLEASE HIT A KEY");
     callbackCalled = false;
     while (sub_keyboard.getNumPublishers() == 0 || !callbackCalled) {
       ros::spinOnce();
@@ -1976,7 +1976,7 @@ int main(int argc, char **argv) {
   if (enable_joystick_client.call(enable_joystick_srv) && enable_joystick_srv.response.success) {
     ROS_INFO("Joystick of %s has been enabled.", model_name.c_str());
     sub_joystick = n.subscribe(model_name + "/joystick/pressed_button", 1, joystickCallback);
-    callbackCalled = false;
+    //callbackCalled = false;
     ROS_INFO("Topics for joystick initialized.");
 
     while (sub_joystick.getNumPublishers() == 0 || !callbackCalled) {
