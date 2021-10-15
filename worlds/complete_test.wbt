@@ -293,7 +293,8 @@ Robot {
   customData "INITIAL"
   supervisor TRUE
   battery [
-    50, 50, 2
+    1000, 1000, 50
   ]
+  cpuConsumption 0.01
   window "info"
 }
