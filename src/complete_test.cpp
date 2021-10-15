@@ -134,7 +134,6 @@
 #include <webots_ros/robot_set_mode.h>
 #include <webots_ros/robot_wait_for_user_input_event.h>
 #include <webots_ros/save_image.h>
-#include <webots_ros/skin_get_bone_name.h>
 #include <webots_ros/speaker_play_sound.h>
 #include <webots_ros/speaker_speak.h>
 #include <webots_ros/supervisor_get_from_def.h>
