@@ -1,4 +1,4 @@
-#VRML_SIM R2021c utf8
+#VRML_SIM R2021b utf8
 WorldInfo {
 }
 Viewpoint {
@@ -274,12 +274,6 @@ Robot {
     }
     Radar {
       maxRange 2
-    }
-    CharacterSkin {
-      translation -0.35 -0.1 0
-      scale 0.5 0.5 0.5
-      name "Sophia"
-      model "Sophia"
     }
   ]
   name "full_supervisor"
