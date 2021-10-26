@@ -1,9 +1,9 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2021c utf8
 WorldInfo {
 }
 Viewpoint {
-  orientation 0.6025650947976529 0.4034508611086422 0.688580212613019 1.542782453757079
-  position 3.0654600943488766 -0.7557187756441026 2.0753041667700227
+  orientation -0.22756429490040722 0.04257036299245628 0.9728320800020789 2.7119840327264093
+  position 3.38208222632237 -1.0148750639744168 2.0086598653987444
 }
 TexturedBackground {
 }
@@ -12,13 +12,14 @@ TexturedBackgroundLight {
 Robot {
   rotation 1 0 0 1.5707963267948966
   controller "ros"
+  controllerArgs [
+    "--synchronize"
+  ]
   supervisor TRUE
 }
 Floor {
-  rotation 1 0 0 1.5707963267948966
 }
 Nao {
   translation 0 0 0.33
-  rotation 1 0 0 4.692820414042842e-06
   controller "void"
 }
