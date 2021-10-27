@@ -2,8 +2,8 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.24491738826837936 0.45533381745587953 0.855971137133053 1.0073097313552966
-  position -1.6150246482358088 -2.153071641851287 1.5115021291251873
+  orientation -0.16118111526236914 0.8930755262466629 0.42004375069988265 0.6000809445359554
+  position -1.5173436775186742 -0.4061914157103726 1.0161304142241627
 }
 TexturedBackground {
 }
@@ -16,7 +16,7 @@ Robot {
   children [
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis 0 1 0
+        axis 0 0 1
       }
       device [
         RotationalMotor {
@@ -25,11 +25,11 @@ Robot {
       ]
       endPoint Solid {
         translation 0 0.03 0.12
-        rotation 1 0 0 1.57
+        rotation 1 0 0 1.5708
         children [
           RangeFinder {
-            translation 0 -0.05 0
-            rotation 1 0 0 -1.57
+            translation 0 0 -0.05
+            rotation -0.577349935856137 0.577349935856137 0.5773509358560258 2.09439
           }
           Shape {
             appearance PBRAppearance {
