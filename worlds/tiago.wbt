@@ -12,8 +12,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.3347226392193191 0.03176917125344581 0.9417810119937239 2.7782080924578305
-  position 14.66650678584592 -9.534816553098619 11.39768466914873
+  orientation -0.343578316939102 0.04371675817137398 0.9381059562673503 2.8689631093065255
+  position 13.481611417705626 -8.076105090367726 9.694857239396955
   exposure 0.5
 }
 TexturedBackground {
@@ -67,14 +67,14 @@ DEF ROOF Solid {
   locked TRUE
 }
 Wall {
-  translation 0.65 0.15 1.2
-  rotation 1 0 0 1.5707963267948966
+  translation 0.65 0 0
+  rotation 0 0 1 1.5707963267948966
   name "wall 1"
-  size 1 2.4 0.3
+  size 0.3 1 2.4
 }
 Window {
   translation 1.65 0 0
-  rotation -2.3464099999870814e-06 -2.3464099999870814e-06 0.9999999999944944 -1.5707953071795862
+  rotation 0 0 1 -1.5707953071795862
   name "window 1"
   size 0.3 1 2.4
   frameAppearance PaintedWood {
@@ -82,26 +82,26 @@ Window {
   }
 }
 Wall {
-  translation 4.3 0.15 1.2
-  rotation 1 0 0 1.5707963267948966
+  translation 4.3 0 0
+  rotation 0 0 1 1.5707963267948966
   name "wall 2"
-  size 4.3 2.4 0.3
+  size 0.3 4.3 2.4
 }
 Wall {
-  translation 2.3 -9.75 1.2
-  rotation 1 0 0 1.5707963267948966
+  translation 2.3 -9.9 0
+  rotation 0 0 1 1.5707963267948966
   name "wall 3"
-  size 4.3 2.4 0.3
+  size 0.3 4.3 2.4
 }
 Wall {
-  translation 5.95 -9.75 1.2
-  rotation 1 0 0 1.5707963267948966
+  translation 5.95 -9.9 0
+  rotation 0 0 1 1.5707963267948966
   name "wall 4"
-  size 1 2.4 0.3
+  size 0.3 1 2.4
 }
 Door {
   translation 4.95 -9.9 0
-  rotation -7.19237e-09 7.19239e-09 -1 -1.5707853071795865
+  rotation 0 0 -1 -1.5707853071795865
   name "door 1"
   size 0.3 1 2.4
   canBeOpen FALSE
@@ -113,20 +113,17 @@ Door {
   }
 }
 Wall {
-  translation -0.15 -3.8 1.2
-  rotation 0.577348855372322 0.577350976096979 0.577350976096979 2.094397223120449
+  translation 0 -3.8 0
   name "wall 5"
-  size 7.9 2.4 0.3
+  size 0.3 7.9 2.4
 }
 Wall {
-  translation -0.15 -9.4 1.2
-  rotation 0.577348855372322 0.577350976096979 0.577350976096979 2.094397223120449
+  translation 0 -9.4 0
   name "wall 6"
-  size 1.3 2.4 0.3
+  size 0.3 1.3 2.4
 }
 Window {
   translation 0 -8.25 0
-  rotation -2.9110807192479472e-08 0.013910303436853236 0.9999032470485799 -5.307179586466759e-06
   name "window 2"
   size 0.3 1 2.4
   frameAppearance PaintedWood {
@@ -134,14 +131,14 @@ Window {
   }
 }
 Wall {
-  translation 6.45 -9.4 1.2
-  rotation 0.577348855372322 0.577350976096979 0.577350976096979 2.094397223120449
+  translation 6.6 -9.4 0
+  rotation 0 0 1 3.14159
   name "wall 7"
-  size 1.3 2.4 0.3
+  size 0.3 1.3 2.4
 }
 Door {
   translation 6.6 -8.25 0
-  rotation 7.19233e-09 -1.49483e-14 1 3.14159
+  rotation 0 0 1 3.14159
   name "door 2"
   size 0.3 1 2.4
   canBeOpen FALSE
@@ -149,21 +146,19 @@ Door {
     colorOverride 0.13333333333333333 0.13333333333333333 0.13333333333333333
   }
   doorHandle DoorLever {
-    rotation -0.0012868889344011497 0.9999991719580925 0 0
     hasStaticParent TRUE
   }
 }
 Wall {
-  translation 6.45 -3.8 1.2
-  rotation 0.577348855372322 0.577350976096979 0.577350976096979 2.094397223120449
+  translation 6.6 -3.8 0
   name "wall 8"
-  size 7.9 2.4 0.3
+  size 0.3 7.9 2.4
 }
 Wall {
-  translation 1.8 -3.15 1.2
-  rotation 1 0 0 1.5707963267948966
+  translation 1.8 -3.3 0
+  rotation 0 0 1 1.5707963267948966
   name "wall 9"
-  size 3.3 2.4 0.3
+  size 0.3 3.3 2.4
 }
 CeilingLight {
   translation 2.47061 -1.3341 2.4
@@ -181,12 +176,10 @@ FloorLight {
 }
 Fridge {
   translation 0.5 -0.52 0
-  rotation 1 0 0 4.692820414042842e-06
   mainColor 0.6666666666666666 0 0
 }
 Cabinet {
   translation 0.15 -1.31 0
-  rotation -2.9110807192479472e-08 0.013910303436853236 0.9999032470485799 -5.307179586466759e-06
   name "cabinet 1"
   depth 0.68
   outerThickness 0.02
@@ -217,7 +210,6 @@ Cabinet {
 }
 Cabinet {
   translation 0.150001 -1.31 1.12
-  rotation -0.9623102337374856 -1.955990475094496e-09 0.271954066055475 -5.307179586466759e-06
   name "cabinet 2"
   outerThickness 0.02
   rowsHeights [
@@ -247,7 +239,6 @@ Cabinet {
 }
 Cabinet {
   translation 0.15 -2.19 0
-  rotation -2.827660768165793e-11 0.003931491068033687 -0.9999922716591273 -5.307179586466759e-06
   name "cabinet 3"
   depth 0.68
   outerThickness 0.02
@@ -277,53 +268,45 @@ Cabinet {
 }
 Oven {
   translation 0.58 -2.85 0
-  rotation 1 0 0 4.692820414042842e-06
 }
 Worktop {
   translation 0.5 -1.31 0.71
-  rotation 0.577348855372322 0.577350976096979 0.577350976096979 2.094397223120449
   name "worktop 1"
-  size 0.88 0.06 0.7
+  size 0.7 0.88 0.06
 }
 Worktop {
   translation 0.807 -1.97 0.71
-  rotation 0.577348855372322 0.577350976096979 0.577350976096979 2.094397223120449
   name "worktop 2"
-  size 0.44 0.06 0.086
+  size 0.086 0.44 0.06
 }
 Worktop {
   translation 0.272 -1.97 0.71
-  rotation 0.577348855372322 0.577350976096979 0.577350976096979 2.094397223120449
   name "worktop 3"
-  size 0.44 0.06 0.244
+  size 0.244 0.44 0.06
 }
 Worktop {
   translation 0.5 -2.63 0.71
-  rotation 0.577348855372322 0.577350976096979 0.577350976096979 2.094397223120449
   name "worktop 4"
-  size 0.88 0.06 0.7
+  size 0.7 0.88 0.06
 }
 Sink {
   translation 0.48 -1.97 0.715
-  rotation -9.376393300928056e-12 0.003910991376851498 -0.9999923520439795 3.67802e-06
 }
 HotPlate {
   translation 0.5 -2.85 0.71
-  rotation -9.376393300928056e-12 0.003910991376851498 -0.9999923520439795 3.67802e-06
 }
 Can {
   translation 0.632793 -0.566328 0.841066
-  rotation 2.3464099999870814e-06 -2.3464099999870814e-06 0.9999999999944944 1.5708
+  rotation 0 0 1 1.5708
   name "can 1"
 }
 Table {
   translation 4.94438 -1.07424 0
-  rotation -2.9110807192479472e-08 0.013910303436853236 0.9999032470485799 -5.307179586466759e-06
   name "table(1)"
 }
 Chair {
   translation 5.41278 -1.46063 -0.00224453
-  rotation 3.33145e-13 7.19235e-09 -1 -3.141495307179586
+  rotation 0 0 -1 -3.141495307179586
   name "chair 1"
   color 0.13333333333333333 0.13333333333333333 0.13333333333333333
   physics Physics {
@@ -334,7 +317,6 @@ Chair {
 }
 Chair {
   translation 4.44435 -0.642495 -0.00224453
-  rotation 1 0 0 4.692820414042842e-06
   name "chair 2"
   color 0.13333333333333333 0.13333333333333333 0.13333333333333333
   physics Physics {
@@ -345,7 +327,6 @@ Chair {
 }
 Chair {
   translation 4.48748 -1.39428 -0.00224453
-  rotation 1 0 0 4.692820414042842e-06
   name "chair 3"
   color 0.13333333333333333 0.13333333333333333 0.13333333333333333
   physics Physics {
@@ -356,7 +337,7 @@ Chair {
 }
 Chair {
   translation 5.38086 -0.706899 -0.00224453
-  rotation 3.33145e-13 7.19235e-09 -1 -3.141495307179586
+  rotation 0 0 -1 -3.141495307179586
   name "chair 4"
   color 0.13333333333333333 0.13333333333333333 0.13333333333333333
   physics Physics {
@@ -367,30 +348,25 @@ Chair {
 }
 FruitBowl {
   translation 4.88063 -0.715471 0.739784
-  rotation 1.40786e-08 -7.19235e-09 1 -0.9446153071795864
+  rotation 0 0 1 -0.9446153071795864
   color 0.6666666666666666 0 0
 }
 Orange {
   translation 4.86999 -0.775472 0.799671
-  rotation 1 0 0 4.692820414042842e-06
 }
 Orange {
   translation 4.80474 -0.699693 0.799666
-  rotation 1 0 0 4.692820414042842e-06
   name "orange 2"
 }
 Apple {
   translation 4.95672 -0.722921 0.799667
-  rotation 1 0 0 4.692820414042842e-06
 }
 Apple {
   translation 4.89356 -0.635999 0.79966
-  rotation 1 0 0 4.07987e-06
   name "apple 2"
 }
 Desk {
   translation 0.512574 -5.12497 0
-  rotation 0 0 1 4.692820414042842e-06
 }
 WoodenChair {
   translation 0.9 -5.15 0
@@ -412,28 +388,25 @@ Table {
 }
 Armchair {
   translation 3.82671 -5.8922 0
-  rotation 3.1933e-09 -7.19235e-09 1 -2.3059053071795863
+  rotation 0 0 1 -2.3059053071795863
   color 0.13333333333333333 0.13333333333333333 0.13333333333333333
 }
 Sofa {
   translation 0.804228 -7.05325 0
-  rotation 1 0 0 4.692820414042842e-06
   color 0.13333333333333333 0.13333333333333333 0.13333333333333333
 }
 Sofa {
   translation 2.49729 -8.95734 0
-  rotation 7.19232e-09 7.19235e-09 -1 -1.5707953071795862
+  rotation 0 0 -1 -1.5707953071795862
   name "sofa 2"
   color 0.13333333333333333 0.13333333333333333 0.13333333333333333
 }
 Carpet {
   translation 2.55076 -7.14218 -0.015
-  rotation 1 0 0 4.692820414042842e-06
   color 0.13725490196078433 0.13725490196078433 0.13725490196078433
 }
 BunchOfSunFlowers {
   translation 3.9144 -9.05979 0
-  rotation 1 0 0 4.692820414042842e-06
 }
 Book {
   translation 0.596131 -4.69173 0.739852
@@ -441,17 +414,17 @@ Book {
 }
 Can {
   translation 2.74188 -7.22627 0.611066
-  rotation -7.19218e-09 5.18078e-08 1 0.275891
+  rotation 0 0 1 0.275891
   name "can 2"
 }
 Can {
   translation 2.7233 -7.34994 0.611066
-  rotation 2.6535599999813158e-06 -2.6535599999813158e-06 0.9999999999929587 1.5708
+  rotation 0 0 1 1.5708
   name "can 3"
 }
 Can {
   translation 2.8744 -7.20688 0.611066
-  rotation -7.19233e-09 8.99976e-10 1 2.89262
+  rotation 0 0 1 2.89262
   name "can 4"
 }
 E-puck {
@@ -464,7 +437,7 @@ E-puck {
 }
 Cabinet {
   translation 6.4326 -3.46807 0
-  rotation 7.19236e-09 5.173e-17 1 3.14159
+  rotation 0 0 1 3.14159
   name "cabinet 4"
   depth 0.4
   outerThickness 0.02
@@ -514,23 +487,21 @@ Book {
 }
 PottedTree {
   translation 6.08049 -4.51701 0
-  rotation 2.3464099999870814e-06 -2.3464099999870814e-06 0.9999999999944944 1.5708
+  rotation 0 0 1 1.5708
 }
 PortraitPainting {
   translation 2.47 -9.73 1.6
-  rotation -6.88392e-07 7.19235e-09 -1 -1.5707953071795862
+  rotation 0 0 -1 -1.5707953071795862
 }
 LandscapePainting {
   translation 4.92523 -0.184484 1.62868
-  rotation -1.11041e-07 -7.19235e-09 1 -1.5707953071795862
+  rotation 0 0 1 -1.5707953071795862
 }
 CreateWall {
   translation 3.53117 -3.235 0
-  rotation 1 0 0 4.692820414042842e-06
 }
 TiagoSteel {
   translation 2.194 -4.717 0.095
-  rotation 1 0 0 4.692820414042842e-06
   controller "ros"
   controllerArgs [
     "--name=tiago"

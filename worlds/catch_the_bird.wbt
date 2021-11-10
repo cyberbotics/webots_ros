@@ -227,15 +227,28 @@ Solid {
           physics Physics {
           }
         }
-        Shape {
-          appearance PBRAppearance {
-            baseColor 0.772549 0 0
-            roughness 1
-            metalness 0
-          }
-          geometry Capsule {
+        Solid {
+          rotation 1 0 0 1.5707996938995747
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.772549 0 0
+                roughness 1
+                metalness 0
+              }
+              geometry Capsule {
+                height 0.07
+                radius 0.02
+              }
+            }
+          ]
+          name "body_center"
+          boundingObject Capsule {
             height 0.07
             radius 0.02
+            subdivision 16
+          }
+          physics Physics {
           }
         }
       ]

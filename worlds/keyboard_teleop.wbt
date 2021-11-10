@@ -10,7 +10,6 @@ TexturedBackground {
 TexturedBackgroundLight {
 }
 RectangleArena {
-  rotation 1 0 0 0
   floorSize 4 4
   wallThickness 0.1
   wallHeight 0.5
