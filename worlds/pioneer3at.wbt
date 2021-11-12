@@ -907,7 +907,7 @@ PottedTree {
 }
 Sofa {
   translation 27.9791 -28.4787 0
-  rotation 0 0 -1 -2.356185307179586
+  rotation 0 0 1 2.356185307179586
 }
 DEF OFFICES Transform {
   rotation 0 0.7071072811862539 0.7071062811858562 3.14159
@@ -1240,7 +1240,7 @@ DEF OFFICES Transform {
   ]
 }
 DEF OFFICES Transform {
-  rotation -1 0 0 -1.5707953071795862
+  rotation 1 0 0 1.5707953071795862
   children [
     Panel {
       translation 28.4604 0 -24.5373
@@ -1851,7 +1851,7 @@ StraightStairs {
 }
 StraightStairs {
   translation 0.76 19.0 0
-  rotation 0 0 -1 -1.5707953071795862
+  rotation 0 0 1 1.5707953071795862
   name "straight stairs(2)"
   stepRise 0.2
   nSteps 11

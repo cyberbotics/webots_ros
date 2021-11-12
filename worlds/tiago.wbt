@@ -101,7 +101,7 @@ Wall {
 }
 Door {
   translation 4.95 -9.9 0
-  rotation 0 0 -1 -1.5707853071795865
+  rotation 0 0 1 1.5707853071795865
   name "door 1"
   size 0.3 1 2.4
   canBeOpen FALSE
@@ -306,7 +306,7 @@ Table {
 }
 Chair {
   translation 5.41278 -1.46063 -0.00224453
-  rotation 0 0 -1 -3.141495307179586
+  rotation 0 0 1 3.141495307179586
   name "chair 1"
   color 0.13333333333333333 0.13333333333333333 0.13333333333333333
   physics Physics {
@@ -337,7 +337,7 @@ Chair {
 }
 Chair {
   translation 5.38086 -0.706899 -0.00224453
-  rotation 0 0 -1 -3.141495307179586
+  rotation 0 0 1 3.141495307179586
   name "chair 4"
   color 0.13333333333333333 0.13333333333333333 0.13333333333333333
   physics Physics {
@@ -397,7 +397,7 @@ Sofa {
 }
 Sofa {
   translation 2.49729 -8.95734 0
-  rotation 0 0 -1 -1.5707953071795862
+  rotation 0 0 1 1.5707953071795862
   name "sofa 2"
   color 0.13333333333333333 0.13333333333333333 0.13333333333333333
 }
@@ -491,7 +491,7 @@ PottedTree {
 }
 PortraitPainting {
   translation 2.47 -9.73 1.6
-  rotation 0 0 -1 -1.5707953071795862
+  rotation 0 0 1 1.5707953071795862
 }
 LandscapePainting {
   translation 4.92523 -0.184484 1.62868
