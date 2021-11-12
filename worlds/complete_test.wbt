@@ -55,7 +55,6 @@ DEF CONE Solid {
 }
 DEF RADAR_TARGET Solid {
   translation 0 1.86 0
-  rotation 1 0 0 1.5707963267948966
   children [
     Shape {
       appearance PBRAppearance {
@@ -175,6 +174,7 @@ Robot {
     }
     Camera {
       translation 0.14 0 0
+      rotation 0 0 1 1.5708
       model "camera model"
       focus Focus {
         focalDistance 0.2
@@ -196,6 +196,7 @@ Robot {
       model "range-finder model"
     }
     Lidar {
+      rotation 0 0 1 1.5708
     }
     DEF TEST Compass {
     }

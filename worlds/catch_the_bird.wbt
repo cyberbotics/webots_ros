@@ -227,7 +227,7 @@ Solid {
           physics Physics {
           }
         }
-        Solid {
+        Transform {
           rotation 1 0 0 1.5707996938995747
           children [
             Shape {
@@ -242,21 +242,18 @@ Solid {
               }
             }
           ]
-          name "body_center"
-          boundingObject Capsule {
+        }
+      ]
+      name "body"
+      boundingObject Transform {
+        rotation 1 0 0 1.5708
+        children [
+          Capsule {
             height 0.07
             radius 0.02
             subdivision 16
           }
-          physics Physics {
-          }
-        }
-      ]
-      name "body"
-      boundingObject Capsule {
-        height 0.07
-        radius 0.02
-        subdivision 16
+        ]
       }
       physics Physics {
       }
