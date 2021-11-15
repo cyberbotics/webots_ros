@@ -191,6 +191,7 @@ Robot {
     }
     RangeFinder {
       translation 0.14 0 0
+      rotation 0 0 1 1.5707996938995747
       name "range_finder"
       model "range-finder model"
     }
@@ -272,6 +273,7 @@ Robot {
     Accelerometer {
     }
     Radar {
+      rotation 0 0 1 1.5707996938995747
       maxRange 2
     }
     CharacterSkin {
