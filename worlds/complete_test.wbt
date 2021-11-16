@@ -110,6 +110,8 @@ Robot {
         boundingObject Box {
           size 0.02 0.25 0.08
         }
+        physics Physics {
+        }
       }
     }
     DEF HINGE_JOINT HingeJoint {
@@ -139,6 +141,8 @@ Robot {
         boundingObject Cylinder {
           height 0.1
           radius 0.05
+        }
+        physics Physics {
         }
       }
     }
@@ -246,6 +250,8 @@ Robot {
       boundingObject Sphere {
         radius 0.02
       }
+      physics Physics {
+      }
       color [
         0.666667 1 1
       ]
@@ -280,6 +286,8 @@ Robot {
   model "all_devices"
   boundingObject Box {
     size 0.2 0.2 0.2
+  }
+  physics Physics {
   }
   recognitionColors [
     0.678431 0.498039 0.658824
