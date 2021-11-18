@@ -151,7 +151,7 @@ Robot {
         RotationalMotor {
           name "rotational_motor"
           acceleration 5
-          maxVelocity 2
+          maxVelocity 2.5
           multiplier 2.5
         }
       ]
@@ -305,4 +305,12 @@ Robot {
   ]
   cpuConsumption 0.01
   window "info"
+}
+
+Robot {
+  children [
+    Emitter {
+    }
+  ]
+  controller "complete_test_emitter"
 }
