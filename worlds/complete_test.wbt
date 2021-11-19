@@ -306,8 +306,7 @@ Robot {
   cpuConsumption 0.01
   window "info"
 }
-
-Robot {
+DEF ANOTHER_ROBOT Robot {
   children [
     Emitter {
     }
