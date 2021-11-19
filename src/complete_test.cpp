@@ -3267,7 +3267,7 @@ int main(int argc, char **argv) {
     ROS_INFO("Got from DEF node: %ld.", supervisor_get_from_def_srv.response.node);
     another_robot_node = supervisor_get_from_def_srv.response.node;
   } else
-    ROS_ERROR("Could not get node from DEF.");
+    ROS_ERROR("Could not ANOTHER_ROBOT node from DEF.");
 
   time_step_client.call(time_step_srv);
 
