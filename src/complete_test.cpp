@@ -3301,7 +3301,7 @@ int main(int argc, char **argv) {
   ros::ServiceClient wb_supervisor_node_get_number_of_fields_client;
   webots_ros::node_get_number_of_fields wb_supervisor_node_get_number_of_fields_srv;
   wb_supervisor_node_get_number_of_fields_client =
-    n.serviceClient<webots_ros::node_get_number_of_fields>(model_name + "/supervisor/node/get_field_by_index");
+    n.serviceClient<webots_ros::node_get_number_of_fields>(model_name + "/supervisor/node/get_number_of_fields");
   wb_supervisor_node_get_number_of_fields_srv.request.node = root_node;
   wb_supervisor_node_get_number_of_fields_srv.request.proto = 0;
   wb_supervisor_node_get_number_of_fields_client.call(wb_supervisor_node_get_number_of_fields_srv);
