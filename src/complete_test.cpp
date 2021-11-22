@@ -3545,7 +3545,7 @@ int main(int argc, char **argv) {
   node_velocity_client = n.serviceClient<webots_ros::node_get_velocity>(model_name + "/supervisor/node/get_velocity");
   node_get_velocity_srv.request.node = cone_node;
   node_velocity_client.call(node_get_velocity_srv);
-  if (node_get_velocity_srv.response.velocity.linear.z > 0.8)
+  if (node_get_velocity_srv.response.velocity.linear.z > 0)
     ROS_INFO("Node velocity get successfully.");
   else
     ROS_ERROR("Failed to call service node_get_velocity.");
