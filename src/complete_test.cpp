@@ -3156,47 +3156,6 @@ int main(int argc, char **argv) {
   supervisor_node_get_center_of_mass_client.shutdown();
   time_step_client.call(time_step_srv);
 
-  ros::ServiceClient supervisor_node_get_number_of_contact_points_client;
-  webots_ros::node_get_number_of_contact_points supervisor_node_get_number_of_contact_points_srv;
-  supervisor_node_get_number_of_contact_points_client = n.serviceClient<webots_ros::node_get_number_of_contact_points>(
-    model_name + "/supervisor/node/get_number_of_contact_points");
-
-  supervisor_node_get_number_of_contact_points_srv.request.node = from_def_node;
-  supervisor_node_get_number_of_contact_points_srv.request.includeDescendants = false;
-  supervisor_node_get_number_of_contact_points_client.call(supervisor_node_get_number_of_contact_points_srv);
-  ROS_INFO("From_def node got %d contact points.",
-           supervisor_node_get_number_of_contact_points_srv.response.numberOfContactPoints);
-
-  supervisor_node_get_number_of_contact_points_client.shutdown();
-  time_step_client.call(time_step_srv);
-
-  ros::ServiceClient supervisor_node_get_contact_point_client;
-  webots_ros::node_get_contact_point supervisor_node_get_contact_point_srv;
-  supervisor_node_get_contact_point_client =
-    n.serviceClient<webots_ros::node_get_contact_point>(model_name + "/supervisor/node/get_contact_point");
-
-  supervisor_node_get_contact_point_srv.request.node = from_def_node;
-  supervisor_node_get_contact_point_srv.request.index = 0;
-  supervisor_node_get_contact_point_client.call(supervisor_node_get_contact_point_srv);
-  ROS_INFO("First contact point is at x = %f, y = %f z = %f.", supervisor_node_get_contact_point_srv.response.point.x,
-           supervisor_node_get_contact_point_srv.response.point.y, supervisor_node_get_contact_point_srv.response.point.z);
-
-  supervisor_node_get_contact_point_client.shutdown();
-  time_step_client.call(time_step_srv);
-
-  ros::ServiceClient supervisor_node_get_contact_point_node_client;
-  webots_ros::node_get_contact_point_node supervisor_node_get_contact_point_node_srv;
-  supervisor_node_get_contact_point_node_client =
-    n.serviceClient<webots_ros::node_get_contact_point_node>(model_name + "/supervisor/node/get_contact_point_node");
-
-  supervisor_node_get_contact_point_node_srv.request.node = from_def_node;
-  supervisor_node_get_contact_point_node_srv.request.index = 0;
-  supervisor_node_get_contact_point_node_client.call(supervisor_node_get_contact_point_node_srv);
-  ROS_INFO("First contact point belong to node '%lu'", supervisor_node_get_contact_point_node_srv.response.node);
-
-  supervisor_node_get_contact_point_node_client.shutdown();
-  time_step_client.call(time_step_srv);
-
   // wb_supervisor_node_enable_contact_points_tracking
   ros::ServiceClient supervisor_node_enable_contact_points_tracking_client;
   webots_ros::node_enable_contact_points_tracking supervisor_node_enable_contact_points_tracking_srv;
@@ -3240,13 +3199,12 @@ int main(int argc, char **argv) {
   time_step_client.call(time_step_srv);
 
   // test get_static_balance
-  // if the node isn't a top Solid webots will throw a warning but still return true to ros
   ros::ServiceClient supervisor_node_get_static_balance_client;
   webots_ros::node_get_static_balance supervisor_node_get_static_balance_srv;
   supervisor_node_get_static_balance_client =
     n.serviceClient<webots_ros::node_get_static_balance>(model_name + "/supervisor/node/get_static_balance");
 
-  supervisor_node_get_static_balance_srv.request.node = from_def_node;
+  supervisor_node_get_static_balance_srv.request.node = self_node;
   supervisor_node_get_static_balance_client.call(supervisor_node_get_static_balance_srv);
   ROS_INFO("From_def node balance is %d.", supervisor_node_get_static_balance_srv.response.balance);
 
@@ -3302,11 +3260,22 @@ int main(int argc, char **argv) {
   time_step_client.call(time_step_srv);
 
   // test restart_controller
+  supervisor_get_from_def_srv.request.name = "ANOTHER_ROBOT";
+  supervisor_get_from_def_client.call(supervisor_get_from_def_srv);
+  uint64_t another_robot_node = 0;
+  if (supervisor_get_from_def_srv.response.node != 0) {
+    ROS_INFO("Got from DEF node: %ld.", supervisor_get_from_def_srv.response.node);
+    another_robot_node = supervisor_get_from_def_srv.response.node;
+  } else
+    ROS_ERROR("Could not ANOTHER_ROBOT node from DEF.");
+
+  time_step_client.call(time_step_srv);
+
   ros::ServiceClient supervisor_node_restart_controller_client =
     n.serviceClient<webots_ros::node_reset_functions>(model_name + "/supervisor/node/restart_controller");
   webots_ros::node_reset_functions supervisor_node_restart_controller_srv;
 
-  supervisor_node_restart_controller_srv.request.node = from_def_node;
+  supervisor_node_restart_controller_srv.request.node = another_robot_node;
   if (supervisor_node_restart_controller_client.call(supervisor_node_restart_controller_srv) &&
       supervisor_node_restart_controller_srv.response.success == 1)
     ROS_INFO("Robot controller has been restarted successfully.");
@@ -3332,7 +3301,7 @@ int main(int argc, char **argv) {
   ros::ServiceClient wb_supervisor_node_get_number_of_fields_client;
   webots_ros::node_get_number_of_fields wb_supervisor_node_get_number_of_fields_srv;
   wb_supervisor_node_get_number_of_fields_client =
-    n.serviceClient<webots_ros::node_get_number_of_fields>(model_name + "/supervisor/node/get_field_by_index");
+    n.serviceClient<webots_ros::node_get_number_of_fields>(model_name + "/supervisor/node/get_number_of_fields");
   wb_supervisor_node_get_number_of_fields_srv.request.node = root_node;
   wb_supervisor_node_get_number_of_fields_srv.request.proto = 0;
   wb_supervisor_node_get_number_of_fields_client.call(wb_supervisor_node_get_number_of_fields_srv);
@@ -3559,10 +3528,10 @@ int main(int argc, char **argv) {
   node_set_velocity_srv.request.node = cone_node;
   node_set_velocity_srv.request.velocity.linear.x = 0.0;
   node_set_velocity_srv.request.velocity.linear.y = 0.0;
-  node_set_velocity_srv.request.velocity.linear.z = 1.0;
+  node_set_velocity_srv.request.velocity.linear.z = 0.0;
   node_set_velocity_srv.request.velocity.angular.x = 0.0;
   node_set_velocity_srv.request.velocity.angular.y = 0.0;
-  node_set_velocity_srv.request.velocity.angular.z = 0.0;
+  node_set_velocity_srv.request.velocity.angular.z = 10.0;
   if (node_velocity_client.call(node_set_velocity_srv) && node_set_velocity_srv.response.success == 1)
     ROS_INFO("Node velocity set successfully.");
   else
@@ -3576,7 +3545,7 @@ int main(int argc, char **argv) {
   node_velocity_client = n.serviceClient<webots_ros::node_get_velocity>(model_name + "/supervisor/node/get_velocity");
   node_get_velocity_srv.request.node = cone_node;
   node_velocity_client.call(node_get_velocity_srv);
-  if (node_get_velocity_srv.response.velocity.linear.z > 0.8)
+  if (node_get_velocity_srv.response.velocity.angular.z != 0)
     ROS_INFO("Node velocity get successfully.");
   else
     ROS_ERROR("Failed to call service node_get_velocity.");
