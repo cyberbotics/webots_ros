@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 # Copyright 1996-2020 Cyberbotics Ltd.
 #
@@ -29,7 +29,7 @@ optParser.add_option("--no-gui", dest="noGui", default="false", help="Start Webo
 optParser.add_option("--stream", dest="stream", default="false", help="Start the Webots streaming server.")
 optParser.add_option("--stream-port", dest="stream_port", default="1234", help="Streaming server port.")
 optParser.add_option("--stream-mode", dest="stream_mode", default="x3d", help="Streaming mode.")
-optParser.add_option("--stream-monitor-activity", dest="stream_monitor_activity", default="true", help="Print a dot '.' on stdout every 5 seconds.")
+optParser.add_option("--stream-monitor-activity", dest="stream_monitor_activity", default="false", help="Print a dot '.' on stdout every 5 seconds.")
 optParser.add_option("--stream-disable-text-streams", dest="stream_disable_text_streams", default="false", help="Disable the streaming of stdout and stderr.")
 options, args = optParser.parse_args()
 

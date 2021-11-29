@@ -4,7 +4,7 @@
   <arg name="mode" default="realtime" doc="Startup mode"/>
   <arg name="no_gui" default="false" doc="Start Webots with minimal GUI"/>
 
-  <arg name="stream" default="true" doc="Start the Webots streaming server"/>
+  <arg name="stream" default="false" doc="Start the Webots streaming server"/>
   <arg name="stream_port" default="1234" doc="Streaming server port."/>
   <arg name="stream_mode" default="x3d" doc="Streaming mode."/>
   <arg name="stream_monitor_activity" default="false" doc="Print a dot '.' on stdout every 5 seconds."/>
