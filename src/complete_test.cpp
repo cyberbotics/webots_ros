@@ -2998,10 +2998,10 @@ int main(int argc, char **argv) {
   supervisor_get_from_def_client.call(supervisor_get_from_def_srv);
   uint64_t from_def_node = 0;
   if (supervisor_get_from_def_srv.response.node != 0) {
-    ROS_INFO("Got from DEF node: %ld.", supervisor_get_from_def_srv.response.node);
+    ROS_INFO("Got node %ld from DEF TEST.", supervisor_get_from_def_srv.response.node);
     from_def_node = supervisor_get_from_def_srv.response.node;
   } else
-    ROS_ERROR("Could not get node from DEF.");
+    ROS_ERROR("Could not get node from DEF TEST.");
 
   time_step_client.call(time_step_srv);
 
@@ -3037,7 +3037,7 @@ int main(int argc, char **argv) {
   supervisor_get_from_def_client.call(supervisor_get_from_def_srv);
   uint64_t ground_node = 0;
   if (supervisor_get_from_def_srv.response.node != 0) {
-    ROS_INFO("Got from DEF GROUND node: %ld.", supervisor_get_from_def_srv.response.node);
+    ROS_INFO("Got node %ld from DEF GROUND.", supervisor_get_from_def_srv.response.node);
     ground_node = supervisor_get_from_def_srv.response.node;
   } else
     ROS_ERROR("Could not get node from DEF GROUND.");
@@ -3264,10 +3264,10 @@ int main(int argc, char **argv) {
   supervisor_get_from_def_client.call(supervisor_get_from_def_srv);
   uint64_t another_robot_node = 0;
   if (supervisor_get_from_def_srv.response.node != 0) {
-    ROS_INFO("Got from DEF node: %ld.", supervisor_get_from_def_srv.response.node);
+    ROS_INFO("Got node %ld from DEF ANOTHER_ROBOT.", supervisor_get_from_def_srv.response.node);
     another_robot_node = supervisor_get_from_def_srv.response.node;
   } else
-    ROS_ERROR("Could not ANOTHER_ROBOT node from DEF.");
+    ROS_ERROR("Could not get node from DEF ANOTHER_ROBOT.");
 
   time_step_client.call(time_step_srv);
 
@@ -3457,20 +3457,20 @@ int main(int argc, char **argv) {
   supervisor_get_from_def_client.call(supervisor_get_from_def_srv);
   uint64_t cone_node = 0;
   if (supervisor_get_from_def_srv.response.node != 0) {
-    ROS_INFO("Got CONE node from DEF: %lu.", supervisor_get_from_def_srv.response.node);
+    ROS_INFO("Got node %ld from DEF CONE.", supervisor_get_from_def_srv.response.node);
     cone_node = supervisor_get_from_def_srv.response.node;
   } else
-    ROS_ERROR("could not get CONE node from DEF.");
+    ROS_ERROR("Could not get node from DEF CONE.");
 
   supervisor_get_from_def_srv.request.name = "HINGE_JOINT";
   supervisor_get_from_def_srv.request.proto = 0;
   supervisor_get_from_def_client.call(supervisor_get_from_def_srv);
   uint64_t hinge_joint_node = 0;
   if (supervisor_get_from_def_srv.response.node != 0) {
-    ROS_INFO("Got HINGE_JOINT node from DEF: %lu.", supervisor_get_from_def_srv.response.node);
+    ROS_INFO("Got node %ld from DEF HINGE_JOINT.", supervisor_get_from_def_srv.response.node);
     hinge_joint_node = supervisor_get_from_def_srv.response.node;
   } else
-    ROS_ERROR("could not get HINGE_JOINT node from DEF.");
+    ROS_ERROR("Could not get node from DEF HINGE_JOINT.");
 
   supervisor_node_get_type_name_client.shutdown();
   supervisor_get_from_def_client.shutdown();
