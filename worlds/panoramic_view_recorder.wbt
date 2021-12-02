@@ -12,6 +12,7 @@ TexturedBackgroundLight {
 Robot {
   rotation 1 0 0 1.5707963267948966
   controller "ros"
+  controllerArgs "--synchronize"
   supervisor TRUE
 }
 Floor {

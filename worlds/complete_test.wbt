@@ -1,4 +1,4 @@
-#VRML_SIM R2021c utf8
+#VRML_SIM R2021b utf8
 WorldInfo {
 }
 Viewpoint {
@@ -44,13 +44,23 @@ DEF CONE Solid {
         metalness 0
         emissiveColor 0.027451 0.027451 0.968627
       }
-      geometry Cone {
+      geometry DEF CONE_SHAPE Cone {
         bottomRadius 0.08
         height 0.2
       }
     }
   ]
   name "solid(1)"
+  boundingObject Transform {
+    translation 0 -0.04 0
+    children [
+      Box {
+        size 0.1 0.1 0.1
+      }
+    ]
+  }
+  physics Physics {
+  }
   recognitionColors [
     0.988235 0.913725 0.309804
   ]
@@ -110,6 +120,8 @@ Robot {
         boundingObject Box {
           size 0.02 0.25 0.08
         }
+        physics Physics {
+        }
       }
     }
     DEF HINGE_JOINT HingeJoint {
@@ -140,6 +152,8 @@ Robot {
           height 0.1
           radius 0.05
         }
+        physics Physics {
+        }
       }
     }
     HingeJoint {
@@ -147,7 +161,7 @@ Robot {
         RotationalMotor {
           name "rotational_motor"
           acceleration 5
-          maxVelocity 2
+          maxVelocity 2.5
           multiplier 2.5
         }
       ]
@@ -246,6 +260,8 @@ Robot {
       boundingObject Sphere {
         radius 0.02
       }
+      physics Physics {
+      }
       color [
         0.666667 1 1
       ]
@@ -275,17 +291,13 @@ Robot {
     Radar {
       maxRange 2
     }
-    CharacterSkin {
-      translation -0.35 -0.1 0
-      scale 0.5 0.5 0.5
-      name "Sophia"
-      model "Sophia"
-    }
   ]
   name "full_supervisor"
   model "all_devices"
   boundingObject Box {
     size 0.2 0.2 0.2
+  }
+  physics Physics {
   }
   recognitionColors [
     0.678431 0.498039 0.658824
@@ -299,7 +311,15 @@ Robot {
   customData "INITIAL"
   supervisor TRUE
   battery [
-    50, 50, 2
+    1000, 1000, 50
   ]
+  cpuConsumption 0.01
   window "info"
+}
+DEF ANOTHER_ROBOT Robot {
+  children [
+    Emitter {
+    }
+  ]
+  controller "complete_test_emitter"
 }
