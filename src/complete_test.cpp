@@ -311,6 +311,11 @@ void GPSSpeedVectorCallback(const geometry_msgs::PointStamped::ConstPtr &values)
   callbackCalled = true;
 }
 
+void GPSSpeedCallback(const webots_ros::Float64Stamped::ConstPtr &value) {
+  ROS_INFO("GPS speed is: %fkm/h (time: %d:%d).", value->data, value->header.stamp.sec, value->header.stamp.nsec);
+  callbackCalled = true;
+}
+
 void gyroCallback(const sensor_msgs::Imu::ConstPtr &values) {
   GyroValues[0] = values->angular_velocity.x;
   GyroValues[1] = values->angular_velocity.y;
@@ -1800,6 +1805,7 @@ int main(int argc, char **argv) {
   ros::ServiceClient set_GPS_client;
   webots_ros::set_int GPS_srv;
   ros::Subscriber sub_GPS_32;
+  ros::Subscriber sub_GPS_speed;
   ros::Subscriber sub_GPS_speed_vector;
   set_GPS_client = n.serviceClient<webots_ros::set_int>(model_name + "/gps/enable");
 
@@ -1817,6 +1823,15 @@ int main(int argc, char **argv) {
       time_step_client.call(time_step_srv);
     }
     sub_GPS_32.shutdown();
+    time_step_client.call(time_step_srv);
+
+    sub_GPS_speed = n.subscribe(model_name + "/gps/speed", 1, GPSSpeedCallback);
+    callbackCalled = false;
+    while (sub_GPS_speed.getNumPublishers() == 0 || !callbackCalled) {
+      ros::spinOnce();
+      time_step_client.call(time_step_srv);
+    }
+    sub_GPS_speed.shutdown();
     time_step_client.call(time_step_srv);
 
     sub_GPS_speed_vector = n.subscribe(model_name + "/gps/speed_vector", 1, GPSSpeedVectorCallback);
