@@ -25,12 +25,7 @@ optParser = optparse.OptionParser()
 optParser.add_option("--world", dest="world", default="", help="Path to the world to load.")
 optParser.add_option("--mode", dest="mode", default="realtime", help="Startup mode.")
 optParser.add_option("--no-gui", dest="noGui", default="false", help="Start Webots with minimal GUI.")
-
-optParser.add_option("--stream", dest="stream", default="false", help="Start the Webots streaming server.")
-optParser.add_option("--stream-port", dest="stream_port", default="1234", help="Streaming server port.")
-optParser.add_option("--stream-mode", dest="stream_mode", default="x3d", help="Streaming mode.")
-optParser.add_option("--stream-monitor-activity", dest="stream_monitor_activity", default="false", help="Print a dot '.' on stdout every 5 seconds.")
-optParser.add_option("--stream-disable-text-streams", dest="stream_disable_text_streams", default="false", help="Disable the streaming of stdout and stderr.")
+optParser.add_option("--stream", dest="stream", default="", help="Start Webots streaming server.")
 options, args = optParser.parse_args()
 
 if 'WEBOTS_HOME' not in os.environ:
@@ -38,14 +33,8 @@ if 'WEBOTS_HOME' not in os.environ:
 
 command = [os.path.join(os.environ['WEBOTS_HOME'], 'webots'), '--mode=' + options.mode, options.world]
 
-if options.stream.lower() == 'true':
-    stream_cmd = '--stream="port=' + options.stream_port + ';mode=' + options.stream_mode
-    if options.stream_monitor_activity.lower() == 'true':
-        stream_cmd += ';monitorActivity'
-    if options.stream_disable_text_streams.lower() == 'true':
-        stream_cmd += ';disableTextStreams'
-    stream_cmd += '"'
-    command.append(stream_cmd)
+if options.stream != '':
+    command.append('--stream="' + options.stream + '"')
 
 if options.noGui.lower() == 'true':
     command.append('--stdout')
