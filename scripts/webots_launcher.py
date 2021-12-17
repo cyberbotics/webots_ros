@@ -33,8 +33,11 @@ if 'WEBOTS_HOME' not in os.environ:
 
 command = [os.path.join(os.environ['WEBOTS_HOME'], 'webots'), '--mode=' + options.mode, options.world]
 
-if options.stream != 'false':
-    command.append('--stream="' + options.stream + '"')
+if options.stream.lower() != 'false':
+    if options.stream.lower() == 'true':
+        command.append('--stream="port=1234;mode=x3d;monitorActivity"')
+    else:
+        command.append('--stream="' + options.stream + '"')
 
 if options.noGui.lower() == 'true':
     command.append('--stdout')
