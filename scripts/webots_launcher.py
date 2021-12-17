@@ -25,7 +25,7 @@ optParser = optparse.OptionParser()
 optParser.add_option("--world", dest="world", default="", help="Path to the world to load.")
 optParser.add_option("--mode", dest="mode", default="realtime", help="Startup mode.")
 optParser.add_option("--no-gui", dest="noGui", default="false", help="Start Webots with minimal GUI.")
-optParser.add_option("--stream", dest="stream", default="", help="Start Webots streaming server.")
+optParser.add_option("--stream", dest="stream", default="false", help="Start Webots streaming server.")
 options, args = optParser.parse_args()
 
 if 'WEBOTS_HOME' not in os.environ:
