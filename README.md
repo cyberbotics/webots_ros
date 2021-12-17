@@ -1,12 +1,12 @@
 ## webots_ros
 
-[![Build Status](http://build.ros.org/buildStatus/icon?job=Kbin_uX64__webots_ros__ubuntu_xenial_amd64__binary&subject=Kinetic)](http://build.ros.org/job/Kbin_uX64__webots_ros__ubuntu_xenial_amd64__binary/)
 [![Build Status](http://build.ros.org/buildStatus/icon?job=Mbin_uB64__webots_ros__ubuntu_bionic_amd64__binary&subject=Melodic)](http://build.ros.org/job/Mbin_uB64__webots_ros__ubuntu_bionic_amd64__binary/)
+[![Build Status](http://build.ros.org/buildStatus/icon?job=Mbin_uB64__webots_ros__ubuntu_bionic_amd64__binary&subject=Noetic)](http://build.ros.org/job/Mbin_uB64__webots_ros__ubuntu_bionic_amd64__binary/)
 
 The webots_ros package contains examples for interfacing ROS nodes with the standard ROS controller of Webots.
 
 How to set-up the ROS interface in Webots:
-  - https://www.cyberbotics.com/doc/guide/tutorial-8-using-ros
+  - https://www.cyberbotics.com/doc/guide/tutorial-9-using-ros
   
 ROS tutorial for Webots:
   - https://www.cyberbotics.com/doc/guide/using-ros
