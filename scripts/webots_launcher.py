@@ -33,7 +33,7 @@ if 'WEBOTS_HOME' not in os.environ:
 
 command = [os.path.join(os.environ['WEBOTS_HOME'], 'webots'), '--mode=' + options.mode, options.world]
 
-if options.stream != '':
+if options.stream != 'false':
     command.append('--stream="' + options.stream + '"')
 
 if options.noGui.lower() == 'true':
