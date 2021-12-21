@@ -1,24 +1,22 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
 }
 Viewpoint {
-  orientation 0.8317372367594001 -0.2710211159782898 -0.4845211282098233 1.1840859377285968
-  position -1.4137324366994928 -2.042337130989267 1.4998046917960792
+  orientation -0.16118111526236914 0.8930755262466629 0.42004375069988265 0.6000809445359554
+  position -1.5173436775186742 -0.4061914157103726 1.0161304142241627
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
 RectangleArena {
-  rotation 1 0 0 1.5707963267948966
 }
 Robot {
   translation -0.1 0 0.09
-  rotation 1 0 0 1.5707963267948966
   children [
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis 0 1 0
+        axis 0 0 1
       }
       device [
         RotationalMotor {
@@ -26,12 +24,12 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation 0 0.12 -0.03
-        rotation 1 0 0 1.57
+        translation 0 0.03 0.12
+        rotation 1 0 0 1.5708
         children [
           RangeFinder {
-            translation 0 -0.05 0
-            rotation 1 0 0 -1.57
+            translation 0 0 -0.05
+            rotation -0.577349935856137 0.577349935856137 0.5773509358560258 2.09439
           }
           Shape {
             appearance PBRAppearance {
@@ -229,23 +227,33 @@ Solid {
           physics Physics {
           }
         }
-        Shape {
-          appearance PBRAppearance {
-            baseColor 0.772549 0 0
-            roughness 1
-            metalness 0
-          }
-          geometry Capsule {
-            height 0.07
-            radius 0.02
-          }
+        Transform {
+          rotation 1 0 0 1.5707996938995747
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.772549 0 0
+                roughness 1
+                metalness 0
+              }
+              geometry Capsule {
+                height 0.07
+                radius 0.02
+              }
+            }
+          ]
         }
       ]
       name "body"
-      boundingObject Capsule {
-        height 0.07
-        radius 0.02
-        subdivision 16
+      boundingObject Transform {
+        rotation 1 0 0 1.5708
+        children [
+          Capsule {
+            height 0.07
+            radius 0.02
+            subdivision 16
+          }
+        ]
       }
       physics Physics {
       }
