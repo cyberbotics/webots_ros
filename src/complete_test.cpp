@@ -300,6 +300,11 @@ void GPSCallback(const geometry_msgs::PointStamped::ConstPtr &values) {
   callbackCalled = true;
 }
 
+void GPSSpeedCallback(const webots_ros::Float64Stamped::ConstPtr &value) {
+  ROS_INFO("GPS speed is: %fkm/h (time: %d:%d).", value->data, value->header.stamp.sec, value->header.stamp.nsec);
+  callbackCalled = true;
+}
+
 void GPSSpeedVectorCallback(const geometry_msgs::PointStamped::ConstPtr &values) {
   GPSSpeedVectorValues[0] = values->point.x;
   GPSSpeedVectorValues[1] = values->point.y;
@@ -308,11 +313,6 @@ void GPSSpeedVectorCallback(const geometry_msgs::PointStamped::ConstPtr &values)
   ROS_INFO("GPS speed vector values are x=%f y=%f z=%f (time: %d:%d).",
            GPSSpeedVectorValues[0], GPSSpeedVectorValues[1], GPSSpeedVectorValues[2],
            values->header.stamp.sec, values->header.stamp.nsec);
-  callbackCalled = true;
-}
-
-void GPSSpeedCallback(const webots_ros::Float64Stamped::ConstPtr &value) {
-  ROS_INFO("GPS speed is: %fkm/h (time: %d:%d).", value->data, value->header.stamp.sec, value->header.stamp.nsec);
   callbackCalled = true;
 }
 
@@ -1077,9 +1077,9 @@ int main(int argc, char **argv) {
 
   ros::ServiceClient sampling_period_altimeter_client;
   webots_ros::get_int sampling_period_altimeter_srv;
-  sampling_period_altimeter_client = 
+  sampling_period_altimeter_client =
     n.serviceClient<webots_ros::get_int>(model_name + "/altimeter/get_sampling_period");
-  
+
   altimeter_srv.request.value = 32;
   if (set_altimeter_client.call(altimeter_srv) && altimeter_srv.response.success) {
     ROS_INFO("Altimeter enabled.");

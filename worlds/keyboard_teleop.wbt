@@ -1,35 +1,34 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2022a utf8
 WorldInfo {
 }
 Viewpoint {
-  orientation 0.6833738270619804 0.31755469396198066 0.6573881873211409 1.2306409582451472
-  position 6.9941003633455 -5.528115256749356 7.059051478396728
+  orientation -0.30726263682167737 0.11409240523127144 0.9447606019949887 2.4520204012157247
+  position 7.080240838628136 -6.127864336042442 6.717421941146577
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
 RectangleArena {
-  rotation 1 0 0 1.5707963267948966
   floorSize 4 4
   wallThickness 0.1
   wallHeight 0.5
 }
 CardboardBox {
   translation 1.31407 0.444198 0.3
-  rotation 1 0 0 1.5707963267948966
+  rotation 0 0 1 1.5707963267948966
 }
 CardboardBox {
   translation 0.133486 1.17773 0.3
-  rotation 1 0 0 1.5707963267948966
+  rotation 0 0 1 1.5707963267948966
   name "cardboard box(1)"
 }
 WoodenBox {
   translation -0.797045 -1.02408 0.3
-  rotation 1 0 0 1.5707963267948966
+  rotation 0 0 1 1.5707963267948966
 }
 DEF PIONEER_3DX Pioneer3dx {
   translation 0 0.0975 0.1
-  rotation 1 0 0 1.5707963267948966
+  rotation 0 0 1 1.5707963267948966
   controller "ros"
 }

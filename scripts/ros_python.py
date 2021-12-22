@@ -34,9 +34,9 @@ def callback(data):
 
 robot = Robot()
 timeStep = int(robot.getBasicTimeStep())
-left = robot.getMotor('motor.left')
-right = robot.getMotor('motor.right')
-sensor = robot.getDistanceSensor('prox.horizontal.2')  # front central proximity sensor
+left = robot.getDevice('motor.left')
+right = robot.getDevice('motor.right')
+sensor = robot.getDevice('prox.horizontal.2')  # front central proximity sensor
 sensor.enable(timeStep)
 left.setPosition(float('inf'))  # turn on velocity control for both motors
 right.setPosition(float('inf'))
