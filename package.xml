@@ -12,6 +12,7 @@
   <license>Apache 2.0</license>
 
   <build_depend>moveit_ros_planning_interface</build_depend>
+  <build_depend>moveit_simple_controller_manager</build_depend>
   <buildtool_depend>catkin</buildtool_depend>
   <build_depend>rospy</build_depend>
   <build_depend>roscpp</build_depend>
@@ -26,6 +27,7 @@
   <run_depend>message_runtime</run_depend>
   <run_depend>tf</run_depend>
   <run_depend>moveit_ros_planning_interface</run_depend>
+  <run_depend>moveit_simple_controller_manager</run_depend>
   <run_depend>ros_control</run_depend>
   <run_depend>ros_controllers</run_depend>
   <run_depend>robot_state_publisher</run_depend>
