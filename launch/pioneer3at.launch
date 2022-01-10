@@ -28,5 +28,5 @@ rosrun gmapping slam_gmapping scan:=/pioneer3at/Sick_LMS_291/laser_scan/layer0 _
   <node pkg="robot_state_publisher" type="robot_state_publisher" name="example_state_publisher" respawn="true" respawn_delay="5" />
 
   <!-- Coordinate system fix -->
-  <node pkg="tf" type="static_transform_publisher" name="pioneer_lidar_tf" args="0 0 0 0.5 0.5 -0.5 0.5 '/Sick LMS 291' /pioneer3at/Sick_LMS_291 100"/>
+  <node pkg="tf" type="static_transform_publisher" name="pioneer_lidar_tf" args="0 0 0 0 0 3.14 '/Sick LMS 291' /pioneer3at/Sick_LMS_291 100"/>
 </launch>
