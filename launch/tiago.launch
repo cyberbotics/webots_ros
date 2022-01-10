@@ -18,6 +18,15 @@
     joint_controller:
       type: joint_state_controller/JointStateController
       publish_rate: 50
+      extra_joints:
+        - name: CASTER_WHEEL_BACK_LEFT_JOINT
+        - name: SMALL_WHEEL_JOINT
+        - name: CASTER_WHEEL_BACK_RIGHT_JOINT
+        - name: SMALL_WHEEL_JOINT_0
+        - name: CASTER_WHEEL_FRONT_LEFT_JOINT
+        - name: SMALL_WHEEL_JOINT_1
+        - name: CASTER_WHEEL_FRONT_RIGHT_JOINT
+        - name: SMALL_WHEEL_JOINT_2
     diff_drive_controller:
       type: diff_drive_controller/DiffDriveController
       left_wheel: wheel_left_joint
@@ -60,18 +69,18 @@
       moveit_controller_manager: moveit_simple_controller_manager/MoveItSimpleControllerManager
       moveit_manage_controllers: true
       controller_list:
-        - name: arm_controller
-          action_ns: follow_joint_trajectory
-          default: True
-          type: FollowJointTrajectory
-          joints:
-            - arm_1_joint
-            - arm_2_joint
-            - arm_3_joint
-            - arm_4_joint
-            - arm_5_joint
-            - arm_6_joint
-            - arm_7_joint
+      - name: arm_controller
+        action_ns: follow_joint_trajectory
+        type: FollowJointTrajectory
+        default: True
+        joints:
+          - arm_1_joint
+          - arm_2_joint
+          - arm_3_joint
+          - arm_4_joint
+          - arm_5_joint
+          - arm_6_joint
+          - arm_7_joint
       planning_scene_monitor:
         publish_planning_scene: true
         publish_geometry_updates: true
@@ -81,5 +90,5 @@
   <node name="move_group" pkg="moveit_ros_move_group" type="move_group" respawn="true" output="screen" respawn_delay="5" />
 
   <!-- Coordinate system fix -->
-  <node pkg="tf" type="static_transform_publisher" name="pioneer_lidar_tf" args="0 0 0 0.5 0.5 -0.5 0.5 'Hokuyo URG-04LX-UG01' '/tiago/Hokuyo_URG_04LX_UG01' 100"/>
+  <node pkg="tf" type="static_transform_publisher" name="pioneer_lidar_tf" args="0 0 0 0 0 3.14 'Hokuyo URG-04LX-UG01' '/tiago/Hokuyo_URG_04LX_UG01' 100"/>
 </launch>

@@ -3,5 +3,6 @@
   <arg name="world" default="" doc="Path to the world to load"/>
   <arg name="mode" default="realtime" doc="Startup mode"/>
   <arg name="no_gui" default="false" doc="Start Webots with minimal GUI"/>
-  <node name="webots" pkg="webots_ros" type="webots_launcher.py" args="--world=$(arg world) --mode=$(arg mode) --no-gui=$(arg no_gui)" required="true"/>
+  <arg name="stream" default="false" doc="Start Webots streaming server"/>
+  <node name="webots" pkg="webots_ros" type="webots_launcher.py" args="--world=$(arg world) --mode=$(arg mode) --no-gui=$(arg no_gui) --stream=$(arg stream)" required="true"/>
 </launch>

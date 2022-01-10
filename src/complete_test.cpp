@@ -134,6 +134,11 @@
 #include <webots_ros/robot_set_mode.h>
 #include <webots_ros/robot_wait_for_user_input_event.h>
 #include <webots_ros/save_image.h>
+#include <webots_ros/skin_get_bone_name.h>
+#include <webots_ros/skin_get_bone_orientation.h>
+#include <webots_ros/skin_get_bone_position.h>
+#include <webots_ros/skin_set_bone_orientation.h>
+#include <webots_ros/skin_set_bone_position.h>
 #include <webots_ros/speaker_play_sound.h>
 #include <webots_ros/speaker_speak.h>
 #include <webots_ros/supervisor_get_from_def.h>
@@ -156,6 +161,7 @@ static int connectorPresence = 0;
 static double accelerometerValues[3] = {0, 0, 0};
 static double compassValues[3] = {0, 0, 0};
 static double GPSValues[3] = {0, 0, 0};
+static double GPSSpeedVectorValues[3] = {0, 0, 0};
 static double GyroValues[3] = {0, 0, 0};
 static double inertialUnitValues[4] = {0, 0, 0, 0};
 static double touchSensorValues[3] = {0, 0, 0};
@@ -163,6 +169,10 @@ static bool callbackCalled = false;
 
 ros::ServiceClient time_step_client;
 webots_ros::set_int time_step_srv;
+
+static bool doubleIsEqual(double value, double expected, double delta){
+  return ((isnan(value) && isnan(expected)) || (isinf(value) && isinf(expected)) || (fabs((value) - (expected)) <= (delta)));
+}
 
 void modelNameCallback(const std_msgs::String::ConstPtr &name) {
   model_count++;
@@ -292,6 +302,17 @@ void GPSCallback(const geometry_msgs::PointStamped::ConstPtr &values) {
 
 void GPSSpeedCallback(const webots_ros::Float64Stamped::ConstPtr &value) {
   ROS_INFO("GPS speed is: %fkm/h (time: %d:%d).", value->data, value->header.stamp.sec, value->header.stamp.nsec);
+  callbackCalled = true;
+}
+
+void GPSSpeedVectorCallback(const geometry_msgs::PointStamped::ConstPtr &values) {
+  GPSSpeedVectorValues[0] = values->point.x;
+  GPSSpeedVectorValues[1] = values->point.y;
+  GPSSpeedVectorValues[2] = values->point.z;
+
+  ROS_INFO("GPS speed vector values are x=%f y=%f z=%f (time: %d:%d).",
+           GPSSpeedVectorValues[0], GPSSpeedVectorValues[1], GPSSpeedVectorValues[2],
+           values->header.stamp.sec, values->header.stamp.nsec);
   callbackCalled = true;
 }
 
@@ -1056,9 +1077,9 @@ int main(int argc, char **argv) {
 
   ros::ServiceClient sampling_period_altimeter_client;
   webots_ros::get_int sampling_period_altimeter_srv;
-  sampling_period_altimeter_client = 
+  sampling_period_altimeter_client =
     n.serviceClient<webots_ros::get_int>(model_name + "/altimeter/get_sampling_period");
-  
+
   altimeter_srv.request.value = 32;
   if (set_altimeter_client.call(altimeter_srv) && altimeter_srv.response.success) {
     ROS_INFO("Altimeter enabled.");
@@ -1785,6 +1806,7 @@ int main(int argc, char **argv) {
   webots_ros::set_int GPS_srv;
   ros::Subscriber sub_GPS_32;
   ros::Subscriber sub_GPS_speed;
+  ros::Subscriber sub_GPS_speed_vector;
   set_GPS_client = n.serviceClient<webots_ros::set_int>(model_name + "/gps/enable");
 
   ros::ServiceClient sampling_period_GPS_client;
@@ -1809,15 +1831,23 @@ int main(int argc, char **argv) {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
     }
+    sub_GPS_speed.shutdown();
+    time_step_client.call(time_step_srv);
+
+    sub_GPS_speed_vector = n.subscribe(model_name + "/gps/speed_vector", 1, GPSSpeedVectorCallback);
+    callbackCalled = false;
+    while (sub_GPS_speed_vector.getNumPublishers() == 0 || !callbackCalled) {
+      ros::spinOnce();
+      time_step_client.call(time_step_srv);
+    }
+    sub_GPS_speed_vector.shutdown();
+    time_step_client.call(time_step_srv);
   } else {
     if (!GPS_srv.response.success)
       ROS_ERROR("Sampling period is not valid.");
     ROS_ERROR("Failed to enable GPS.");
     return 1;
   }
-
-  sub_GPS_speed.shutdown();
-  time_step_client.call(time_step_srv);
 
   sampling_period_GPS_client.call(sampling_period_GPS_srv);
   ROS_INFO("GPS is enabled with a sampling period of %d.", sampling_period_GPS_srv.response.value);
@@ -2842,6 +2872,98 @@ int main(int argc, char **argv) {
   ROS_INFO("Receiver is disabled (sampling period is %d).", sampling_period_receiver_srv.response.value);
 
   sampling_period_receiver_client.shutdown();
+  time_step_client.call(time_step_srv);
+
+  /////////////////////////
+  // SKIN METHODS TEST   //
+  /////////////////////////
+
+  ros::ServiceClient skin_get_bone_count_client = n.serviceClient<webots_ros::get_int>(model_name + "/Sophia/get_bone_count");
+  webots_ros::get_int skin_get_bone_count_srv;
+  if (skin_get_bone_count_client.call(skin_get_bone_count_srv)) {
+    if (skin_get_bone_count_srv.response.value == 31)
+      ROS_INFO("Skin bones count is %d.", skin_get_bone_count_srv.response.value);
+    else
+      ROS_ERROR("Wrong number of skin bones count retrieved: %d instead of 30.", skin_get_bone_count_srv.response.value);
+  } else
+    ROS_ERROR("Failed to call service skin_get_bone_count.");
+
+  skin_get_bone_count_client.shutdown();
+
+  ros::ServiceClient skin_get_bone_name_client =
+    n.serviceClient<webots_ros::skin_get_bone_name>(model_name + "/Sophia/get_bone_name");
+  webots_ros::skin_get_bone_name skin_get_bone_name_srv;
+  skin_get_bone_name_srv.request.index = 0;
+  if (skin_get_bone_name_client.call(skin_get_bone_name_srv)) {
+    if (skin_get_bone_name_srv.response.name == "Hips")
+      ROS_INFO("Skin first bone name is \"%s\".", skin_get_bone_name_srv.response.name.c_str());
+    else
+      ROS_ERROR("Wrong name of first skin bones retrieved: \"%s\" instead of \"Hips\".",
+                skin_get_bone_name_srv.response.name.c_str());
+  } else
+    ROS_ERROR("Failed to call service skin_get_bone_name.");
+  skin_get_bone_name_client.shutdown();
+
+  ros::ServiceClient skin_get_bone_position_client =
+    n.serviceClient<webots_ros::skin_get_bone_position>(model_name + "/Sophia/get_bone_position");
+  webots_ros::skin_get_bone_position skin_get_bone_position_srv;
+  skin_get_bone_position_srv.request.index = 0;
+  skin_get_bone_position_srv.request.absolute = true;
+  if (skin_get_bone_position_client.call(skin_get_bone_position_srv)) {
+    geometry_msgs::Point p = skin_get_bone_position_srv.response.position;
+    if (doubleIsEqual(p.x, 0.0, 0.000001) && doubleIsEqual(p.y, 0.756804, 0.000001) && doubleIsEqual(p.z, -0.035942, 0.000001))
+      ROS_INFO("Skin first bone position correctly received.");
+    else
+      ROS_ERROR("Wrong skin first bone position: [%f, %f, %f] iinstead of [0.0, 0.756804, -0.035942].", p.x, p.y, p.z);
+  } else
+    ROS_ERROR("Failed to call service skin_get_bone_position.");
+  skin_get_bone_position_client.shutdown();
+
+  ros::ServiceClient skin_get_bone_orientation_client =
+    n.serviceClient<webots_ros::skin_get_bone_orientation>(model_name + "/Sophia/get_bone_orientation");
+  webots_ros::skin_get_bone_orientation skin_get_bone_orientation_srv;
+  skin_get_bone_orientation_srv.request.index = 0;
+  skin_get_bone_orientation_srv.request.absolute = false;
+  if (skin_get_bone_orientation_client.call(skin_get_bone_orientation_srv)) {
+    geometry_msgs::Quaternion q = skin_get_bone_orientation_srv.response.orientation;
+    if (doubleIsEqual(q.x, -0.28698, 0.00001) && doubleIsEqual(q.y, 0.0, 0.00001) && doubleIsEqual(q.z, 0.0, 0.00001) &&
+        doubleIsEqual(q.w, 0.95793, 0.00001))
+      ROS_INFO("Skin first bone orientation correctly received.");
+    else
+      ROS_ERROR("Wrong skin first bone orientation: [%f, %f, %f, %f] instead of [-0.28698, 0.0, 0.0, 0.95793].",
+                q.x, q.y, q.z, q.w);
+  } else
+    ROS_ERROR("Failed to call service skin_get_bone_orientation.");
+  skin_get_bone_orientation_client.shutdown();
+
+  ros::ServiceClient skin_set_bone_position_client =
+    n.serviceClient<webots_ros::skin_set_bone_position>(model_name + "/Sophia/set_bone_position");
+  webots_ros::skin_set_bone_position skin_set_bone_position_srv;
+  skin_set_bone_position_srv.request.index = 0;
+  skin_set_bone_position_srv.request.absolute = true;
+  skin_set_bone_position_srv.request.position.x = 0.5;
+  skin_set_bone_position_srv.request.position.y = 0.0;
+  skin_set_bone_position_srv.request.position.z = -0.5;
+  if (skin_set_bone_position_client.call(skin_set_bone_position_srv) && skin_set_bone_position_srv.response.success)
+    ROS_INFO("Skin first bone position correctly set.");
+  else
+    ROS_ERROR("Failed to call service skin_set_bone_position.");
+  skin_set_bone_position_client.shutdown();
+
+  ros::ServiceClient skin_set_bone_orientation_client =
+    n.serviceClient<webots_ros::skin_set_bone_orientation>(model_name + "/Sophia/set_bone_orientation");
+  webots_ros::skin_set_bone_orientation skin_set_bone_orientation_srv;
+  skin_set_bone_orientation_srv.request.index = 0;
+  skin_set_bone_orientation_srv.request.absolute = true;
+  skin_set_bone_orientation_srv.request.orientation.x = 0.0;
+  skin_set_bone_orientation_srv.request.orientation.y = 0.7071;
+  skin_set_bone_orientation_srv.request.orientation.z = 0.0;
+  skin_set_bone_orientation_srv.request.orientation.w = 0.7071;
+  if (skin_set_bone_orientation_client.call(skin_set_bone_orientation_srv) && skin_set_bone_orientation_srv.response.success)
+    ROS_INFO("Skin first bone orientation correctly set.");
+  else
+    ROS_ERROR("Failed to call service skin_set_bone_orientation.");
+  skin_set_bone_orientation_client.shutdown();
   time_step_client.call(time_step_srv);
 
   ///////////////////////////////

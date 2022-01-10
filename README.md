@@ -6,7 +6,6 @@ The webots_ros package contains examples for interfacing ROS nodes with the stan
 
 How to set-up the ROS interface in Webots:
   - https://www.cyberbotics.com/doc/guide/tutorial-9-using-ros
-
 ROS tutorial for Webots:
   - https://www.cyberbotics.com/doc/guide/using-ros
 
