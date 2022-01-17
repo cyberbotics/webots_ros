@@ -582,18 +582,6 @@ int main(int argc, char **argv) {
   get_time_client.shutdown();
   time_step_client.call(time_step_srv);
 
-  ros::ServiceClient get_type_client = n.serviceClient<webots_ros::get_int>(model_name + "/robot/get_type");
-  webots_ros::get_int get_type_srv;
-
-  if (get_type_client.call(get_type_srv)) {
-    int type = get_type_srv.response.value;
-    ROS_INFO("Type of %s is %d.", model_name.c_str(), type);
-  } else
-    ROS_ERROR("Failed to call service get_type.");
-
-  get_type_client.shutdown();
-  time_step_client.call(time_step_srv);
-
   ros::ServiceClient robot_set_custom_data_client =
     n.serviceClient<webots_ros::set_string>(model_name + "/robot/set_custom_data");
   webots_ros::set_string robot_set_custom_data_srv;
