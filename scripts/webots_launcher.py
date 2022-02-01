@@ -43,7 +43,6 @@ if options.noGui.lower() == 'true':
     command.append('--stdout')
     command.append('--stderr')
     command.append('--batch')
-    command.append('--no-sandbox')
     command.append('--minimize')
 
 subprocess.call(command)
