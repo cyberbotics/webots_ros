@@ -30,15 +30,6 @@
 
 #define TIME_STEP 32
 
-static int controllerCount;
-static std::vector<std::string> controllerList;
-
-// catch names of the controllers availables on ROS network
-void controllerNameCallback(const std_msgs::String::ConstPtr &name) {
-  controllerCount++;
-  controllerList.push_back(name->data);
-  ROS_INFO("Controller #%d: %s.", controllerCount, controllerList.back().c_str());
-}
 
 void quit(int sig) {
   ROS_INFO("User stopped the 'robot_information_parser' node.");
@@ -55,36 +46,14 @@ int main(int argc, char **argv) {
 
   signal(SIGINT, quit);
 
-  // subscribe to the topic model_name to get the list of availables controllers
-  ros::Subscriber nameSub = n.subscribe("model_name", 100, controllerNameCallback);
-  while (controllerCount == 0 || controllerCount < nameSub.getNumPublishers()) {
-    ros::spinOnce();
-    ros::spinOnce();
-    ros::spinOnce();
-  }
+  // Wait for the `ros` controller.
+  ros::service::waitForService("/robot/time_step");
   ros::spinOnce();
 
-  // if there is more than one controller available, it let the user choose
-  if (controllerCount == 1)
-    controllerName = controllerList[0];
-  else {
-    int wantedController = 0;
-    std::cout << "Choose the # of the controller you want to use:\n";
-    std::cin >> wantedController;
-    if (1 <= wantedController && wantedController <= controllerCount)
-      controllerName = controllerList[wantedController - 1];
-    else {
-      ROS_ERROR("Invalid number for controller choice.");
-      return 1;
-    }
-  }
-  // leave topic once it is not necessary anymore
-  nameSub.shutdown();
-
   // call get_type and get_model services to get more general information about the robot
-  ros::ServiceClient getTypeClient = n.serviceClient<webots_ros::get_int>(controllerName + "/robot/get_type");
+  ros::ServiceClient getTypeClient = n.serviceClient<webots_ros::get_int>("/robot/get_type");
   webots_ros::get_int getTypeSrv;
-  ros::ServiceClient getModelClient = n.serviceClient<webots_ros::get_string>(controllerName + "/robot/get_model");
+  ros::ServiceClient getModelClient = n.serviceClient<webots_ros::get_string>("/robot/get_model");
   webots_ros::get_string getModelSrv;
 
   getTypeClient.call(getTypeSrv);
@@ -105,7 +74,7 @@ int main(int argc, char **argv) {
   // the deviceListSrv object contains 2 members: request and response. Their fields are described in the corresponding .srv
   // file
   ros::ServiceClient deviceListClient =
-    n.serviceClient<webots_ros::robot_get_device_list>(controllerName + "/robot/get_device_list");
+    n.serviceClient<webots_ros::robot_get_device_list>("/robot/get_device_list");
   webots_ros::robot_get_device_list deviceListSrv;
 
   if (deviceListClient.call(deviceListSrv)) {

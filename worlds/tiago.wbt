@@ -504,7 +504,6 @@ TiagoSteel {
   translation 2.194 -4.717 0.095
   controller "ros"
   controllerArgs [
-    "--name=tiago"
     "--use-ros-control"
     "--auto-publish"
     "--robot-description"
