@@ -84,4 +84,5 @@ DEF EPUCK E-puck {
     E-puckGroundSensors {
     }
   ]
+  supervisor TRUE # TODO: remove
 }
