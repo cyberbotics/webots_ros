@@ -3869,7 +3869,7 @@ int main(int argc, char **argv) {
   ros::ServiceClient virtual_reality_headset_client;
   webots_ros::get_bool supervisor_virtual_reality_headset_is_used_srv;
   virtual_reality_headset_client =
-    n.serviceClient<webots_ros::get_bool>(model_name + "/supervisor/vitual_reality_headset_is_used");
+    n.serviceClient<webots_ros::get_bool>(model_name + "/supervisor/virtual_reality_headset_is_used");
   virtual_reality_headset_client.call(supervisor_virtual_reality_headset_is_used_srv);
   bool used = supervisor_virtual_reality_headset_is_used_srv.response.value;
   // to test this service we assume no virtual reality headset is connected
