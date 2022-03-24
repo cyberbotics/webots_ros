@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright 1996-2020 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,12 +14,45 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""This launcher simply start Webots."""
+"""
+This launcher simply starts Webots.
+Sets the environment variable WEBOTS_EXTRA_PROJECT_PATH if finds ROS packages
+being exported as '<webots_ros webots_extra_project_path="${prefix}"/>'
+"""
 
 import optparse
 import os
 import sys
 import subprocess
+
+
+def get_plugin_paths(package, attrib):
+    """
+    Given a package name and an attribute to search for, uses rospack to find packages
+    being exported.
+    For a package to be found by this method, the package.xml should have:
+
+    <export>
+        <package attrib="${prefix}"/>
+    </export>
+
+    Returns:
+        Path to the found packages joined by a ':'
+    """
+    command = ["rospack", "plugins", f"--attrib={attrib}", f"{package}"]
+    process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    stdout, _ = process.communicate()
+    stdout = stdout.decode("utf-8").replace("\n", "")
+    found_paths = stdout.split(" ")
+    return ":".join(found_paths[1::2])
+
+webots_extra_project_path = get_plugin_paths("webots_ros", "webots_extra_project_path")
+
+if webots_extra_project_path:
+    if 'WEBOTS_EXTRA_PROJECT_PATH' not in os.environ:
+        os.environ['WEBOTS_EXTRA_PROJECT_PATH'] = webots_extra_project_path
+    else:
+        os.environ['WEBOTS_EXTRA_PROJECT_PATH'] += f":{webots_extra_project_path}"
 
 optParser = optparse.OptionParser()
 optParser.add_option("--world", dest="world", default="", help="Path to the world to load.")
