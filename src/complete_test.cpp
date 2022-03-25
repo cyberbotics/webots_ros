@@ -103,14 +103,11 @@
 #include <webots_ros/node_enable_contact_points_tracking.h>
 #include <webots_ros/node_enable_pose_tracking.h>
 #include <webots_ros/node_get_center_of_mass.h>
-#include <webots_ros/node_get_contact_point.h>
-#include <webots_ros/node_get_contact_point_node.h>
 #include <webots_ros/node_get_contact_points.h>
 #include <webots_ros/node_get_field.h>
 #include <webots_ros/node_get_field_by_index.h>
 #include <webots_ros/node_get_id.h>
 #include <webots_ros/node_get_name.h>
-#include <webots_ros/node_get_number_of_contact_points.h>
 #include <webots_ros/node_get_number_of_fields.h>
 #include <webots_ros/node_get_orientation.h>
 #include <webots_ros/node_get_parent_node.h>
@@ -3872,7 +3869,7 @@ int main(int argc, char **argv) {
   ros::ServiceClient virtual_reality_headset_client;
   webots_ros::get_bool supervisor_virtual_reality_headset_is_used_srv;
   virtual_reality_headset_client =
-    n.serviceClient<webots_ros::get_bool>(model_name + "/supervisor/vitual_reality_headset_is_used");
+    n.serviceClient<webots_ros::get_bool>(model_name + "/supervisor/virtual_reality_headset_is_used");
   virtual_reality_headset_client.call(supervisor_virtual_reality_headset_is_used_srv);
   bool used = supervisor_virtual_reality_headset_is_used_srv.response.value;
   // to test this service we assume no virtual reality headset is connected
