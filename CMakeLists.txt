@@ -100,13 +100,10 @@ find_package(catkin REQUIRED COMPONENTS roscpp rospy std_msgs sensor_msgs messag
     node_enable_contact_points_tracking.srv
     node_enable_pose_tracking.srv
     node_get_center_of_mass.srv
-    node_get_contact_point.srv
     node_get_contact_points.srv
-    node_get_contact_point_node.srv
     node_get_field.srv
     node_get_field_by_index.srv
     node_get_id.srv
-    node_get_number_of_contact_points.srv
     node_get_number_of_fields.srv
     node_get_name.srv
     node_get_orientation.srv

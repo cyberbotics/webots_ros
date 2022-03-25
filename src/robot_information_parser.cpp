@@ -12,13 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <signal.h>
 #include "ros/ros.h"
+#include <signal.h>
 
 // include files to use services like 'robot_get_time'.
-// srv files needed to use webots service can be found in the /srv folder where you found this example.
-// for more info on how to create and use services with ROS refer to their website: http://wiki.ros.org/
-// here 'webots_ros' is the name of the package used for this node. Replace it by your own package.
+// srv files needed to use webots service can be found in the /srv folder where
+// you found this example. for more info on how to create and use services with
+// ROS refer to their website: http://wiki.ros.org/ here 'webots_ros' is the
+// name of the package used for this node. Replace it by your own package.
 #include <webots_ros/robot_get_device_list.h>
 
 #include <webots_ros/get_int.h>
@@ -30,7 +31,6 @@
 
 #define TIME_STEP 32
 
-
 void quit(int sig) {
   ROS_INFO("User stopped the 'robot_information_parser' node.");
   ros::shutdown();
@@ -41,7 +41,8 @@ int main(int argc, char **argv) {
   std::string controllerName;
   std::vector<std::string> deviceList;
   // create a node named 'robot_information_parser' on ROS network
-  ros::init(argc, argv, "robot_information_parser", ros::init_options::AnonymousName);
+  ros::init(argc, argv, "robot_information_parser",
+            ros::init_options::AnonymousName);
   ros::NodeHandle n;
 
   signal(SIGINT, quit);
@@ -50,31 +51,27 @@ int main(int argc, char **argv) {
   ros::service::waitForService("/robot/time_step");
   ros::spinOnce();
 
-  // call get_type and get_model services to get more general information about the robot
-  ros::ServiceClient getTypeClient = n.serviceClient<webots_ros::get_int>("/robot/get_type");
-  webots_ros::get_int getTypeSrv;
-  ros::ServiceClient getModelClient = n.serviceClient<webots_ros::get_string>("/robot/get_model");
+  // call get_model services to get more general information about the robot
+  ros::ServiceClient getModelClient = n.serviceClient<webots_ros::get_string>(
+      controllerName + "/robot/get_model");
   webots_ros::get_string getModelSrv;
-
-  getTypeClient.call(getTypeSrv);
-  if (getTypeSrv.response.value == 40)
-    ROS_INFO("This controller is on a basic robot.");
-  else
-    ROS_INFO("This controller is on a supervisor robot.");
 
   if (getModelClient.call(getModelSrv)) {
     if (!getModelSrv.response.value.empty())
-      ROS_INFO("The model of this robot is %s.", getModelSrv.response.value.c_str());
+      ROS_INFO("The model of this robot is %s.",
+               getModelSrv.response.value.c_str());
     else
       ROS_ERROR("The robot doesn't seems to have a model.");
   } else
     ROS_ERROR("Could not get the model of this robot.");
 
-  // call deviceList service to get the list of the name of the devices available on the controller and print it
-  // the deviceListSrv object contains 2 members: request and response. Their fields are described in the corresponding .srv
-  // file
+  // call deviceList service to get the list of the name of the devices
+  // available on the controller and print it the deviceListSrv object contains
+  // 2 members: request and response. Their fields are described in the
+  // corresponding .srv file
   ros::ServiceClient deviceListClient =
-    n.serviceClient<webots_ros::robot_get_device_list>("/robot/get_device_list");
+      n.serviceClient<webots_ros::robot_get_device_list>(
+          "/robot/get_device_list");
   webots_ros::robot_get_device_list deviceListSrv;
 
   if (deviceListClient.call(deviceListSrv)) {
