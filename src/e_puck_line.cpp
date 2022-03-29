@@ -13,11 +13,9 @@
 // limitations under the License.
 
 // line_following example
-// this example reproduce the e-puck_line_demo example
-// but uses the ROS controller on the e-puck instead.
-// The node connect to an e-puck and then uses values from its sensors
-// to follow and line and get around obstacles.
-// the duration of the example is given as argument to the node.
+// This example reproduce the e-puck_line_demo example but uses the ROS controller on the e-puck instead.
+// The node connect to an e-puck and then uses values from its sensors to follow and line and get around obstacles.
+// The duration of the example is given as argument to the node.
 
 #include "ros/ros.h"
 

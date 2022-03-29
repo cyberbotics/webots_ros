@@ -13,7 +13,7 @@
 // limitations under the License.
 
 /*
- * Description:   controller for the PR2 to grab a can in a fridge and serve it
+ * Description: controller for the PR2 to grab a can in a fridge and serve it
  */
 
 #include <signal.h>
