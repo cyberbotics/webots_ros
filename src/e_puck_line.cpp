@@ -486,16 +486,12 @@ int main(int argc, char **argv) {
   // set the motors to veloctiy control
   webots_ros::set_float wheelSrv;
   wheelSrv.request.value = INFINITY;
-  ros::ServiceClient leftWheelPositionClient =
-    n.serviceClient<webots_ros::set_float>("/left_wheel_motor/set_position");
+  ros::ServiceClient leftWheelPositionClient = n.serviceClient<webots_ros::set_float>("/left_wheel_motor/set_position");
   leftWheelPositionClient.call(wheelSrv);
-  ros::ServiceClient rightWheelPositionClient =
-    n.serviceClient<webots_ros::set_float>("/right_wheel_motor/set_position");
+  ros::ServiceClient rightWheelPositionClient = n.serviceClient<webots_ros::set_float>("/right_wheel_motor/set_position");
   rightWheelPositionClient.call(wheelSrv);
-  ros::ServiceClient leftWheelVelocityClient =
-    n.serviceClient<webots_ros::set_float>("/left_wheel_motor/set_velocity");
-  ros::ServiceClient rightWheelVelocityClient =
-    n.serviceClient<webots_ros::set_float>("/right_wheel_motor/set_velocity");
+  ros::ServiceClient leftWheelVelocityClient = n.serviceClient<webots_ros::set_float>("/left_wheel_motor/set_velocity");
+  ros::ServiceClient rightWheelVelocityClient = n.serviceClient<webots_ros::set_float>("/right_wheel_motor/set_velocity");
 
   // turn the leds on
   std::vector<ros::ServiceClient> setLedClient;

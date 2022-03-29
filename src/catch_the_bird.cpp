@@ -70,8 +70,7 @@ int main(int argc, char **argv) {
 
   // call device_list service to get the list of the devices available on the controller and print it the device_list_srv object
   // contains 2 members request and response. Their fields are described in the corresponding .srv file
-  ros::ServiceClient deviceListClient =
-    n.serviceClient<webots_ros::robot_get_device_list>("/robot/get_device_list");
+  ros::ServiceClient deviceListClient = n.serviceClient<webots_ros::robot_get_device_list>("/robot/get_device_list");
   webots_ros::robot_get_device_list deviceListSrv;
 
   if (deviceListClient.call(deviceListSrv))

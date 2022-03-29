@@ -43,7 +43,6 @@ webots_ros::set_int timeStepSrv;
 ros::ServiceClient enableKeyboardClient;
 webots_ros::set_int enableKeyboardSrv;
 
-
 void quit(int sig) {
   enableKeyboardSrv.request.value = 0;
   enableKeyboardClient.call(enableKeyboardSrv);
