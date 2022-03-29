@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,11 +13,9 @@
 // limitations under the License.
 
 // line_following example
-// this example reproduce the e-puck_line_demo example
-// but uses the ROS controller on the e-puck instead.
-// The node connect to an e-puck and then uses values from its sensors
-// to follow and line and get around obstacles.
-// the duration of the example is given as argument to the node.
+// This example reproduce the e-puck_line_demo example but uses the ROS controller on the e-puck instead.
+// The node connect to an e-puck and then uses values from its sensors to follow and line and get around obstacles.
+// The duration of the example is given as argument to the node.
 
 #include "ros/ros.h"
 
@@ -228,10 +226,9 @@ void ObstacleAvoidanceModule(void) {
 ////////////////////////////////////////////
 // LLM - Line Leaving Module
 //
-// Since it has no output, this routine is not completely finished. It has
-// been designed to monitor the moment while the robot is leaving the
-// track and signal to other modules some related events. It becomes active
-// whenever the "side" variable displays a rising edge (changing from -1 to 0 or 1).
+// Since it has no output, this routine is not completely finished. It has been designed to monitor the moment while the robot
+// is leaving the track and signal to other modules some related events. It becomes active whenever the "side" variable displays
+// a rising edge (changing from -1 to 0 or 1).
 
 int llm_active = FALSE, llm_inibit_ofm_speed, llm_past_side = NO_SIDE;
 int lem_reset;
@@ -275,10 +272,9 @@ void LineLeavingModule(int side) {
 ////////////////////////////////////////////
 // OFM - Obstacle Following Module
 //
-// This function just gives the robot a tendency to steer toward the side
-// indicated by its argument "side". When used in competition with OAM it
-// gives rise to an object following behavior. The output speeds are
-// stored in ofm_speed[LEFT] and ofm_speed[RIGHT].
+// This function just gives the robot a tendency to steer toward the side indicated by its argument "side". When used in
+// competition with OAM it gives rise to an object following behavior. The output speeds are stored in ofm_speed[LEFT] and
+// ofm_speed[RIGHT].
 
 int ofm_active;
 int ofm_speed[2];
@@ -305,16 +301,12 @@ void ObstacleFollowingModule(int side) {
 ////////////////////////////////////////////
 // LEM - Line Entering Module
 //
-// This is the most complex module (and you might find easier to re-program it
-// by yourself instead of trying to understand it ;-). Its purpose is to handle
-// the moment when the robot must re-enter the track (after having by-passed
-// an obstacle, e.g.). It is organized like a state machine, which state is
-// stored in "lem_state" (see LEM_STATE_STANDBY and following #defines).
-// The inputs are (i) the two lateral ground sensors, (ii) the argument "side"
-// which determines the direction that the robot has to follow when detecting
-// a black line, and (iii) the variable "lem_reset" that resets the state to
-// standby. The output speeds are stored in lem_speed[LEFT] and
-// lem_speed[RIGHT].
+// This is the most complex module (and you might find easier to re-program it by yourself instead of trying to understand it
+// ;-). Its purpose is to handle the moment when the robot must re-enter the track (after having by-passed an obstacle, e.g.).
+// It is organized like a state machine, which state is stored in "lem_state" (see LEM_STATE_STANDBY and following #defines).
+// The inputs are (i) the two lateral ground sensors, (ii) the argument "side" which determines the direction that the robot has
+// to follow when detecting a black line, and (iii) the variable "lem_reset" that resets the state to standby. The output speeds
+// are stored in lem_speed[LEFT] and lem_speed[RIGHT].
 
 int lem_active;
 int lem_speed[2];
