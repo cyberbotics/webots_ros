@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "ros/ros.h"
 #include <signal.h>
+#include "ros/ros.h"
 
 // include files to use services like 'robot_get_time'.
 // srv files needed to use webots service can be found in the /srv folder where you found this example.
