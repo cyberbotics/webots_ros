@@ -50,13 +50,12 @@ int main(int argc, char **argv) {
   ros::spinOnce();
 
   // call get_model services to get more general information about the robot
-  ros::ServiceClient getModelClient = n.serviceClient<webots_ros::get_string>(controllerName + "/robot/get_model");
+  ros::ServiceClient getModelClient = n.serviceClient<webots_ros::get_string>("/robot/get_model");
   webots_ros::get_string getModelSrv;
 
   if (getModelClient.call(getModelSrv)) {
     if (!getModelSrv.response.value.empty())
-      ROS_INFO("The model of this robot is %s.",
-               getModelSrv.response.value.c_str());
+      ROS_INFO("The model of this robot is %s.", getModelSrv.response.value.c_str());
     else
       ROS_ERROR("The robot doesn't seems to have a model.");
   } else
@@ -66,7 +65,7 @@ int main(int argc, char **argv) {
   // the deviceListSrv object contains 2 members: request and response. Their fields are described in the corresponding .srv
   // file
   ros::ServiceClient deviceListClient =
-      n.serviceClient<webots_ros::robot_get_device_list>("/robot/get_device_list");
+    n.serviceClient<webots_ros::robot_get_device_list>("/robot/get_device_list");
   webots_ros::robot_get_device_list deviceListSrv;
 
   if (deviceListClient.call(deviceListSrv)) {
