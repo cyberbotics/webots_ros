@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -64,8 +64,7 @@ int main(int argc, char **argv) {
   // call deviceList service to get the list of the name of the devices available on the controller and print it
   // the deviceListSrv object contains 2 members: request and response. Their fields are described in the corresponding .srv
   // file
-  ros::ServiceClient deviceListClient =
-    n.serviceClient<webots_ros::robot_get_device_list>("/robot/get_device_list");
+  ros::ServiceClient deviceListClient = n.serviceClient<webots_ros::robot_get_device_list>("/robot/get_device_list");
   webots_ros::robot_get_device_list deviceListSrv;
 
   if (deviceListClient.call(deviceListSrv)) {

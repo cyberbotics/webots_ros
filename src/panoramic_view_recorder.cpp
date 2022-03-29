@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,9 +21,9 @@
 #include <webots_ros/get_uint64.h>
 #include <webots_ros/set_int.h>
 
+#include <webots_ros/field_get_name.h>
 #include <webots_ros/field_get_node.h>
 #include <webots_ros/field_get_rotation.h>
-#include <webots_ros/field_get_name.h>
 #include <webots_ros/field_get_vec3f.h>
 #include <webots_ros/field_set_rotation.h>
 #include <webots_ros/field_set_vec3f.h>
@@ -37,7 +37,6 @@
 
 ros::ServiceClient timeStepClient;
 webots_ros::set_int timeStepSrv;
-
 
 void quit(int sig) {
   timeStepSrv.request.value = 0;
@@ -73,8 +72,7 @@ int main(int argc, char **argv) {
   getWorldClient.call(getWorldSrv);
 
   // get children list
-  ros::ServiceClient getWorldChildrenClient =
-    n.serviceClient<webots_ros::node_get_field>("/supervisor/node/get_field");
+  ros::ServiceClient getWorldChildrenClient = n.serviceClient<webots_ros::node_get_field>("/supervisor/node/get_field");
   webots_ros::node_get_field getWorldChildrenSrv;
   getWorldChildrenSrv.request.node = getWorldSrv.response.value;
   getWorldChildrenSrv.request.fieldName = "children";
@@ -88,22 +86,19 @@ int main(int argc, char **argv) {
   getPovClient.call(getPovSrv);
 
   // get POV position and orientation
-  ros::ServiceClient getPovPositionFieldClient =
-    n.serviceClient<webots_ros::node_get_field>("/supervisor/node/get_field");
+  ros::ServiceClient getPovPositionFieldClient = n.serviceClient<webots_ros::node_get_field>("/supervisor/node/get_field");
   webots_ros::node_get_field getPovPositionFieldSrv;
   getPovPositionFieldSrv.request.node = getPovSrv.response.node;
   getPovPositionFieldSrv.request.fieldName = "position";
   getPovPositionFieldClient.call(getPovPositionFieldSrv);
 
-  ros::ServiceClient getPositionClient =
-    n.serviceClient<webots_ros::field_get_vec3f>("/supervisor/field/get_vec3f");
+  ros::ServiceClient getPositionClient = n.serviceClient<webots_ros::field_get_vec3f>("/supervisor/field/get_vec3f");
   webots_ros::field_get_vec3f getPovPositionSrv;
   getPovPositionSrv.request.field = getPovPositionFieldSrv.response.field;
   getPositionClient.call(getPovPositionSrv);
   geometry_msgs::Vector3 initialPovPosition = getPovPositionSrv.response.value;
 
-  ros::ServiceClient getPovOrientationFieldClient =
-    n.serviceClient<webots_ros::node_get_field>("/supervisor/node/get_field");
+  ros::ServiceClient getPovOrientationFieldClient = n.serviceClient<webots_ros::node_get_field>("/supervisor/node/get_field");
   webots_ros::node_get_field getPovOrientationFieldSrv;
   getPovOrientationFieldSrv.request.node = getPovSrv.response.node;
   getPovOrientationFieldSrv.request.fieldName = "orientation";
@@ -122,8 +117,7 @@ int main(int argc, char **argv) {
   timeStepClient.call(timeStepSrv);
 
   // initialize services to update POV position and orientation
-  ros::ServiceClient setPositionClient =
-    n.serviceClient<webots_ros::field_set_vec3f>("/supervisor/field/set_vec3f");
+  ros::ServiceClient setPositionClient = n.serviceClient<webots_ros::field_set_vec3f>("/supervisor/field/set_vec3f");
   webots_ros::field_set_vec3f setPovPositionSrv;
   setPovPositionSrv.request.field = getPovPositionFieldSrv.response.field;
   setPovPositionSrv.request.value = initialPovPosition;

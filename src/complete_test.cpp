@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -167,7 +167,7 @@ static bool callbackCalled = false;
 ros::ServiceClient time_step_client;
 webots_ros::set_int time_step_srv;
 
-static bool doubleIsEqual(double value, double expected, double delta){
+static bool doubleIsEqual(double value, double expected, double delta) {
   return ((isnan(value) && isnan(expected)) || (isinf(value) && isinf(expected)) || (fabs((value) - (expected)) <= (delta)));
 }
 
@@ -307,9 +307,8 @@ void GPSSpeedVectorCallback(const geometry_msgs::PointStamped::ConstPtr &values)
   GPSSpeedVectorValues[1] = values->point.y;
   GPSSpeedVectorValues[2] = values->point.z;
 
-  ROS_INFO("GPS speed vector values are x=%f y=%f z=%f (time: %d:%d).",
-           GPSSpeedVectorValues[0], GPSSpeedVectorValues[1], GPSSpeedVectorValues[2],
-           values->header.stamp.sec, values->header.stamp.nsec);
+  ROS_INFO("GPS speed vector values are x=%f y=%f z=%f (time: %d:%d).", GPSSpeedVectorValues[0], GPSSpeedVectorValues[1],
+           GPSSpeedVectorValues[2], values->header.stamp.sec, values->header.stamp.nsec);
   callbackCalled = true;
 }
 
@@ -1062,8 +1061,7 @@ int main(int argc, char **argv) {
 
   ros::ServiceClient sampling_period_altimeter_client;
   webots_ros::get_int sampling_period_altimeter_srv;
-  sampling_period_altimeter_client =
-    n.serviceClient<webots_ros::get_int>(model_name + "/altimeter/get_sampling_period");
+  sampling_period_altimeter_client = n.serviceClient<webots_ros::get_int>(model_name + "/altimeter/get_sampling_period");
 
   altimeter_srv.request.value = 32;
   if (set_altimeter_client.call(altimeter_srv) && altimeter_srv.response.success) {
@@ -1100,7 +1098,6 @@ int main(int argc, char **argv) {
   set_altimeter_client.shutdown();
   sampling_period_altimeter_client.shutdown();
   time_step_client.call(time_step_srv);
-
 
   /////////////////////////////////
   // BATTERY SENSOR METHODS TEST //
@@ -1971,7 +1968,8 @@ int main(int argc, char **argv) {
   ros::ServiceClient enable_joystick_client = n.serviceClient<webots_ros::set_int>(model_name + "/joystick/enable");
   webots_ros::set_int enable_joystick_srv;
   ros::Subscriber sub_joystick;
-  ros::ServiceClient joystick_is_connected_client = n.serviceClient<webots_ros::get_bool>(model_name + "/joystick/is_connected");
+  ros::ServiceClient joystick_is_connected_client =
+    n.serviceClient<webots_ros::get_bool>(model_name + "/joystick/is_connected");
   webots_ros::get_bool joystick_is_connected_srv;
 
   enable_joystick_srv.request.value = 32;
@@ -2915,8 +2913,8 @@ int main(int argc, char **argv) {
         doubleIsEqual(q.w, 0.95793, 0.00001))
       ROS_INFO("Skin first bone orientation correctly received.");
     else
-      ROS_ERROR("Wrong skin first bone orientation: [%f, %f, %f, %f] instead of [-0.28698, 0.0, 0.0, 0.95793].",
-                q.x, q.y, q.z, q.w);
+      ROS_ERROR("Wrong skin first bone orientation: [%f, %f, %f, %f] instead of [-0.28698, 0.0, 0.0, 0.95793].", q.x, q.y, q.z,
+                q.w);
   } else
     ROS_ERROR("Failed to call service skin_get_bone_orientation.");
   skin_get_bone_orientation_client.shutdown();
