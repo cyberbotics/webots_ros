@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,9 +21,9 @@
 #include <webots_ros/get_uint64.h>
 #include <webots_ros/set_int.h>
 
+#include <webots_ros/field_get_name.h>
 #include <webots_ros/field_get_node.h>
 #include <webots_ros/field_get_rotation.h>
-#include <webots_ros/field_get_name.h>
 #include <webots_ros/field_get_vec3f.h>
 #include <webots_ros/field_set_rotation.h>
 #include <webots_ros/field_set_vec3f.h>

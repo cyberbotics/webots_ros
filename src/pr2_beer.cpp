@@ -1,4 +1,4 @@
-// Copyright 1996-2020 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,7 +13,7 @@
 // limitations under the License.
 
 /*
- * Description:   controller for the PR2 to grab a can in a fridge and serve it
+ * Description: controller for the PR2 to grab a can in a fridge and serve it
  */
 
 #include <signal.h>
