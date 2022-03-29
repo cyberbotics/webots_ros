@@ -30,7 +30,6 @@
 
 #define TIME_STEP 32
 
-
 void quit(int sig) {
   ROS_INFO("User stopped the 'robot_information_parser' node.");
   ros::shutdown();
@@ -50,17 +49,9 @@ int main(int argc, char **argv) {
   ros::service::waitForService("/robot/time_step");
   ros::spinOnce();
 
-  // call get_type and get_model services to get more general information about the robot
-  ros::ServiceClient getTypeClient = n.serviceClient<webots_ros::get_int>("/robot/get_type");
-  webots_ros::get_int getTypeSrv;
+  // call get_model services to get more general information about the robot
   ros::ServiceClient getModelClient = n.serviceClient<webots_ros::get_string>("/robot/get_model");
   webots_ros::get_string getModelSrv;
-
-  getTypeClient.call(getTypeSrv);
-  if (getTypeSrv.response.value == 40)
-    ROS_INFO("This controller is on a basic robot.");
-  else
-    ROS_INFO("This controller is on a supervisor robot.");
 
   if (getModelClient.call(getModelSrv)) {
     if (!getModelSrv.response.value.empty())
