@@ -1156,16 +1156,17 @@ int main(int argc, char **argv) {
   ros::ServiceClient set_compass_client;
   webots_ros::set_int compass_srv;
   ros::Subscriber sub_compass_32;
-  set_compass_client = n.serviceClient<webots_ros::set_int>(model_name + "/compass/enable");
+  set_compass_client = n.serviceClient<webots_ros::set_int>(model_name + "/unsanitized_compass_name/enable");
 
   ros::ServiceClient sampling_period_compass_client;
   webots_ros::get_int sampling_period_compass_srv;
-  sampling_period_compass_client = n.serviceClient<webots_ros::get_int>(model_name + "/compass/get_sampling_period");
+  sampling_period_compass_client =
+    n.serviceClient<webots_ros::get_int>(model_name + "/unsanitized_compass_name/get_sampling_period");
 
   compass_srv.request.value = 32;
   if (set_compass_client.call(compass_srv) && compass_srv.response.success == 1) {
     ROS_INFO("Compass enabled.");
-    sub_compass_32 = n.subscribe(model_name + "/compass/values", 1, compassCallback);
+    sub_compass_32 = n.subscribe(model_name + "/unsanitized_compass_name/values", 1, compassCallback);
     callbackCalled = false;
     while (sub_compass_32.getNumPublishers() == 0 || !callbackCalled) {
       ros::spinOnce();
@@ -1180,7 +1181,8 @@ int main(int argc, char **argv) {
 
   ros::ServiceClient lookup_table_compass_client;
   webots_ros::get_float_array lookup_table_compass_srv;
-  lookup_table_compass_client = n.serviceClient<webots_ros::get_float_array>(model_name + "/compass/get_lookup_table");
+  lookup_table_compass_client =
+    n.serviceClient<webots_ros::get_float_array>(model_name + "/unsanitized_compass_name/get_lookup_table");
   if (lookup_table_compass_client.call(lookup_table_compass_srv))
     ROS_INFO("Compass lookup table size = %lu.", lookup_table_compass_srv.response.value.size());
   else
