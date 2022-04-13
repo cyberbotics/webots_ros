@@ -213,6 +213,7 @@ Robot {
       rotation 0 0 1 1.5708
     }
     DEF TEST Compass {
+      name "unsanitized compass name"
     }
     Connector {
     }

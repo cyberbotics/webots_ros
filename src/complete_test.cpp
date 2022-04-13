@@ -3615,7 +3615,7 @@ int main(int argc, char **argv) {
   webots_ros::supervisor_get_from_string supervisor_get_from_device_srv;
   supervisor_get_from_device_client =
     n.serviceClient<webots_ros::supervisor_get_from_string>(model_name + "/supervisor/get_from_device");
-  supervisor_get_from_device_srv.request.value = "compass";
+  supervisor_get_from_device_srv.request.value = "unsanitized compass name";
   supervisor_get_from_device_client.call(supervisor_get_from_device_srv);
   uint64_t compass_node_from_device = supervisor_get_from_device_srv.response.node;
   if (compass_node_from_device == from_def_node)
