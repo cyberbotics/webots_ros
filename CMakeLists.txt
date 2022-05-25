@@ -149,6 +149,7 @@ find_package(catkin REQUIRED COMPONENTS roscpp rospy std_msgs sensor_msgs messag
     supervisor_set_label.srv
     supervisor_virtual_reality_headset_get_orientation.srv
     supervisor_virtual_reality_headset_get_position.srv
+    supervisor_declare_extern_proto.srv
   )
 
 ## Generate added messages and services with any dependencies listed here
