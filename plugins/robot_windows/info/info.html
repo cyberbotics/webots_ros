@@ -1,17 +1,7 @@
 <html>
 
 <head>
-  <script>
-    window.onload = () => {
-      webots.window('info').receive = function (message, robot) {
-        if (message.startsWith('test')) {
-          document.querySelector("#text-display").innerHTML = message;
-          this.send("Answer: " + message, robot);
-        } else
-          console.log("Received unknown message for robot '" + robot + "': '" + message + "'");
-      }
-    }
-  </script>
+  <script type="module" src="info.js"></script>
 </head>
 
 <body>
