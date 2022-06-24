@@ -20,5 +20,5 @@ Floor {
 }
 Nao {
   translation 0 0 0.33
-  controller "void"
+  controller "<generic>"
 }

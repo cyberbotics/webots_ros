@@ -1,5 +1,7 @@
 <?xml version="1.0"?>
 <launch>
+  <env name="ROSCONSOLE_CONFIG_FILE" value="$(find webots_ros)/config/rosconsole.config"/>
+  
   <!-- start Webots -->
   <arg name="no_gui" default="false," doc="Start Webots with minimal GUI"/>
   <include file="$(find webots_ros)/launch/webots.launch">
@@ -10,5 +12,5 @@
 
   <arg name="duration" default="20" doc="Duration in seconds"/>
   <arg name="auto_close" default="false" doc="Startup mode"/>
-  <node name="epuck_line" pkg="webots_ros" type="e_puck_line" args="$(arg duration)" required="$(arg auto_close)"/>
+  <node name="epuck_line" pkg="webots_ros" type="e_puck_line" args="$(arg duration)" required="$(arg auto_close)" output="screen"/>
 </launch>
