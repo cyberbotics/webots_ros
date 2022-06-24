@@ -79,7 +79,6 @@ int main(int argc, char **argv) {
     ROS_ERROR("Failed to call service device_list.");
   motorName = deviceList[0];
   rangeFinderName = deviceList[1];
-  std::replace(rangeFinderName.begin(), rangeFinderName.end(), '-', '_');
 
   ros::ServiceClient rangeFinderGetInfoClient =
     n.serviceClient<webots_ros::range_finder_get_info>("/" + std::string(rangeFinderName) + "/get_info");
