@@ -612,7 +612,7 @@ int main(int argc, char **argv) {
 
     if (oam_active) {
       ROS_WARN("The robot has bumped into an obstacle. Please complete the code in the \"LineLeavingModule()\" function of "
-               "\"e_puck_line.cpp\" or simply remove the obstacle to get a correct behavior.");
+               "\"%s\" or simply remove the obstacle to get a correct behavior.", __FILE__);
       wheelSrv.request.value = 0;
       leftWheelVelocityClient.call(wheelSrv);
       wheelSrv.request.value = 0;
