@@ -609,6 +609,17 @@ int main(int argc, char **argv) {
     leftWheelVelocityClient.call(wheelSrv);
     wheelSrv.request.value = (M_PI / 1000.0) * speed[RIGHT];
     rightWheelVelocityClient.call(wheelSrv);
+
+    if (oam_active) {
+      ROS_WARN("The robot has bumped into an obstacle. Please complete the code in the \"LineLeavingModule()\" function of "
+               "\"%s\" or simply remove the obstacle to get a correct behavior.",
+               __FILE__);
+      wheelSrv.request.value = 0;
+      leftWheelVelocityClient.call(wheelSrv);
+      wheelSrv.request.value = 0;
+      rightWheelVelocityClient.call(wheelSrv);
+      break;
+    }
   }
 
   // turn off leds
