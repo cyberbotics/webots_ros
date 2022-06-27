@@ -46,15 +46,8 @@ DEF ROOF Solid {
   rotation 1 0 0 3.14
   children [
     Shape {
-      appearance PBRAppearance {
-        baseColor 0.8 0.8 0.8
-        baseColorMap ImageTexture {
-          url [
-            "textures/roughcast.jpg"
-          ]
-        }
-        roughness 0.5
-        metalness 0
+      appearance Roughcast {
+        colorOverride 0.8 0.8 0.8
         textureTransform TextureTransform {
           scale 8 8
         }
@@ -504,7 +497,6 @@ TiagoSteel {
   translation 2.194 -4.717 0.095
   controller "ros"
   controllerArgs [
-    "--name=tiago"
     "--use-ros-control"
     "--auto-publish"
     "--robot-description"

@@ -100,12 +100,6 @@ void gsCallback(const sensor_msgs::Range::ConstPtr &value) {
   countGnd++;
 }
 
-void modelNameCallback(const std_msgs::String::ConstPtr &name) {
-  count++;
-  strcpy(modelList[count], name->data.c_str());
-  ROS_INFO("Model #%d: %s.", count, name->data.c_str());
-}
-
 void quit(int sig) {
   setTimeStepSrv.request.value = 0;
   setTimeStepClient.call(setTimeStepSrv);
@@ -430,35 +424,12 @@ int main(int argc, char **argv) {
 
   signal(SIGINT, quit);
 
-  // declaration of variable names used to define services and topics name dynamically
-  std::string modelName;
-
-  // get the name of the robot
-  ros::Subscriber nameSub = n.subscribe("model_name", 100, modelNameCallback);
-  while (count == 0 || count < nameSub.getNumPublishers()) {
-    ros::spinOnce();
-    ros::spinOnce();
-    ros::spinOnce();
-  }
+  // Wait for the `ros` controller.
+  ros::service::waitForService("/robot/time_step");
   ros::spinOnce();
-  if (count == 1)
-    modelName = modelList[1];
-  else {
-    int wantedModel = 0;
-    std::cout << "Choose the # of the model you want to use:\n";
-    std::cin >> wantedModel;
-    if (1 <= wantedModel && wantedModel <= count)
-      modelName = modelList[wantedModel];
-    else {
-      ROS_ERROR("Invalid choice.");
-      return 1;
-    }
-  }
-  nameSub.shutdown();
-  count = 0;
 
   // send robot time step to webots
-  setTimeStepClient = n.serviceClient<webots_ros::set_int>(modelName + "/robot/time_step");
+  setTimeStepClient = n.serviceClient<webots_ros::set_int>("/robot/time_step");
   setTimeStepSrv.request.value = step;
 
   std::vector<ros::ServiceClient> enableDistSensorClient;
@@ -474,13 +445,13 @@ int main(int argc, char **argv) {
   ros::Subscriber SubDistIr[NB_DIST_SENS];
   for (i = 0; i < NB_DIST_SENS; i++) {
     sprintf(deviceName, "ps%d", i);
-    enableDistSensorClient.push_back(n.serviceClient<webots_ros::set_int>(modelName + '/' + deviceName + "/enable"));
+    enableDistSensorClient.push_back(n.serviceClient<webots_ros::set_int>("/" + std::string(deviceName) + "/enable"));
     enableDistSensorSrv.request.value = step;
     if (enableDistSensorClient[i].call(enableDistSensorSrv) && enableDistSensorSrv.response.success) {
       ROS_INFO("Device %s enabled.", deviceName);
       std::ostringstream s;
       s << step;
-      SubDistIr[i] = n.subscribe(modelName + '/' + deviceName + "/value", 1, psCallback);
+      SubDistIr[i] = n.subscribe("/" + std::string(deviceName) + "/value", 1, psCallback);
       while (SubDistIr[i].getNumPublishers() == 0) {
       }
     } else {
@@ -495,13 +466,13 @@ int main(int argc, char **argv) {
   ros::Subscriber SubGndIr[NB_GROUND_SENS];
   for (i = 0; i < NB_GROUND_SENS; i++) {
     sprintf(deviceName, "gs%d", i);
-    enableDistSensorClient.push_back(n.serviceClient<webots_ros::set_int>(modelName + '/' + deviceName + "/enable"));
+    enableDistSensorClient.push_back(n.serviceClient<webots_ros::set_int>("/" + std::string(deviceName) + "/enable"));
     enableDistSensorSrv.request.value = step;
     if (enableDistSensorClient[i + NB_DIST_SENS].call(enableDistSensorSrv) && enableDistSensorSrv.response.success) {
       ROS_INFO("Device %s enabled.", deviceName);
       std::ostringstream s;
       s << step;
-      SubGndIr[i] = n.subscribe(modelName + '/' + deviceName + "/value", 1, gsCallback);
+      SubGndIr[i] = n.subscribe("/" + std::string(deviceName) + "/value", 1, gsCallback);
       while (SubGndIr[i].getNumPublishers() == 0) {
       }
     } else {
@@ -515,22 +486,18 @@ int main(int argc, char **argv) {
   // set the motors to veloctiy control
   webots_ros::set_float wheelSrv;
   wheelSrv.request.value = INFINITY;
-  ros::ServiceClient leftWheelPositionClient =
-    n.serviceClient<webots_ros::set_float>(modelName + "/left_wheel_motor/set_position");
+  ros::ServiceClient leftWheelPositionClient = n.serviceClient<webots_ros::set_float>("/left_wheel_motor/set_position");
   leftWheelPositionClient.call(wheelSrv);
-  ros::ServiceClient rightWheelPositionClient =
-    n.serviceClient<webots_ros::set_float>(modelName + "/right_wheel_motor/set_position");
+  ros::ServiceClient rightWheelPositionClient = n.serviceClient<webots_ros::set_float>("/right_wheel_motor/set_position");
   rightWheelPositionClient.call(wheelSrv);
-  ros::ServiceClient leftWheelVelocityClient =
-    n.serviceClient<webots_ros::set_float>(modelName + "/left_wheel_motor/set_velocity");
-  ros::ServiceClient rightWheelVelocityClient =
-    n.serviceClient<webots_ros::set_float>(modelName + "/right_wheel_motor/set_velocity");
+  ros::ServiceClient leftWheelVelocityClient = n.serviceClient<webots_ros::set_float>("/left_wheel_motor/set_velocity");
+  ros::ServiceClient rightWheelVelocityClient = n.serviceClient<webots_ros::set_float>("/right_wheel_motor/set_velocity");
 
   // turn the leds on
   std::vector<ros::ServiceClient> setLedClient;
   webots_ros::set_int setLedSrv;
   sprintf(deviceName, "led0");
-  setLedClient.push_back(n.serviceClient<webots_ros::set_int>(modelName + '/' + deviceName + "/set_led"));
+  setLedClient.push_back(n.serviceClient<webots_ros::set_int>("/" + std::string(deviceName) + "/set_led"));
   setLedSrv.request.value = 1;
   if (setLedClient[0].call(setLedSrv) && setLedSrv.response.success)
     ROS_INFO("%s turned on!", deviceName);
@@ -539,7 +506,7 @@ int main(int argc, char **argv) {
     return 1;
   }
   sprintf(deviceName, "led8");
-  setLedClient.push_back(n.serviceClient<webots_ros::set_int>(modelName + '/' + deviceName + "/set_led"));
+  setLedClient.push_back(n.serviceClient<webots_ros::set_int>("/" + std::string(deviceName) + "/set_led"));
   setLedSrv.request.value = 1;
   if (setLedClient[1].call(setLedSrv) && setLedSrv.response.success)
     ROS_INFO("%s turned on!", deviceName);
@@ -642,6 +609,17 @@ int main(int argc, char **argv) {
     leftWheelVelocityClient.call(wheelSrv);
     wheelSrv.request.value = (M_PI / 1000.0) * speed[RIGHT];
     rightWheelVelocityClient.call(wheelSrv);
+
+    if (oam_active) {
+      ROS_WARN("The robot has bumped into an obstacle. Please complete the code in the \"LineLeavingModule()\" function of "
+               "\"%s\" or simply remove the obstacle to get a correct behavior.",
+               __FILE__);
+      wheelSrv.request.value = 0;
+      leftWheelVelocityClient.call(wheelSrv);
+      wheelSrv.request.value = 0;
+      rightWheelVelocityClient.call(wheelSrv);
+      break;
+    }
   }
 
   // turn off leds

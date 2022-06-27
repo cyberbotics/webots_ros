@@ -35,18 +35,8 @@
 
 #define TIME_STEP 32
 
-static int controllerCount;
-static std::vector<std::string> controllerList;
-
 ros::ServiceClient timeStepClient;
 webots_ros::set_int timeStepSrv;
-
-// catch names of the controllers available on ROS network
-void controllerNameCallback(const std_msgs::String::ConstPtr &name) {
-  controllerCount++;
-  controllerList.push_back(name->data);
-  ROS_INFO("Controller #%d: %s.", controllerCount, controllerList.back().c_str());
-}
 
 void quit(int sig) {
   timeStepSrv.request.value = 0;
@@ -65,82 +55,57 @@ int main(int argc, char **argv) {
 
   signal(SIGINT, quit);
 
-  // subscribe to the topic model_name to get the list of availables controllers
-  ros::Subscriber nameSub = n.subscribe("model_name", 100, controllerNameCallback);
-  while (controllerCount == 0 || controllerCount < nameSub.getNumPublishers()) {
-    ros::spinOnce();
-    ros::spinOnce();
-    ros::spinOnce();
-  }
+  // Wait for the `ros` controller.
+  ros::service::waitForService("/robot/time_step");
+  ros::service::waitForService("/supervisor/field/set_rotation");
   ros::spinOnce();
 
-  // if there is more than one controller available, let the user choose
-  if (controllerCount == 1)
-    controllerName = controllerList[0];
-  else {
-    int wantedController = 0;
-    std::cout << "Choose the # of the controller you want to use:\n";
-    std::cin >> wantedController;
-    if (1 <= wantedController && wantedController <= controllerCount)
-      controllerName = controllerList[wantedController - 1];
-    else {
-      ROS_ERROR("Invalid number for controller choice.");
-      return 1;
-    }
-  }
-  // leave topic once it's not necessary anymore
-  nameSub.shutdown();
-
-  timeStepClient = n.serviceClient<webots_ros::set_int>(controllerName + "/robot/time_step");
+  timeStepClient = n.serviceClient<webots_ros::set_int>("/robot/time_step");
   timeStepSrv.request.value = TIME_STEP;
 
   ROS_INFO("Welcome to the panoramic_view_recorder example.");
   ROS_INFO("This node will connect to a supervisor in Webots and access world to record a panoramic movie around a nao robot.");
 
   // get world node
-  ros::ServiceClient getWorldClient = n.serviceClient<webots_ros::get_uint64>(controllerName + "/supervisor/get_root");
+  ros::ServiceClient getWorldClient = n.serviceClient<webots_ros::get_uint64>("/supervisor/get_root");
   webots_ros::get_uint64 getWorldSrv;
   getWorldClient.call(getWorldSrv);
 
   // get children list
-  ros::ServiceClient getWorldChildrenClient =
-    n.serviceClient<webots_ros::node_get_field>(controllerName + "/supervisor/node/get_field");
+  ros::ServiceClient getWorldChildrenClient = n.serviceClient<webots_ros::node_get_field>("/supervisor/node/get_field");
   webots_ros::node_get_field getWorldChildrenSrv;
   getWorldChildrenSrv.request.node = getWorldSrv.response.value;
   getWorldChildrenSrv.request.fieldName = "children";
   getWorldChildrenClient.call(getWorldChildrenSrv);
 
   // get POV(Point Of View) node
-  ros::ServiceClient getPovClient = n.serviceClient<webots_ros::field_get_node>(controllerName + "/supervisor/field/get_node");
+  ros::ServiceClient getPovClient = n.serviceClient<webots_ros::field_get_node>("/supervisor/field/get_node");
   webots_ros::field_get_node getPovSrv;
   getPovSrv.request.field = getWorldChildrenSrv.response.field;
   getPovSrv.request.index = 1;
   getPovClient.call(getPovSrv);
 
   // get POV position and orientation
-  ros::ServiceClient getPovPositionFieldClient =
-    n.serviceClient<webots_ros::node_get_field>(controllerName + "/supervisor/node/get_field");
+  ros::ServiceClient getPovPositionFieldClient = n.serviceClient<webots_ros::node_get_field>("/supervisor/node/get_field");
   webots_ros::node_get_field getPovPositionFieldSrv;
   getPovPositionFieldSrv.request.node = getPovSrv.response.node;
   getPovPositionFieldSrv.request.fieldName = "position";
   getPovPositionFieldClient.call(getPovPositionFieldSrv);
 
-  ros::ServiceClient getPositionClient =
-    n.serviceClient<webots_ros::field_get_vec3f>(controllerName + "/supervisor/field/get_vec3f");
+  ros::ServiceClient getPositionClient = n.serviceClient<webots_ros::field_get_vec3f>("/supervisor/field/get_vec3f");
   webots_ros::field_get_vec3f getPovPositionSrv;
   getPovPositionSrv.request.field = getPovPositionFieldSrv.response.field;
   getPositionClient.call(getPovPositionSrv);
   geometry_msgs::Vector3 initialPovPosition = getPovPositionSrv.response.value;
 
-  ros::ServiceClient getPovOrientationFieldClient =
-    n.serviceClient<webots_ros::node_get_field>(controllerName + "/supervisor/node/get_field");
+  ros::ServiceClient getPovOrientationFieldClient = n.serviceClient<webots_ros::node_get_field>("/supervisor/node/get_field");
   webots_ros::node_get_field getPovOrientationFieldSrv;
   getPovOrientationFieldSrv.request.node = getPovSrv.response.node;
   getPovOrientationFieldSrv.request.fieldName = "orientation";
   getPovOrientationFieldClient.call(getPovOrientationFieldSrv);
 
   ros::ServiceClient getPovOrientationClient =
-    n.serviceClient<webots_ros::field_get_rotation>(controllerName + "/supervisor/field/get_rotation");
+    n.serviceClient<webots_ros::field_get_rotation>("/supervisor/field/get_rotation");
   webots_ros::field_get_rotation getPovOrientationSrv;
   getPovOrientationSrv.request.field = getPovOrientationFieldSrv.response.field;
   getPovOrientationClient.call(getPovOrientationSrv);
@@ -152,14 +117,13 @@ int main(int argc, char **argv) {
   timeStepClient.call(timeStepSrv);
 
   // initialize services to update POV position and orientation
-  ros::ServiceClient setPositionClient =
-    n.serviceClient<webots_ros::field_set_vec3f>(controllerName + "/supervisor/field/set_vec3f");
+  ros::ServiceClient setPositionClient = n.serviceClient<webots_ros::field_set_vec3f>("/supervisor/field/set_vec3f");
   webots_ros::field_set_vec3f setPovPositionSrv;
   setPovPositionSrv.request.field = getPovPositionFieldSrv.response.field;
   setPovPositionSrv.request.value = initialPovPosition;
 
   ros::ServiceClient setPovOrientationClient =
-    n.serviceClient<webots_ros::field_set_rotation>(controllerName + "/supervisor/field/set_rotation");
+    n.serviceClient<webots_ros::field_set_rotation>("/supervisor/field/set_rotation");
   webots_ros::field_set_rotation setPovOrientationSrv;
   setPovOrientationSrv.request.field = getPovOrientationFieldSrv.response.field;
   setPovOrientationSrv.request.value = povOrientation;
@@ -167,7 +131,7 @@ int main(int argc, char **argv) {
   //  set label to 'Recording'
   ros::ServiceClient supervisorSetLabelClient;
   webots_ros::supervisor_set_label supervisorSetLabelSrv;
-  supervisorSetLabelClient = n.serviceClient<webots_ros::supervisor_set_label>(controllerName + "/supervisor/set_label");
+  supervisorSetLabelClient = n.serviceClient<webots_ros::supervisor_set_label>("/supervisor/set_label");
 
   supervisorSetLabelSrv.request.id = 1;
   supervisorSetLabelSrv.request.label = "Recording";
@@ -184,7 +148,7 @@ int main(int argc, char **argv) {
   ros::ServiceClient supervisorMovieStartClient;
   webots_ros::supervisor_movie_start_recording supervisorMovieStartSrv;
   supervisorMovieStartClient =
-    n.serviceClient<webots_ros::supervisor_movie_start_recording>(controllerName + "/supervisor/movie_start_recording");
+    n.serviceClient<webots_ros::supervisor_movie_start_recording>("/supervisor/movie_start_recording");
 
   supervisorMovieStartSrv.request.filename = std::string(getenv("HOME")) + std::string("/supervisor_movie.mp4");
   supervisorMovieStartSrv.request.width = 480;
@@ -225,7 +189,7 @@ int main(int argc, char **argv) {
   // stop_movie
   ros::ServiceClient supervisorMovieStopClient;
   webots_ros::get_bool supervisorMovieStopSrv;
-  supervisorMovieStopClient = n.serviceClient<webots_ros::get_bool>(controllerName + "/supervisor/movie_stop_recording");
+  supervisorMovieStopClient = n.serviceClient<webots_ros::get_bool>("/supervisor/movie_stop_recording");
 
   if (supervisorMovieStopClient.call(supervisorMovieStopSrv) && supervisorMovieStopSrv.response.value)
     ROS_INFO("Movie stopped recording.");

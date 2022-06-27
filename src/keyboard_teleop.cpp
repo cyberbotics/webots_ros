@@ -28,9 +28,6 @@
 
 #define TIME_STEP 32
 
-static int controllerCount;
-static std::vector<std::string> controllerList;
-static std::string controllerName;
 static double lposition = 0;
 static double rposition = 0;
 
@@ -45,13 +42,6 @@ webots_ros::set_int timeStepSrv;
 
 ros::ServiceClient enableKeyboardClient;
 webots_ros::set_int enableKeyboardSrv;
-
-// catch names of the controllers availables on ROS network
-void controllerNameCallback(const std_msgs::String::ConstPtr &name) {
-  controllerCount++;
-  controllerList.push_back(name->data);
-  ROS_INFO("Controller #%d: %s.", controllerCount, controllerList.back().c_str());
-}
 
 void quit(int sig) {
   enableKeyboardSrv.request.value = 0;
@@ -114,41 +104,21 @@ int main(int argc, char **argv) {
 
   signal(SIGINT, quit);
 
-  // subscribe to the topic model_name to get the list of availables controllers
-  ros::Subscriber nameSub = n.subscribe("model_name", 100, controllerNameCallback);
-  while (controllerCount == 0 || controllerCount < nameSub.getNumPublishers()) {
-    ros::spinOnce();
-    ros::Duration(0.5).sleep();
-  }
+  // Wait for the `ros` controller.
+  ros::service::waitForService("/robot/time_step");
   ros::spinOnce();
 
-  // if there is more than one controller available, let the user choose
-  if (controllerCount == 1)
-    controllerName = controllerList[0];
-  else {
-    int wantedController = 0;
-    std::cout << "Choose the # of the controller you want to use:\n";
-    std::cin >> wantedController;
-    if (1 <= wantedController && wantedController <= controllerCount)
-      controllerName = controllerList[wantedController - 1];
-    else {
-      ROS_ERROR("Invalid number for controller choice.");
-      return 1;
-    }
-  }
-  // leave topic once it's not necessary anymore
-  nameSub.shutdown();
+  leftWheelClient = n.serviceClient<webots_ros::set_float>("/left_wheel/set_position");
+  rightWheelClient = n.serviceClient<webots_ros::set_float>("/right_wheel/set_position");
+  timeStepClient = n.serviceClient<webots_ros::set_int>("/robot/time_step");
 
-  leftWheelClient = n.serviceClient<webots_ros::set_float>(controllerName + "/left_wheel/set_position");
-  rightWheelClient = n.serviceClient<webots_ros::set_float>(controllerName + "/right_wheel/set_position");
-  timeStepClient = n.serviceClient<webots_ros::set_int>(controllerName + "/robot/time_step");
   timeStepSrv.request.value = TIME_STEP;
 
-  enableKeyboardClient = n.serviceClient<webots_ros::set_int>(controllerName + "/keyboard/enable");
+  enableKeyboardClient = n.serviceClient<webots_ros::set_int>("/keyboard/enable");
   enableKeyboardSrv.request.value = TIME_STEP;
   if (enableKeyboardClient.call(enableKeyboardSrv) && enableKeyboardSrv.response.success) {
     ros::Subscriber sub_keyboard;
-    sub_keyboard = n.subscribe(controllerName + "/keyboard/key", 1, keyboardCallback);
+    sub_keyboard = n.subscribe("/keyboard/key", 1, keyboardCallback);
     while (sub_keyboard.getNumPublishers() == 0) {
     }
     ROS_INFO("Keyboard enabled.");
