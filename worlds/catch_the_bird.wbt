@@ -33,7 +33,11 @@ Robot {
         rotation 1 0 0 1.5708
         children [
           RangeFinder {
+<<<<<<< .merge_file_B3g5PL
             name "range_finder"
+=======
+            name "range_finder"  # override default "range-finder" name as valid characters for ROS service/topic names are a-z, A-Z, 0-9, / and _, excluding the dash "-".
+>>>>>>> .merge_file_ZT0UeC
             translation 0 0 -0.05
             rotation -0.577349935856137 0.577349935856137 0.5773509358560258 2.09439
           }
