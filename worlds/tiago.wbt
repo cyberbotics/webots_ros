@@ -30,7 +30,11 @@ EXTERNPROTO "webots://projects/objects/paintings/protos/PortraitPainting.proto"
 EXTERNPROTO "webots://projects/objects/paintings/protos/LandscapePainting.proto"
 EXTERNPROTO "webots://projects/objects/create_wall/protos/CreateWall.proto"
 EXTERNPROTO "webots://projects/appearances/protos/PaintedWood.proto"
-
+EXTERNPROTO "webots://projects/objects/fruits/protos/Orange.proto"
+EXTERNPROTO "webots://projects/objects/fruits/protos/Apple.proto"
+EXTERNPROTO "webots://projects/objects/tables/protos/Desk.proto"
+EXTERNPROTO "webots://projects/robots/gctronic/e-puck/protos/E-puck.proto"
+EXTERNPROTO "webots://projects/robots/gctronic/e-puck/protos/E-puckGroundSensors.proto"
 
 WorldInfo {
   info [
