@@ -83,7 +83,7 @@ DEF ROOF Solid {
         baseColor 0.8 0.8 0.8
         baseColorMap ImageTexture {
           url [
-            "webots://webots_ros/worlds/textures/roughcast.jpg"
+            "textures/roughcast.jpg"
           ]
         }
         roughness 0.5
