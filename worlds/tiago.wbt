@@ -35,7 +35,7 @@ EXTERNPROTO "webots://projects/objects/fruits/protos/Apple.proto"
 EXTERNPROTO "webots://projects/objects/tables/protos/Desk.proto"
 EXTERNPROTO "webots://projects/robots/gctronic/e-puck/protos/E-puck.proto"
 EXTERNPROTO "webots://projects/robots/gctronic/e-puck/protos/E-puckGroundSensors.proto"
-
+#
 WorldInfo {
   info [
     "TIAGo Steel simulation with MoveIt and differential drive integration (ROS)."
