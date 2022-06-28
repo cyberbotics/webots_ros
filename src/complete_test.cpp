@@ -609,21 +609,22 @@ int main(int argc, char **argv) {
   webots_ros::set_int enable_keyboard_srv;
   ros::Subscriber sub_keyboard;
 
-  ROS_INFO("CI env value = %s", std::getenv("CI"));
-  /*enable_keyboard_srv.request.value = 32;
-  if (enable_keyboard_client.call(enable_keyboard_srv) && enable_keyboard_srv.response.success) {
-    ROS_INFO("Keyboard of %s has been enabled.", model_name.c_str());
-    sub_keyboard = n.subscribe(model_name + "/keyboard/key", 1, keyboardCallback);
-    ROS_INFO("Topics for keyboard initialized. PLEASE HIT A KEY!");
-    callbackCalled = false;
-    while (sub_keyboard.getNumPublishers() == 0 || !callbackCalled) {
-      ros::spinOnce();
-      time_step_client.call(time_step_srv);
-    }
-    ROS_INFO("Topics for keyboard connected.");
-  } else
-    ROS_ERROR("Failed to enable keyboard.");
-  */
+  if (std::getenv("CI") != "true") {
+    enable_keyboard_srv.request.value = 32;
+    if (enable_keyboard_client.call(enable_keyboard_srv) && enable_keyboard_srv.response.success) {
+      ROS_INFO("Keyboard of %s has been enabled.", model_name.c_str());
+      sub_keyboard = n.subscribe(model_name + "/keyboard/key", 1, keyboardCallback);
+      ROS_INFO("Topics for keyboard initialized. PLEASE HIT A KEY!");
+      callbackCalled = false;
+      while (sub_keyboard.getNumPublishers() == 0 || !callbackCalled) {
+        ros::spinOnce();
+        time_step_client.call(time_step_srv);
+      }
+      ROS_INFO("Topics for keyboard connected.");
+    } else
+      ROS_ERROR("Failed to enable keyboard.");
+  }
+
   ros::ServiceClient wait_for_user_input_event_client =
     n.serviceClient<webots_ros::robot_wait_for_user_input_event>(model_name + "/robot/wait_for_user_input_event");
   webots_ros::robot_wait_for_user_input_event wait_for_user_input_event_srv;
