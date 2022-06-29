@@ -3858,9 +3858,9 @@ int main(int argc, char **argv) {
   webots_ros::get_string wwi_receive_srv;
   while (!(wwi_receive_client.call(wwi_receive_srv) &&
            wwi_receive_srv.response.value.compare("Answer: test wwi functions from complete_test controller.") == 0)) {
+    ROS_INFO("received string = %s", wwi_receive_srv.response.value.c_str());
     wwi_send_srv.request.value = "test wwi functions from complete_test controller.";
     wwi_send_client.call(wwi_send_srv);
-    wwi_send_srv.response.success;
     ROS_INFO("New attempt to get message from robot window.");
   }
   ROS_INFO("Text from robot window successfully received.");
