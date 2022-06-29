@@ -621,7 +621,7 @@ int main(int argc, char **argv) {
         time_step_client.call(time_step_srv);
       }
     } else
-      ROS_WARN("No keyboard input possible in the CI, test skipped.")
+      ROS_WARN("No keyboard input possible in the CI, test skipped.");
     ROS_INFO("Topics for keyboard connected.");
   } else
     ROS_ERROR("Failed to enable keyboard.");
