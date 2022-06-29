@@ -620,7 +620,8 @@ int main(int argc, char **argv) {
         ros::spinOnce();
         time_step_client.call(time_step_srv);
       }
-    }
+    } else
+      ROS_WARN("No keyboard input possible in the CI, test skipped.")
     ROS_INFO("Topics for keyboard connected.");
   } else
     ROS_ERROR("Failed to enable keyboard.");
@@ -3850,18 +3851,21 @@ int main(int argc, char **argv) {
   else
     ROS_ERROR("Failed to call service robot/wwi_send_text.");
 
-  wwi_send_client.shutdown();
   time_step_client.call(time_step_srv);
 
   ros::ServiceClient wwi_receive_client;
   wwi_receive_client = n.serviceClient<webots_ros::get_string>(model_name + "/robot/wwi_receive_text");
   webots_ros::get_string wwi_receive_srv;
-  if (wwi_receive_client.call(wwi_receive_srv) &&
-      wwi_receive_srv.response.value.compare("Answer: test wwi functions from complete_test controller.") == 0)
-    ROS_INFO("Text from robot window successfully received.");
-  else
-    ROS_ERROR("Failed to call service robot/wwi_receive_text.");
+  while (!(wwi_receive_client.call(wwi_receive_srv) &&
+           wwi_receive_srv.response.value.compare("Answer: test wwi functions from complete_test controller.") == 0)) {
+    wwi_send_srv.request.value = "test wwi functions from complete_test controller.";
+    wwi_send_client.call(wwi_send_srv);
+    wwi_send_srv.response.success;
+    ROS_INFO("New attempt to get message from robot window.");
+  }
+  ROS_INFO("Text from robot window successfully received.");
 
+  wwi_send_client.shutdown();
   wwi_receive_client.shutdown();
   time_step_client.call(time_step_srv);
 
