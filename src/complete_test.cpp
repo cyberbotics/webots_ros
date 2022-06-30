@@ -3841,31 +3841,6 @@ int main(int argc, char **argv) {
   node_export_string_client.shutdown();
   time_step_client.call(time_step_srv);
 
-  /*// html robot window
-  ros::ServiceClient wwi_send_client;
-  wwi_send_client = n.serviceClient<webots_ros::set_string>(model_name + "/robot/wwi_send_text");
-  webots_ros::set_string wwi_send_srv;
-  wwi_send_srv.request.value = "test wwi functions from complete_test controller.";
-  if (wwi_send_client.call(wwi_send_srv) && wwi_send_srv.response.success == 1)
-    ROS_INFO("Text to robot window successfully sent.");
-  else
-    ROS_ERROR("Failed to call service robot/wwi_send_text.");
-
-  wwi_send_client.shutdown();
-  time_step_client.call(time_step_srv);
-
-  ros::ServiceClient wwi_receive_client;
-  wwi_receive_client = n.serviceClient<webots_ros::get_string>(model_name + "/robot/wwi_receive_text");
-  webots_ros::get_string wwi_receive_srv;
-  if (wwi_receive_client.call(wwi_receive_srv) &&
-      wwi_receive_srv.response.value.compare("Answer: test wwi functions from complete_test controller.") == 0)
-    ROS_INFO("Text from robot window successfully received.");
-  else
-    ROS_ERROR("Failed to call service robot/wwi_receive_text.");
-
-  wwi_receive_client.shutdown();
-  time_step_client.call(time_step_srv);*/
-
   // html robot window
   ros::ServiceClient wwi_send_client;
   wwi_send_client = n.serviceClient<webots_ros::set_string>(model_name + "/robot/wwi_send_text");
@@ -3881,13 +3856,12 @@ int main(int argc, char **argv) {
   ros::ServiceClient wwi_receive_client;
   wwi_receive_client = n.serviceClient<webots_ros::get_string>(model_name + "/robot/wwi_receive_text");
   webots_ros::get_string wwi_receive_srv;
+  ROS_INFO("Waiting for robot window message...");
   while (!(wwi_receive_client.call(wwi_receive_srv) &&
            wwi_receive_srv.response.value.compare("Answer: test wwi functions from complete_test controller.") == 0)) {
-    ROS_INFO("received string = %s", wwi_receive_srv.response.value.c_str());
     wwi_send_srv.request.value = "test wwi functions from complete_test controller.";
     wwi_send_client.call(wwi_send_srv);
     time_step_client.call(time_step_srv);
-    ROS_INFO("New attempt to get message from robot window.");
   }
   ROS_INFO("Text from robot window successfully received.");
 
