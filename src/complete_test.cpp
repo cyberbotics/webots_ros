@@ -613,12 +613,15 @@ int main(int argc, char **argv) {
   if (enable_keyboard_client.call(enable_keyboard_srv) && enable_keyboard_srv.response.success) {
     ROS_INFO("Keyboard of %s has been enabled.", model_name.c_str());
     sub_keyboard = n.subscribe(model_name + "/keyboard/key", 1, keyboardCallback);
-    ROS_INFO("Topics for keyboard initialized. PLEASE HIT A KEY!");
-    callbackCalled = false;
-    while (sub_keyboard.getNumPublishers() == 0 || !callbackCalled) {
-      ros::spinOnce();
-      time_step_client.call(time_step_srv);
-    }
+    if (!(std::getenv("CI") && std::getenv("CI") == std::string("true"))) {
+      ROS_INFO("Topics for keyboard initialized. PLEASE HIT A KEY!");
+      callbackCalled = false;
+      while (sub_keyboard.getNumPublishers() == 0 || !callbackCalled) {
+        ros::spinOnce();
+        time_step_client.call(time_step_srv);
+      }
+    } else
+      ROS_WARN("No keyboard input possible in the CI, test skipped.");
     ROS_INFO("Topics for keyboard connected.");
   } else
     ROS_ERROR("Failed to enable keyboard.");
@@ -1156,16 +1159,17 @@ int main(int argc, char **argv) {
   ros::ServiceClient set_compass_client;
   webots_ros::set_int compass_srv;
   ros::Subscriber sub_compass_32;
-  set_compass_client = n.serviceClient<webots_ros::set_int>(model_name + "/compass/enable");
+  set_compass_client = n.serviceClient<webots_ros::set_int>(model_name + "/unsanitized_compass_name/enable");
 
   ros::ServiceClient sampling_period_compass_client;
   webots_ros::get_int sampling_period_compass_srv;
-  sampling_period_compass_client = n.serviceClient<webots_ros::get_int>(model_name + "/compass/get_sampling_period");
+  sampling_period_compass_client =
+    n.serviceClient<webots_ros::get_int>(model_name + "/unsanitized_compass_name/get_sampling_period");
 
   compass_srv.request.value = 32;
   if (set_compass_client.call(compass_srv) && compass_srv.response.success == 1) {
     ROS_INFO("Compass enabled.");
-    sub_compass_32 = n.subscribe(model_name + "/compass/values", 1, compassCallback);
+    sub_compass_32 = n.subscribe(model_name + "/unsanitized_compass_name/values", 1, compassCallback);
     callbackCalled = false;
     while (sub_compass_32.getNumPublishers() == 0 || !callbackCalled) {
       ros::spinOnce();
@@ -1180,7 +1184,8 @@ int main(int argc, char **argv) {
 
   ros::ServiceClient lookup_table_compass_client;
   webots_ros::get_float_array lookup_table_compass_srv;
-  lookup_table_compass_client = n.serviceClient<webots_ros::get_float_array>(model_name + "/compass/get_lookup_table");
+  lookup_table_compass_client =
+    n.serviceClient<webots_ros::get_float_array>(model_name + "/unsanitized_compass_name/get_lookup_table");
   if (lookup_table_compass_client.call(lookup_table_compass_srv))
     ROS_INFO("Compass lookup table size = %lu.", lookup_table_compass_srv.response.value.size());
   else
@@ -3615,7 +3620,7 @@ int main(int argc, char **argv) {
   webots_ros::supervisor_get_from_string supervisor_get_from_device_srv;
   supervisor_get_from_device_client =
     n.serviceClient<webots_ros::supervisor_get_from_string>(model_name + "/supervisor/get_from_device");
-  supervisor_get_from_device_srv.request.value = "compass";
+  supervisor_get_from_device_srv.request.value = "unsanitized compass name";
   supervisor_get_from_device_client.call(supervisor_get_from_device_srv);
   uint64_t compass_node_from_device = supervisor_get_from_device_srv.response.node;
   if (compass_node_from_device == from_def_node)
@@ -3848,18 +3853,21 @@ int main(int argc, char **argv) {
   else
     ROS_ERROR("Failed to call service robot/wwi_send_text.");
 
-  wwi_send_client.shutdown();
   time_step_client.call(time_step_srv);
 
   ros::ServiceClient wwi_receive_client;
   wwi_receive_client = n.serviceClient<webots_ros::get_string>(model_name + "/robot/wwi_receive_text");
   webots_ros::get_string wwi_receive_srv;
-  if (wwi_receive_client.call(wwi_receive_srv) &&
-      wwi_receive_srv.response.value.compare("Answer: test wwi functions from complete_test controller.") == 0)
-    ROS_INFO("Text from robot window successfully received.");
-  else
-    ROS_ERROR("Failed to call service robot/wwi_receive_text.");
+  ROS_INFO("Waiting for robot window message...");
+  while (!(wwi_receive_client.call(wwi_receive_srv) &&
+           wwi_receive_srv.response.value.compare("Answer: test wwi functions from complete_test controller.") == 0)) {
+    wwi_send_srv.request.value = "test wwi functions from complete_test controller.";
+    wwi_send_client.call(wwi_send_srv);
+    time_step_client.call(time_step_srv);
+  }
+  ROS_INFO("Text from robot window successfully received.");
 
+  wwi_send_client.shutdown();
   wwi_receive_client.shutdown();
   time_step_client.call(time_step_srv);
 
