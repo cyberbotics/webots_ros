@@ -67,7 +67,6 @@ find_package(catkin REQUIRED COMPONENTS roscpp rospy std_msgs sensor_msgs messag
     field_get_name.srv
     field_get_vec2f.srv
     field_get_vec3f.srv
-    field_import_node.srv
     field_import_node_from_string.srv
     field_remove_node.srv
     field_remove.srv
