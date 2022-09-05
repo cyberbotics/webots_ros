@@ -1,4 +1,11 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/appearances/protos/Parquetry.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/robots/softbank/nao/protos/Nao.proto"
+
 WorldInfo {
 }
 Viewpoint {
@@ -17,6 +24,11 @@ Robot {
   supervisor TRUE
 }
 Floor {
+  size 10 10
+  tileSize 0.5 0.5
+  appearance Parquetry {
+    type "chequered"
+  }
 }
 Nao {
   translation 0 0 0.33

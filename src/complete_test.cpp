@@ -83,7 +83,6 @@
 #include <webots_ros/field_get_type.h>
 #include <webots_ros/field_get_vec2f.h>
 #include <webots_ros/field_get_vec3f.h>
-#include <webots_ros/field_import_node.h>
 #include <webots_ros/field_remove.h>
 #include <webots_ros/field_set_bool.h>
 #include <webots_ros/field_set_color.h>
@@ -3886,23 +3885,6 @@ int main(int argc, char **argv) {
 
   virtual_reality_headset_client.shutdown();
   time_step_client.call(time_step_srv);
-
-  // test field_import_node
-  // this test is disabled as it needs a webots object file but it will work if you export the cone_test solid from the world
-  // before
-  //  ros::ServiceClient supervisor_field_import_node_client;
-  //  webots_ros::field_import_node supervisor_field_import_node_srv;
-  //  supervisor_field_import_node_client =
-  //  n.serviceClient<webots_ros::field_import_node>(model_name+"/supervisor/field/import_node");
-  //
-  //  supervisor_field_import_node_srv.request.field = field;
-  //  supervisor_field_import_node_srv.request.position = 6;
-  //  supervisor_field_import_node_srv.request.filename = "cone_test.wbo";
-  //  if (supervisor_field_import_node_client.call(supervisor_field_import_node_srv) &&
-  //  supervisor_field_import_node_srv.response.success == 1)
-  //    ROS_INFO("New cone add in world.");
-  //  else
-  //    ROS_ERROR("Failed to call service field_import_node.");
 
   // The next 2 tests are commented but works if you want to use them.
   // Since they stop simulation we can't use them if we wants to do other tests afterwards
