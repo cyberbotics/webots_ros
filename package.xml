@@ -3,7 +3,7 @@
   <name>webots_ros</name>
   <!-- Before 2022.1.0: Version matches Webots version this way: (major - 2018).minor.maintenance -->
   <!-- From 2022.1.0: Version matches Webots version this way: year.minor.maintenance -->
-  <version>2022.1.0</version>
+  <version>2023.0.0</version>
   <description>The ROS package containing examples for interfacing ROS with the standard ROS controller of Webots</description>
 
   <url>http://wiki.ros.org/webots_ros</url>
