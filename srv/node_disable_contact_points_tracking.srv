@@ -1,4 +1,3 @@
 uint64 node
-bool include_descendants
 ---
 int8 success
