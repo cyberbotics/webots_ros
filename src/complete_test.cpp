@@ -161,6 +161,7 @@ static double GPSSpeedVectorValues[3] = {0, 0, 0};
 static double GyroValues[3] = {0, 0, 0};
 static double inertialUnitValues[4] = {0, 0, 0, 0};
 static double touchSensorValues[3] = {0, 0, 0};
+static bool vacuumCupPresence = 0;
 static bool callbackCalled = false;
 
 ros::ServiceClient time_step_client;
@@ -365,6 +366,13 @@ void touchSensor3DCallback(const geometry_msgs::WrenchStamped::ConstPtr &values)
 
   ROS_INFO("Touch sensor values are x = %f, y = %f and z = %f (time: %d:%d).", touchSensorValues[0], touchSensorValues[1],
            touchSensorValues[2], values->header.stamp.sec, values->header.stamp.nsec);
+  callbackCalled = true;
+}
+
+void vacuumCupCallback(const webots_ros::BoolStamped::ConstPtr &value) {
+  vacuumCupPresence = value->data;
+
+  ROS_INFO("VacuumCup presence: %d (time: %d:%d).", vacuumCupPresence, value->header.stamp.sec, value->header.stamp.nsec);
   callbackCalled = true;
 }
 
@@ -3023,6 +3031,75 @@ int main(int argc, char **argv) {
 
   set_touch_sensor_client.shutdown();
   sampling_period_touch_sensor_client.shutdown();
+  time_step_client.call(time_step_srv);
+  
+  
+  /////////////////////////////
+  // VACUUM CUP METHODS TEST //
+  /////////////////////////////
+
+  ros::ServiceClient vacuum_cup_enable_presence_client;
+  webots_ros::set_bool vacuum_cup_srv;
+  ros::Subscriber sub_vacuum_cup;
+  vacuum_cup_enable_presence_client = n.serviceClient<webots_ros::set_int>(model_name + "/vacuum_cup/presence_sensor/enable");
+
+  vacuum_cup_srv.request.value = 32;
+  if (vacuum_cup_enable_presence_client.call(vacuum_cup_srv) && vacuum_cup_srv.response.success) {
+    ROS_INFO("Vacuum cup's presence sensor enabled.");
+    sub_vacuum_cup = n.subscribe(model_name + "/vacuum_cup/presence", 1, vacuumCupCallback);
+    vacuumCupCallback = false;
+    while (sub_vacuum_cup.getNumPublishers() == 0 || !callbackCalled) {
+      ros::spinOnce();
+      time_step_client.call(time_step_srv);
+    }
+  } else {
+    if (!vacuum_cup_srv.response.success)
+      ROS_ERROR("Sampling period is not valid.");
+    ROS_ERROR("Failed to enable vacuum cup's presence sensor.");
+    return 1;
+  }
+
+  vacuum_cup_srv.shutdown();
+
+  time_step_client.call(time_step_srv);
+  time_step_client.call(time_step_srv);
+  time_step_client.call(time_step_srv);
+
+  vacuum_cup_srv.request.value = 0;
+  if (vacuum_cup_enable_presence_client.call(vacuum_cup_srv) && vacuum_cup_srv.response.success)
+    ROS_INFO("Vacuum cup's presence sensor disabled.");
+  else {
+    if (!vacuum_cup_srv.response.success)
+      ROS_ERROR("Sampling period is not valid.");
+    ROS_ERROR("Failed to disable vacuum cup's presence sensor.");
+    return 1;
+  }
+
+  ros::ServiceClient vacuum_cup_turn_on_client;
+  webots_ros::set_bool vacuum_cup_turn_on_srv;
+  vacuum_cup_turn_on_client = n.serviceClient<webots_ros::set_bool>(model_name + "/vacuum_cup/turn_on");
+
+  vacuum_cup_turn_on_srv.request.value = true;
+  if (vacuum_cup_turn_on_client.call(vacuum_cup_turn_on_srv) && vacuum_cup_turn_on_srv.response.success)
+    ROS_INFO("Vacuum cup has been turned on.");
+  else
+    ROS_INFO("Failed to turn on vacuum cup.");
+
+  vacuum_cup_turn_on_client.shutdown();
+  vacuum_cup_enable_presence_client.shutdown();
+  time_step_client.call(time_step_srv);
+
+  ros::ServiceClient vacuum_cup_is_on_client;
+  webots_ros::get_bool vacuum_cup_is_on_srv;
+  vacuum_cup_is_on_client = n.serviceClient<webots_ros::get_bool>(model_name + "/vacuum_cup/is_on");
+
+  if (vacuum_cup_is_on_client.call(vacuum_cup_is_on_srv))
+    ROS_INFO("Vacuum cup is on: %d", vacuum_cup_is_on_srv.response.value);
+  else
+    ROS_INFO("Failed to call is_on for vacuum cup.");
+
+  vacuum_cup_turn_on_client.shutdown();
+  vacuum_cup_enable_presence_client.shutdown();
   time_step_client.call(time_step_srv);
 
   /////////////////////////////

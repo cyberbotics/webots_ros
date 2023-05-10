@@ -283,6 +283,8 @@ Robot {
     TouchSensor {
       name "touch_sensor"
     }
+    VacuumCup {
+    }
     Shape {
       appearance PBRAppearance {
         baseColor 0.8 0 0.0117647
