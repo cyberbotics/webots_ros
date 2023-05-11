@@ -283,7 +283,7 @@ Robot {
     TouchSensor {
       name "touch_sensor"
     }
-    VacuumCup {
+    VacuumGripper {
     }
     Shape {
       appearance PBRAppearance {
