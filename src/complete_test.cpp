@@ -372,7 +372,8 @@ void touchSensor3DCallback(const geometry_msgs::WrenchStamped::ConstPtr &values)
 void vacuumGripperCallback(const webots_ros::BoolStamped::ConstPtr &value) {
   vacuumGripperPresence = value->data;
 
-  ROS_INFO("VacuumGripper presence: %d (time: %d:%d).", vacuumGripperPresence, value->header.stamp.sec, value->header.stamp.nsec);
+  ROS_INFO("VacuumGripper presence: %d (time: %d:%d).", vacuumGripperPresence, value->header.stamp.sec,
+           value->header.stamp.nsec);
   callbackCalled = true;
 }
 
@@ -3032,8 +3033,7 @@ int main(int argc, char **argv) {
   set_touch_sensor_client.shutdown();
   sampling_period_touch_sensor_client.shutdown();
   time_step_client.call(time_step_srv);
-  
-  
+
   /////////////////////////////
   // VACUUM GRIPPER METHODS TEST //
   /////////////////////////////
@@ -3041,13 +3041,14 @@ int main(int argc, char **argv) {
   ros::ServiceClient vacuum_gripper_enable_presence_client;
   webots_ros::set_bool vacuum_gripper_srv;
   ros::Subscriber sub_vacuum_gripper;
-  vacuum_gripper_enable_presence_client = n.serviceClient<webots_ros::set_int>(model_name + "/vacuum_gripper/presence_sensor/enable");
+  vacuum_gripper_enable_presence_client =
+    n.serviceClient<webots_ros::set_int>(model_name + "/vacuum_gripper/presence_sensor/enable");
 
   vacuum_gripper_srv.request.value = 32;
   if (vacuum_gripper_enable_presence_client.call(vacuum_gripper_srv) && vacuum_gripper_srv.response.success) {
     ROS_INFO("Vacuum gripper's presence sensor enabled.");
     sub_vacuum_gripper = n.subscribe(model_name + "/vacuum_gripper/presence", 1, vacuumGripperCallback);
-    vacuumGripperCallback = false;
+    callbackCalled = false;
     while (sub_vacuum_gripper.getNumPublishers() == 0 || !callbackCalled) {
       ros::spinOnce();
       time_step_client.call(time_step_srv);
@@ -3059,7 +3060,7 @@ int main(int argc, char **argv) {
     return 1;
   }
 
-  vacuum_gripper_srv.shutdown();
+  sub_vacuum_gripper.shutdown();
 
   time_step_client.call(time_step_srv);
   time_step_client.call(time_step_srv);
