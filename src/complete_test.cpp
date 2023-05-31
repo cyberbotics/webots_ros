@@ -3039,7 +3039,7 @@ int main(int argc, char **argv) {
   /////////////////////////////
 
   ros::ServiceClient vacuum_gripper_enable_presence_client;
-  webots_ros::set_bool vacuum_gripper_srv;
+  webots_ros::set_int vacuum_gripper_srv;
   ros::Subscriber sub_vacuum_gripper;
   vacuum_gripper_enable_presence_client =
     n.serviceClient<webots_ros::set_int>(model_name + "/vacuum_gripper/presence_sensor/enable");
