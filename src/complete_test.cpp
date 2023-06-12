@@ -3034,9 +3034,9 @@ int main(int argc, char **argv) {
   sampling_period_touch_sensor_client.shutdown();
   time_step_client.call(time_step_srv);
 
-  /////////////////////////////
+  /////////////////////////////////
   // VACUUM GRIPPER METHODS TEST //
-  /////////////////////////////
+  /////////////////////////////////
 
   ros::ServiceClient vacuum_gripper_enable_presence_client;
   webots_ros::set_int vacuum_gripper_srv;
