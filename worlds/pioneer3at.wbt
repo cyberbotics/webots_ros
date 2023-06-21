@@ -1,37 +1,37 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/floors/protos/Floor.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/living_room_furniture/protos/Carpet.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/living_room_furniture/protos/Sofa.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/traffic/protos/TrafficCone.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/apartment_structure/protos/Door.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/apartment_structure/protos/Wall.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/apartment_structure/protos/Window.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/panels/protos/PanelWithTubes.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/panels/protos/Panel.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/obstacles/protos/OilBarrel.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/factory/containers/protos/WoodenBox.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/factory/pallet/protos/WoodenPallet.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/tables/protos/Desk.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/tables/protos/Table.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/chairs/protos/Chair.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/stairs/protos/StraightStairsRail.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/stairs/protos/StraightStairs.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/chairs/protos/WoodenChair.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/kitchen/oven/protos/Oven.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/kitchen/fridge/protos/Fridge.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/kitchen/components/protos/HotPlate.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/kitchen/components/protos/Sink.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/kitchen/components/protos/Worktop.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/plants/protos/PottedTree.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/solids/protos/SolidBox.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/cabinet/protos/CabinetHandle.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/cabinet/protos/Cabinet.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/appearances/protos/ThreadMetalPlate.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/robots/adept/pioneer3/protos/Pioneer3at.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/devices/sick/protos/SickLms291.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/living_room_furniture/protos/Carpet.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/living_room_furniture/protos/Sofa.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/traffic/protos/TrafficCone.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/apartment_structure/protos/Door.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/apartment_structure/protos/Wall.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/apartment_structure/protos/Window.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/panels/protos/PanelWithTubes.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/panels/protos/Panel.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/obstacles/protos/OilBarrel.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/factory/containers/protos/WoodenBox.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/factory/pallet/protos/WoodenPallet.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/tables/protos/Desk.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/tables/protos/Table.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/chairs/protos/Chair.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/stairs/protos/StraightStairsRail.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/stairs/protos/StraightStairs.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/chairs/protos/WoodenChair.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/kitchen/oven/protos/Oven.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/kitchen/fridge/protos/Fridge.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/kitchen/components/protos/HotPlate.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/kitchen/components/protos/Sink.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/kitchen/components/protos/Worktop.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/plants/protos/PottedTree.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/solids/protos/SolidBox.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/cabinet/protos/CabinetHandle.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/cabinet/protos/Cabinet.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/ThreadMetalPlate.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/robots/adept/pioneer3/protos/Pioneer3at.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/devices/sick/protos/SickLms291.proto"
 
 WorldInfo {
   info [
@@ -65,36 +65,36 @@ Carpet {
   name "carpet(1)"
 }
 DEF EXTERNAL_WALL Wall {
-  translation 0 30.0 0
+  translation 0 30 0
   rotation 0 0 1 1.5708
   size 0.2 22.4 2.4
 }
 DEF EXTERNAL_WALL Wall {
-  translation 18.0 30.0 0
+  translation 18 30 0
   rotation 0 0 1 1.5708
   name "wall(1)"
   size 0.2 10.4 2.4
 }
 DEF EXTERNAL_WALL Wall {
-  translation -18.0 30.0 0
+  translation -18 30 0
   rotation 0 0 1 1.5708
   name "wall(2)"
   size 0.2 10.4 2.4
 }
 DEF EXTERNAL_WALL Wall {
-  translation 27.45 30.0 0
+  translation 27.45 30 0
   rotation 0 0 1 1.5708
   name "wall(3)"
   size 0.2 5.3 2.4
 }
 DEF EXTERNAL_WALL Wall {
-  translation -27.45 30.0 0
+  translation -27.45 30 0
   rotation 0 0 1 1.5708
   name "wall(4)"
   size 0.2 5.3 2.4
 }
-DEF DOUBLE_WINDOW Transform {
-  translation 24.0 30.0 0
+DEF DOUBLE_WINDOW Pose {
+  translation 24 30 0
   children [
     Window {
       translation -0.4 0 0
@@ -108,8 +108,8 @@ DEF DOUBLE_WINDOW Transform {
     }
   ]
 }
-DEF DOUBLE_WINDOW Transform {
-  translation 12.0 30.0 0
+DEF DOUBLE_WINDOW Pose {
+  translation 12 30 0
   children [
     Window {
       translation -0.4 0 0
@@ -123,8 +123,8 @@ DEF DOUBLE_WINDOW Transform {
     }
   ]
 }
-DEF DOUBLE_WINDOW Transform {
-  translation -12.0 30.0 0
+DEF DOUBLE_WINDOW Pose {
+  translation -12 30 0
   children [
     Window {
       translation -0.4 0 0
@@ -138,8 +138,8 @@ DEF DOUBLE_WINDOW Transform {
     }
   ]
 }
-DEF DOUBLE_WINDOW Transform {
-  translation -24.0 30.0 0
+DEF DOUBLE_WINDOW Pose {
+  translation -24 30 0
   children [
     Window {
       translation -0.4 0 0
@@ -154,37 +154,37 @@ DEF DOUBLE_WINDOW Transform {
   ]
 }
 DEF EXTERNAL_WALL Wall {
-  translation 0 -30.0 0
+  translation 0 -30 0
   rotation 0 0 1 1.5708
   name "wall(5)"
   size 0.2 22.4 2.4
 }
 DEF EXTERNAL_WALL Wall {
-  translation 18.0 -30.0 0
+  translation 18 -30 0
   rotation 0 0 1 1.5708
   name "wall(6)"
   size 0.2 10.4 2.4
 }
 DEF EXTERNAL_WALL Wall {
-  translation -18.0 -30.0 0
+  translation -18 -30 0
   rotation 0 0 1 1.5708
   name "wall(7)"
   size 0.2 10.4 2.4
 }
 DEF EXTERNAL_WALL Wall {
-  translation 27.45 -30.0 0
+  translation 27.45 -30 0
   rotation 0 0 1 1.5708
   name "wall(9)"
   size 0.2 5.3 2.4
 }
 DEF EXTERNAL_WALL Wall {
-  translation -27.45 -30.0 0
+  translation -27.45 -30 0
   rotation 0 0 1 1.5708
   name "wall(10)"
   size 0.2 5.3 2.4
 }
-DEF DOUBLE_WINDOW Transform {
-  translation 24.0 -30.0 0
+DEF DOUBLE_WINDOW Pose {
+  translation 24 -30 0
   children [
     Window {
       translation -0.4 0 0
@@ -198,8 +198,8 @@ DEF DOUBLE_WINDOW Transform {
     }
   ]
 }
-DEF DOUBLE_WINDOW Transform {
-  translation 12.0 -30.0 0
+DEF DOUBLE_WINDOW Pose {
+  translation 12 -30 0
   children [
     Window {
       translation -0.4 0 0
@@ -213,8 +213,8 @@ DEF DOUBLE_WINDOW Transform {
     }
   ]
 }
-DEF DOUBLE_WINDOW Transform {
-  translation -12.0 -30.0 0
+DEF DOUBLE_WINDOW Pose {
+  translation -12 -30 0
   children [
     Window {
       translation -0.4 0 0
@@ -228,8 +228,8 @@ DEF DOUBLE_WINDOW Transform {
     }
   ]
 }
-DEF DOUBLE_WINDOW Transform {
-  translation -24.0 -30.0 0
+DEF DOUBLE_WINDOW Pose {
+  translation -24 -30 0
   children [
     Window {
       translation -0.4 0 0
@@ -244,17 +244,17 @@ DEF DOUBLE_WINDOW Transform {
   ]
 }
 DEF EXTERNAL_WALL Wall {
-  translation 30.0 0 0
+  translation 30 0 0
   name "wall(11)"
   size 0.2 60 2.4
 }
 DEF EXTERNAL_WALL Wall {
-  translation -30.0 0 0
+  translation -30 0 0
   name "wall(12)"
   size 0.2 60 2.4
 }
 DEF INTERNAL_WALL Wall {
-  translation -10.8 11.0 0
+  translation -10.8 11 0
   name "wall(13)"
   size 0.2 8 2.4
 }
@@ -271,7 +271,7 @@ DEF INTERNAL_WINDOW Window {
   name "window(1)"
 }
 DEF INTERNAL_WINDOW Window {
-  translation -10.8 5.0 0
+  translation -10.8 5 0
   name "window(2)"
 }
 DEF INTERNAL_WINDOW Window {
@@ -302,13 +302,13 @@ DEF INTERNAL_WALL Wall {
   size 0.2 15 2.4
 }
 DEF INTERNAL_WALL Wall {
-  translation -2.4 15.0 0
+  translation -2.4 15 0
   rotation 0 0 1 1.5708
   name "wall(17)"
   size 0.2 5 2.4
 }
 DEF INTERNAL_WALL Wall {
-  translation -8.4 15.0 0
+  translation -8.4 15 0
   rotation 0 0 1 1.5708
   name "wall(18)"
   size 0.2 5 2.4
@@ -338,7 +338,7 @@ WoodenPallet {
 }
 WoodenPallet {
   translation 26.2712 1.39216 -0.000955835
-  rotation 0 -0.0007640587733973774 1 -2.367025307179586
+  rotation 0 -0.0007640585503741402 0.999999708107223 -2.367025307179586
   name "wooden pallet(4)"
   boundingObject FALSE
 }
@@ -362,7 +362,7 @@ WoodenPallet {
 }
 WoodenPallet {
   translation 28.5899 1.37535 -0.00135008
-  rotation -0.0012965593645873727 0.004615077738261162 1 2.98957
+  rotation -0.0012965444673713761 0.004615024711911744 0.9999885101936684 2.98957
   name "wooden pallet(8)"
   boundingObject FALSE
 }
@@ -454,10 +454,10 @@ TrafficCone {
   name "traffic cone(13)"
 }
 Door {
-  translation -5.4 15.0 0
+  translation -5.4 15 0
   rotation 0 0 1 -1.5707953071795862
 }
-DEF KITCHEN Transform {
+DEF KITCHEN Pose {
   translation 27.8 -21.2 0
   rotation 0 0 1 -1.5708
   children [
@@ -799,151 +799,86 @@ Chair {
   rotation 0 0 -1 1.5708
   name "chair(9)"
 }
-DEF TREE Solid {
+DEF TREE PottedTree {
   translation 21.2655 13.0987 0
-  rotation -0.13033599278845498 0.0539871970128658 -0.9899989452229441 -2.3632753071795864
-  scale 1.7 1.7 1.7
-  children [
-    PottedTree {
-      rotation 0 1 0 0.261799
-    }
-  ]
+  rotation 0 1 0 0.261799
 }
-DEF TREE Solid {
+DEF TREE PottedTree {
   translation -21.2183 -21.6362 0
   rotation 0 0 1 2.618
-  scale 1.7 1.7 1.7
-  children [
-    PottedTree {
-    }
-  ]
-  name "solid(1)"
+  name "potted tree(1)"
 }
-DEF TREE Solid {
+DEF TREE PottedTree {
   translation -21.1851 -20.2765 0
   rotation 0 0 1 0.261795
-  scale 1.7 1.7 1.7
-  children [
-    PottedTree {
-    }
-  ]
-  name "solid(2)"
+  name "potted tree(2)"
 }
-DEF TREE Solid {
+DEF TREE PottedTree {
   translation -21.223 -14.4309 0
   rotation 0 0 1 0.261795
-  scale 1.7 1.7 1.7
-  children [
-    PottedTree {
-    }
-  ]
-  name "solid(3)"
+  name "potted tree(3)"
 }
-DEF TREE Solid {
+DEF TREE PottedTree {
   translation -21.1983 -13.1633 0
   rotation 0 0 1 2.35619
-  scale 1.7 1.7 1.7
-  children [
-    PottedTree {
-    }
-  ]
-  name "solid(4)"
+  name "potted tree(4)"
 }
-DEF TREE Solid {
+DEF TREE PottedTree {
   translation -9.98679 -5.37678 0
   rotation 0 0 1 2.35619
-  scale 1.7 1.7 1.7
-  children [
-    PottedTree {
-    }
-  ]
-  name "solid(5)"
+  name "potted tree(5)"
 }
-DEF TREE Solid {
+DEF TREE PottedTree {
   translation -10.1726 0.216214 0
   rotation 0 0 1 2.35619
-  scale 1.7 1.7 1.7
-  children [
-    PottedTree {
-    }
-  ]
-  name "solid(6)"
+  name "potted tree(6)"
 }
-DEF TREE Solid {
+DEF TREE PottedTree {
   translation -10.067 8.47773 0
   rotation 0 0 1 2.35619
-  scale 1.7 1.7 1.7
-  children [
-    PottedTree {
-    }
-  ]
-  name "solid(7)"
+  name "potted tree(7)"
 }
-DEF TREE Solid {
+DEF TREE PottedTree {
   translation -9.86925 13.5549 0
   rotation 0 0 1 2.35619
-  scale 1.7 1.7 1.7
-  children [
-    PottedTree {
-    }
-  ]
-  name "solid(8)"
+  name "potted tree(8)"
 }
-DEF TREE Solid {
+DEF TREE PottedTree {
   translation 1.30651 28.489 0
   rotation 0 0 1 2.35619
-  scale 1.7 1.7 1.7
-  children [
-    PottedTree {
-    }
-  ]
-  name "solid(9)"
+  name "potted tree(9)"
 }
-DEF TREE Solid {
+DEF TREE PottedTree {
   translation 21.2939 14.4648 0
   rotation 0 0 1 2.35619
-  scale 1.7 1.7 1.7
-  children [
-    PottedTree {
-    }
-  ]
-  name "solid(10)"
+  name "potted tree(10)"
 }
-DEF TREE Solid {
+DEF TREE PottedTree {
   translation 21.263 20.4389 0
   rotation 0 0 1 2.35619
-  scale 1.7 1.7 1.7
-  children [
-    PottedTree {
-    }
-  ]
-  name "solid(11)"
+  name "potted tree(11)"
 }
-DEF TREE Solid {
+DEF TREE PottedTree {
   translation 21.2686 21.92 0
-  scale 1.7 1.7 1.7
-  children [
-    PottedTree {
-    }
-  ]
-  name "solid(12)"
+  name "potted tree(12)"
 }
 PottedTree {
   translation 18.8987 -29.4672 0
+  name "potted tree(13)"
 }
 PottedTree {
   translation 27.5526 -26.7018 0
-  name "potted tree(1)"
+  name "potted tree(14)"
 }
 PottedTree {
   translation 17.1715 -20.9225 0
-  name "potted tree(2)"
+  name "potted tree(15)"
 }
 Sofa {
   translation 27.9791 -28.4787 0
   rotation 0 0 1 2.356185307179586
 }
-DEF OFFICES Transform {
+DEF OFFICES Pose {
   rotation 0 0.7071072811862539 0.7071062811858562 3.14159
   children [
     Panel {
@@ -1273,7 +1208,7 @@ DEF OFFICES Transform {
     }
   ]
 }
-DEF OFFICES Transform {
+DEF OFFICES Pose {
   rotation 1 0 0 1.5707953071795862
   children [
     Panel {
@@ -1603,7 +1538,7 @@ DEF OFFICES Transform {
     }
   ]
 }
-DEF BOXES Transform {
+DEF BOXES Pose {
   rotation 1 0 0 1.5708
   children [
     WoodenBox {
@@ -1642,8 +1577,8 @@ DEF BOXES Transform {
     }
   ]
 }
-DEF BOXES Transform {
-  translation -7.0 0 0
+DEF BOXES Pose {
+  translation -7 0 0
   rotation 1 0 0 1.5708
   children [
     WoodenBox {
@@ -1683,8 +1618,8 @@ DEF BOXES Transform {
     }
   ]
 }
-DEF BOXES Transform {
-  translation 0 -3.0 0
+DEF BOXES Pose {
+  translation 0 -3 0
   rotation 1 0 0 1.5708
   children [
     WoodenBox {
@@ -1724,8 +1659,8 @@ DEF BOXES Transform {
     }
   ]
 }
-DEF BOXES Transform {
-  translation -7.0 -3.0 0
+DEF BOXES Pose {
+  translation -7 -3 0
   rotation 1 0 0 1.5708
   children [
     WoodenBox {
@@ -1765,8 +1700,8 @@ DEF BOXES Transform {
     }
   ]
 }
-DEF BOXES Transform {
-  translation 0 -6.0 0
+DEF BOXES Pose {
+  translation 0 -6 0
   rotation 1 0 0 1.5708
   children [
     WoodenBox {
@@ -1884,7 +1819,7 @@ StraightStairs {
   ]
 }
 StraightStairs {
-  translation 0.76 19.0 0
+  translation 0.76 19 0
   rotation 0 0 1 1.5707953071795862
   name "straight stairs(2)"
   stepRise 0.2
@@ -1922,8 +1857,8 @@ StraightStairs {
     }
   ]
 }
-DEF BOXES Transform {
-  translation -7.0 -6.0 0
+DEF BOXES Pose {
+  translation -7 -6 0
   rotation 1 0 0 1.5708
   children [
     WoodenBox {

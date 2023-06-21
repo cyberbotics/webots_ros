@@ -1,8 +1,8 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/RectangleArena.proto"
 
 WorldInfo {
 }
@@ -233,7 +233,7 @@ Solid {
           physics Physics {
           }
         }
-        Transform {
+        Pose {
           rotation 1 0 0 1.5707996938995747
           children [
             Shape {
@@ -251,7 +251,7 @@ Solid {
         }
       ]
       name "body"
-      boundingObject Transform {
+      boundingObject Pose {
         rotation 1 0 0 1.5708
         children [
           Capsule {
