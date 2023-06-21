@@ -856,10 +856,6 @@ DEF TREE PottedTree {
 DEF TREE PottedTree {
   translation 21.263 20.4389 0
   rotation 0 0 1 2.35619
-  children [
-    PottedTree {
-    }
-  ]
   name "potted tree(11)"
 }
 DEF TREE PottedTree {
