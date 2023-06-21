@@ -161,6 +161,7 @@ static double GPSSpeedVectorValues[3] = {0, 0, 0};
 static double GyroValues[3] = {0, 0, 0};
 static double inertialUnitValues[4] = {0, 0, 0, 0};
 static double touchSensorValues[3] = {0, 0, 0};
+static bool vacuumGripperPresence = 0;
 static bool callbackCalled = false;
 
 ros::ServiceClient time_step_client;
@@ -365,6 +366,14 @@ void touchSensor3DCallback(const geometry_msgs::WrenchStamped::ConstPtr &values)
 
   ROS_INFO("Touch sensor values are x = %f, y = %f and z = %f (time: %d:%d).", touchSensorValues[0], touchSensorValues[1],
            touchSensorValues[2], values->header.stamp.sec, values->header.stamp.nsec);
+  callbackCalled = true;
+}
+
+void vacuumGripperCallback(const webots_ros::BoolStamped::ConstPtr &value) {
+  vacuumGripperPresence = value->data;
+
+  ROS_INFO("VacuumGripper presence: %d (time: %d:%d).", vacuumGripperPresence, value->header.stamp.sec,
+           value->header.stamp.nsec);
   callbackCalled = true;
 }
 
@@ -3023,6 +3032,75 @@ int main(int argc, char **argv) {
 
   set_touch_sensor_client.shutdown();
   sampling_period_touch_sensor_client.shutdown();
+  time_step_client.call(time_step_srv);
+
+  /////////////////////////////////
+  // VACUUM GRIPPER METHODS TEST //
+  /////////////////////////////////
+
+  ros::ServiceClient vacuum_gripper_enable_presence_client;
+  webots_ros::set_int vacuum_gripper_srv;
+  ros::Subscriber sub_vacuum_gripper;
+  vacuum_gripper_enable_presence_client =
+    n.serviceClient<webots_ros::set_int>(model_name + "/vacuum_gripper/presence_sensor/enable");
+
+  vacuum_gripper_srv.request.value = 32;
+  if (vacuum_gripper_enable_presence_client.call(vacuum_gripper_srv) && vacuum_gripper_srv.response.success) {
+    ROS_INFO("Vacuum gripper's presence sensor enabled.");
+    sub_vacuum_gripper = n.subscribe(model_name + "/vacuum_gripper/presence", 1, vacuumGripperCallback);
+    callbackCalled = false;
+    while (sub_vacuum_gripper.getNumPublishers() == 0 || !callbackCalled) {
+      ros::spinOnce();
+      time_step_client.call(time_step_srv);
+    }
+  } else {
+    if (!vacuum_gripper_srv.response.success)
+      ROS_ERROR("Sampling period is not valid.");
+    ROS_ERROR("Failed to enable vacuum gripper's presence sensor.");
+    return 1;
+  }
+
+  sub_vacuum_gripper.shutdown();
+
+  time_step_client.call(time_step_srv);
+  time_step_client.call(time_step_srv);
+  time_step_client.call(time_step_srv);
+
+  vacuum_gripper_srv.request.value = 0;
+  if (vacuum_gripper_enable_presence_client.call(vacuum_gripper_srv) && vacuum_gripper_srv.response.success)
+    ROS_INFO("Vacuum gripper's presence sensor disabled.");
+  else {
+    if (!vacuum_gripper_srv.response.success)
+      ROS_ERROR("Sampling period is not valid.");
+    ROS_ERROR("Failed to disable vacuum gripper's presence sensor.");
+    return 1;
+  }
+
+  ros::ServiceClient vacuum_gripper_turn_on_client;
+  webots_ros::set_bool vacuum_gripper_turn_on_srv;
+  vacuum_gripper_turn_on_client = n.serviceClient<webots_ros::set_bool>(model_name + "/vacuum_gripper/turn_on");
+
+  vacuum_gripper_turn_on_srv.request.value = true;
+  if (vacuum_gripper_turn_on_client.call(vacuum_gripper_turn_on_srv) && vacuum_gripper_turn_on_srv.response.success)
+    ROS_INFO("Vacuum gripper has been turned on.");
+  else
+    ROS_INFO("Failed to turn on vacuum gripper.");
+
+  vacuum_gripper_turn_on_client.shutdown();
+  vacuum_gripper_enable_presence_client.shutdown();
+  time_step_client.call(time_step_srv);
+
+  ros::ServiceClient vacuum_gripper_is_on_client;
+  webots_ros::get_bool vacuum_gripper_is_on_srv;
+  vacuum_gripper_is_on_client = n.serviceClient<webots_ros::get_bool>(model_name + "/vacuum_gripper/is_on");
+
+  if (vacuum_gripper_is_on_client.call(vacuum_gripper_is_on_srv))
+    ROS_INFO("Vacuum gripper is on: %d", vacuum_gripper_is_on_srv.response.value);
+  else
+    ROS_INFO("Failed to call is_on for vacuum gripper.");
+
+  vacuum_gripper_turn_on_client.shutdown();
+  vacuum_gripper_enable_presence_client.shutdown();
   time_step_client.call(time_step_srv);
 
   /////////////////////////////
