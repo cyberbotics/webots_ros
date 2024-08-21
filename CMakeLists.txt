@@ -55,6 +55,7 @@ find_package(catkin REQUIRED COMPONENTS roscpp rospy std_msgs sensor_msgs messag
     display_set_font.srv
     field_disable_sf_tracking.srv
     field_enable_sf_tracking.srv
+    field_get_actual_field.srv
     field_get_bool.srv
     field_get_color.srv
     field_get_count.srv
@@ -109,6 +110,7 @@ find_package(catkin REQUIRED COMPONENTS roscpp rospy std_msgs sensor_msgs messag
     node_get_pose.srv
     node_get_parent_node.srv
     node_get_position.srv
+    node_get_proto.srv
     node_get_static_balance.srv
     node_get_status.srv
     node_get_string.srv
@@ -122,6 +124,12 @@ find_package(catkin REQUIRED COMPONENTS roscpp rospy std_msgs sensor_msgs messag
     node_set_visibility.srv
     node_set_velocity.srv
     pen_set_ink_color.srv
+    proto_get_field.srv
+    proto_get_field_by_index.srv
+    proto_get_number_of_fields.srv
+    proto_get_parent.srv
+    proto_get_type_name.srv
+    proto_is_derived.srv
     range_finder_get_info.srv
     receiver_get_emitter_direction.srv
     robot_get_device_list.srv

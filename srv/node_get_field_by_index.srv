@@ -1,5 +1,5 @@
 uint64 node
 uint32 index
-bool proto
+bool queryBaseNode
 ---
 uint64 field

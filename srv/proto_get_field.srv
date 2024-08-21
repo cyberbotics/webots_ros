@@ -1,5 +1,4 @@
-uint64 node
+uint64 proto
 string fieldName
-bool queryBaseNode
 ---
 uint64 field

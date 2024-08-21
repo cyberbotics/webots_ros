@@ -71,6 +71,7 @@
 #include <webots_ros/display_set_font.h>
 #include <webots_ros/field_disable_sf_tracking.h>
 #include <webots_ros/field_enable_sf_tracking.h>
+#include <webots_ros/field_get_actual_field.h>
 #include <webots_ros/field_get_bool.h>
 #include <webots_ros/field_get_color.h>
 #include <webots_ros/field_get_count.h>
@@ -112,6 +113,7 @@
 #include <webots_ros/node_get_parent_node.h>
 #include <webots_ros/node_get_pose.h>
 #include <webots_ros/node_get_position.h>
+#include <webots_ros/node_get_proto.h>
 #include <webots_ros/node_get_static_balance.h>
 #include <webots_ros/node_get_status.h>
 #include <webots_ros/node_get_string.h>
@@ -124,6 +126,12 @@
 #include <webots_ros/node_set_velocity.h>
 #include <webots_ros/node_set_visibility.h>
 #include <webots_ros/pen_set_ink_color.h>
+#include <webots_ros/proto_get_field.h>
+#include <webots_ros/proto_get_field_by_index.h>
+#include <webots_ros/proto_get_number_of_fields.h>
+#include <webots_ros/proto_get_parent.h>
+#include <webots_ros/proto_get_type_name.h>
+#include <webots_ros/proto_is_derived.h>
 #include <webots_ros/range_finder_get_info.h>
 #include <webots_ros/receiver_get_emitter_direction.h>
 #include <webots_ros/robot_get_device_list.h>
@@ -3471,30 +3479,43 @@ int main(int argc, char **argv) {
   supervisor_node_restart_controller_client.shutdown();
   time_step_client.call(time_step_srv);
 
+  // test node_get_field
   ros::ServiceClient supervisor_node_get_field_client;
   webots_ros::node_get_field supervisor_node_get_field_srv;
   supervisor_node_get_field_client = n.serviceClient<webots_ros::node_get_field>(model_name + "/supervisor/node/get_field");
 
   supervisor_node_get_field_srv.request.node = root_node;
   supervisor_node_get_field_srv.request.fieldName = "children";
-  supervisor_node_get_field_srv.request.proto = 0;
+  supervisor_node_get_field_srv.request.queryBaseNode = 0;
   supervisor_node_get_field_client.call(supervisor_node_get_field_srv);
   uint64_t field = supervisor_node_get_field_srv.response.field;
+
+  // retrieve additional fields for the field_get_actual_field test later
+  supervisor_node_get_field_srv.request.node = ground_node;
+  supervisor_node_get_field_srv.request.fieldName = "name";
+  supervisor_node_get_field_srv.request.queryBaseNode = 0;
+  supervisor_node_get_field_client.call(supervisor_node_get_field_srv);
+  uint64_t ground_actual_name_field = supervisor_node_get_field_srv.response.field;
+  supervisor_node_get_field_srv.request.queryBaseNode = 1;
+  supervisor_node_get_field_client.call(supervisor_node_get_field_srv);
+  uint64_t ground_base_name_field = supervisor_node_get_field_srv.response.field;
 
   supervisor_node_get_field_client.shutdown();
   time_step_client.call(time_step_srv);
 
+  // test node_get_number_of_fields
   ros::ServiceClient wb_supervisor_node_get_number_of_fields_client;
   webots_ros::node_get_number_of_fields wb_supervisor_node_get_number_of_fields_srv;
   wb_supervisor_node_get_number_of_fields_client =
     n.serviceClient<webots_ros::node_get_number_of_fields>(model_name + "/supervisor/node/get_number_of_fields");
   wb_supervisor_node_get_number_of_fields_srv.request.node = root_node;
-  wb_supervisor_node_get_number_of_fields_srv.request.proto = 0;
+  wb_supervisor_node_get_number_of_fields_srv.request.queryBaseNode = 0;
   wb_supervisor_node_get_number_of_fields_client.call(wb_supervisor_node_get_number_of_fields_srv);
   ROS_INFO("World's root Group node have %d fields.", wb_supervisor_node_get_number_of_fields_srv.response.value);
   wb_supervisor_node_get_number_of_fields_client.shutdown();
   time_step_client.call(time_step_srv);
 
+  // test node_get_field_by_index
   ros::ServiceClient wb_supervisor_node_get_field_by_index_client;
   webots_ros::node_get_field_by_index wb_supervisor_node_get_field_by_index_srv;
   wb_supervisor_node_get_field_by_index_client =
@@ -3507,6 +3528,19 @@ int main(int argc, char **argv) {
   wb_supervisor_node_get_field_by_index_client.shutdown();
   time_step_client.call(time_step_srv);
 
+  // test field_get_actual_field
+  ros::ServiceClient supervisor_field_get_actual_field_client;
+  webots_ros::field_get_actual_field supervisor_field_get_actual_field_srv;
+  supervisor_field_get_actual_field_client =
+    n.serviceClient<webots_ros::field_get_actual_field>(model_name + "/supervisor/field/get_actual_field");
+  supervisor_field_get_actual_field_srv.request.field = ground_base_name_field;
+  supervisor_field_get_actual_field_client.call(supervisor_field_get_actual_field_srv);
+  if ( supervisor_field_get_actual_field_srv.response.field == ground_actual_name_field)
+    ROS_INFO("Field's actual field matches the field in the scene tree.");
+  else
+    ROS_ERROR("Field's actual field does not match the field in the scene tree.");
+
+  // test field_get_name
   ros::ServiceClient supervisor_field_get_name_client;
   webots_ros::field_get_name supervisor_field_get_name_srv;
   supervisor_field_get_name_client = n.serviceClient<webots_ros::field_get_name>(model_name + "/supervisor/field/get_name");
@@ -3516,6 +3550,7 @@ int main(int argc, char **argv) {
   supervisor_field_get_name_client.shutdown();
   time_step_client.call(time_step_srv);
 
+  // test field_get_type
   ros::ServiceClient supervisor_field_get_type_client;
   webots_ros::field_get_type supervisor_field_get_type_srv;
   supervisor_field_get_type_client = n.serviceClient<webots_ros::field_get_type>(model_name + "/supervisor/field/get_type");
@@ -3527,6 +3562,7 @@ int main(int argc, char **argv) {
   supervisor_field_get_type_client.shutdown();
   time_step_client.call(time_step_srv);
 
+  // test field_get_type_name
   ros::ServiceClient supervisor_field_get_type_name_client;
   webots_ros::field_get_name supervisor_field_get_type_name_srv;
   supervisor_field_get_type_name_client =
@@ -3539,6 +3575,7 @@ int main(int argc, char **argv) {
   supervisor_field_get_type_name_client.shutdown();
   time_step_client.call(time_step_srv);
 
+  // test field_get_count
   ros::ServiceClient supervisor_field_get_count_client;
   webots_ros::field_get_count supervisor_field_get_count_srv;
   supervisor_field_get_count_client = n.serviceClient<webots_ros::field_get_count>(model_name + "/supervisor/field/get_count");
@@ -3553,11 +3590,16 @@ int main(int argc, char **argv) {
   supervisor_field_get_count_client.shutdown();
   time_step_client.call(time_step_srv);
 
+  // Get field for upcoming tests
+  supervisor_node_get_field_client = n.serviceClient<webots_ros::node_get_field>(model_name + "/supervisor/node/get_field");
   supervisor_node_get_field_srv.request.node = from_def_node;
   supervisor_node_get_field_srv.request.fieldName = "name";
+  supervisor_node_get_field_srv.request.queryBaseNode = 0;
   supervisor_node_get_field_client.call(supervisor_node_get_field_srv);
   field = supervisor_node_get_field_srv.response.field;
+  supervisor_node_get_field_client.shutdown();
 
+  // supervisor_field_set_string
   ros::ServiceClient supervisor_field_set_string_client;
   webots_ros::field_set_string supervisor_field_set_string_srv;
   supervisor_field_set_string_client =
@@ -3620,11 +3662,15 @@ int main(int argc, char **argv) {
   supervisor_field_get_string_client.shutdown();
   time_step_client.call(time_step_srv);
 
+  // Get field for upcomming tests
+  supervisor_node_get_field_client = n.serviceClient<webots_ros::node_get_field>(model_name + "/supervisor/node/get_field");
   supervisor_node_get_field_srv.request.node = root_node;
   supervisor_node_get_field_srv.request.fieldName = "children";
   supervisor_node_get_field_client.call(supervisor_node_get_field_srv);
   field = supervisor_node_get_field_srv.response.field;
+  supervisor_node_get_field_client.shutdown();
 
+  // test supervisor_field_get_node
   ros::ServiceClient supervisor_field_get_node_client;
   webots_ros::field_get_node supervisor_field_get_node_srv;
   supervisor_field_get_node_client = n.serviceClient<webots_ros::field_get_node>(model_name + "/supervisor/field/get_node");
@@ -3917,6 +3963,115 @@ int main(int argc, char **argv) {
     ROS_ERROR("Failed to call service node_export_string.");
 
   node_export_string_client.shutdown();
+  time_step_client.call(time_step_srv);
+
+  // test node_get_proto
+  ros::ServiceClient node_get_proto_client;
+  webots_ros::node_get_proto node_get_proto_srv;
+  node_get_proto_client = n.serviceClient<webots_ros::node_get_proto>(model_name + "/supervisor/node/get_proto");
+  node_get_proto_srv.request.node = ground_node;
+  node_get_proto_client.call(node_get_proto_srv);
+  uint64_t proto = node_get_proto_srv.response.proto;
+  if (proto != 0)
+    ROS_INFO("Ground proto retrieved successfully.");
+  else
+    ROS_ERROR("Failed to call service node_get_proto.");
+
+  node_get_proto_client.shutdown();
+  time_step_client.call(time_step_srv);
+
+  // test proto_get_field
+  ros::ServiceClient proto_get_field_client;
+  webots_ros::proto_get_field proto_get_field_srv;
+  proto_get_field_client = n.serviceClient<webots_ros::proto_get_field>(model_name + "/supervisor/proto/get_field");
+  proto_get_field_srv.request.proto = proto;
+  proto_get_field_srv.request.fieldName = "name";
+  proto_get_field_client.call(proto_get_field_srv);
+  uint64_t proto_field = proto_get_field_srv.response.field;
+  if (proto_field != 0)
+    ROS_INFO("Proto field \"name\" retrieved successfully.");
+  else
+    ROS_ERROR("Failed to call service proto_get_field.");
+
+  proto_get_field_client.shutdown();
+  time_step_client.call(time_step_srv);
+
+  // test proto_get_field_by_index
+  ros::ServiceClient proto_get_field_by_index_client;
+  webots_ros::proto_get_field_by_index proto_get_field_by_index_srv;
+  proto_get_field_by_index_client =
+    n.serviceClient<webots_ros::proto_get_field_by_index>(model_name + "/supervisor/proto/get_field_by_index");
+  proto_get_field_by_index_srv.request.proto = proto;
+  proto_get_field_by_index_srv.request.index = 0;
+  proto_get_field_by_index_client.call(proto_get_field_by_index_srv);
+  proto_field = proto_get_field_by_index_srv.response.field;
+  if (proto_field != 0)
+    ROS_INFO("Proto field at index 0 retrieved successfully.");
+  else
+    ROS_ERROR("Failed to call service proto_get_field_by_index.");
+
+  proto_get_field_by_index_client.shutdown();
+  time_step_client.call(time_step_srv);
+
+  // test proto_get_number_of_fields
+  ros::ServiceClient proto_get_number_of_fields_client;
+  webots_ros::proto_get_number_of_fields proto_get_number_of_fields_srv;
+  proto_get_number_of_fields_client =
+    n.serviceClient<webots_ros::proto_get_number_of_fields>(model_name + "/supervisor/proto/get_number_of_fields");
+  proto_get_number_of_fields_srv.request.proto = proto;
+  proto_get_number_of_fields_client.call(proto_get_number_of_fields_srv);
+  int32_t proto_number_of_fields = proto_get_number_of_fields_srv.response.value;
+  if (proto_number_of_fields == 14)
+    ROS_INFO("Proto has 14 fields.");
+  else
+    ROS_ERROR("Proto has %d fields. Should be 14.", proto_number_of_fields);
+
+  proto_get_number_of_fields_client.shutdown();
+  time_step_client.call(time_step_srv);
+
+  // test proto_get_parent
+  ros::ServiceClient proto_get_parent_client;
+  webots_ros::proto_get_parent proto_get_parent_srv;
+  proto_get_parent_client = n.serviceClient<webots_ros::proto_get_parent>(model_name + "/supervisor/proto/get_parent");
+  proto_get_parent_srv.request.proto = proto;
+  proto_get_parent_client.call(proto_get_parent_srv);
+  uint64_t proto_parent = proto_get_parent_srv.response.proto;
+  if (proto_parent == 0)
+    ROS_INFO("Proto has no parent.");
+  else
+    ROS_ERROR("Proto has a parent. Should have no parent.");
+
+  proto_get_parent_client.shutdown();
+  time_step_client.call(time_step_srv);
+
+  // test proto_get_type_name
+  ros::ServiceClient proto_get_type_name_client;
+  webots_ros::proto_get_type_name proto_get_type_name_srv;
+  proto_get_type_name_client = n.serviceClient<webots_ros::proto_get_type_name>(model_name + "/supervisor/proto/get_type_name");
+  proto_get_type_name_srv.request.proto = proto;
+  proto_get_type_name_client.call(proto_get_type_name_srv);
+  std::string proto_type_name = proto_get_type_name_srv.response.value;
+  if (proto_type_name.compare("RectangleArena") == 0)
+    ROS_INFO("Proto type name is \"RectangleArena\".");
+  else
+    ROS_ERROR("Proto type name is \"%s\". Should be \"RectangleArena\".", proto_type_name.c_str());
+
+  proto_get_type_name_client.shutdown();
+  time_step_client.call(time_step_srv);
+
+  // test proto_is_derived
+  ros::ServiceClient proto_is_derived_client;
+  webots_ros::proto_is_derived proto_is_derived_srv;
+  proto_is_derived_client = n.serviceClient<webots_ros::proto_is_derived>(model_name + "/supervisor/proto/is_derived");
+  proto_is_derived_srv.request.proto = proto;
+  proto_is_derived_client.call(proto_is_derived_srv);
+  bool proto_is_derived = proto_is_derived_srv.response.value;
+  if (!proto_is_derived)
+    ROS_INFO("Proto is not derived.");
+  else
+    ROS_ERROR("Proto is derived. Should not be derived.");
+
+  proto_is_derived_client.shutdown();
   time_step_client.call(time_step_srv);
 
   // html robot window
