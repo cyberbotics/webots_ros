@@ -10,7 +10,7 @@ Docker is an open-source platform designed to simplify the development, deployme
 
 ## Why Use Docker?
 
-Since ROS 1 does not support Ubuntu 22.04 or newer OS versions, and Webots R2024a has dropped support for Ubuntu 20.04 and ROS 1, this setup ensures a unified development environment. It allows ROS 1 and Webots to coexist seamlessly, bypassing OS and Webots version restrictions. Also. with this setup, you can use GUI applications directly from Docker, such as RViz, with GPU acceleration enabled.
+Since ROS (1) does not support Ubuntu 22.04 or newer OS versions, and Webots R2024a has dropped support for Ubuntu 20.04 and ROS (1), this setup ensures a unified development environment. It allows ROS (1) and Webots to coexist seamlessly, bypassing OS and Webots version restrictions. Also. with this setup, you can use GUI applications directly from Docker, such as RViz, with GPU acceleration enabled.
 
 ---
 
@@ -29,7 +29,7 @@ curl -sSL https://get.docker.com | sh && sudo usermod -aG docker $USER
 
 ## Use Docker with Webots and ROS 1:
 
-This guide explains how to set up and run Docker with Webots and ROS 1 using the `webots_ros` repository.
+This guide explains how to set up and run Docker with Webots and ROS (1) using the `webots_ros` repository.
 
 ## Steps
 
@@ -86,7 +86,7 @@ This guide explains how to set up and run Docker with Webots and ROS 1 using the
 
 ## Notes:
 
-For more information on how to run ROS 1 and Webots, follow the instructions at:
+For more information on how to run ROS (1) and Webots, follow the instructions at:
 
 - [Sample Simulations](https://wiki.ros.org/webots_ros/Tutorials/Sample%20Simulations)
 - Ensure you have Docker installed before proceeding
