@@ -1,5 +1,9 @@
 # Webots & ROS (1) Inside Docker
 
+A demonstration of using Docker as a development environment for ROS (1) and Webots, even though ROS (1) is deprecated.
+
+## What is Docker?
+
 Docker is an open-source platform designed to simplify the development, deployment, and operation of applications by using containerization. Consisting of Docker Engine, a portable, lightweight runtime and packaging tool, and Docker Hub, a cloud service for sharing applications and automating workflows, Docker enables apps to be quickly assembled from components and eliminates the friction between development, QA, and production environments.
 
 ---
