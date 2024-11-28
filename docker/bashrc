@@ -1,0 +1,4 @@
+source /opt/ros/${ROS_DISTRO}/setup.bash
+source ~/ros_ws/devel/setup.bash
+
+export WEBOTS_HOME=/usr/local/webots
