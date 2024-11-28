@@ -1,4 +1,4 @@
-# What is Docker?
+# Webots & ROS (1) Inside Docker
 
 Docker is an open-source platform designed to simplify the development, deployment, and operation of applications by using containerization. Consisting of Docker Engine, a portable, lightweight runtime and packaging tool, and Docker Hub, a cloud service for sharing applications and automating workflows, Docker enables apps to be quickly assembled from components and eliminates the friction between development, QA, and production environments.
 
@@ -32,6 +32,7 @@ This guide explains how to set up and run Docker with Webots and ROS 1 using the
 1. Clone the `webots_ros` repository:
 
     ```bash
+    cd ~
     git clone https://github.com/cyberbotics/webots_ros.git
     ```
 
@@ -41,11 +42,15 @@ This guide explains how to set up and run Docker with Webots and ROS 1 using the
     cd ~/webots_ros/docker
     ```
 
-3.  Run the command (edit the Webots version if needed):
+3. Build, run, and attach a shell to the running container (only required once; update the Webots version if needed):
 
     ```bash
     WEBOTS_VERSION=2023b make build run exec
     ```
+
+    - `build`: Builds the Docker image.
+    - `run`: Starts the Docker container.
+    - `exec`: Attaches a shell to the running container.
 
 4.  Build the ROS workspace:
 
@@ -62,15 +67,17 @@ This guide explains how to set up and run Docker with Webots and ROS 1 using the
     ```bash
     roslaunch webots_ros tiago.launch
     ```
-7.  Open a new terminal and enter the existing container:
+7.  Attach a new shell to the running container and run Rviz:
 
     ```bash
     make exec
+    rviz -d ~/ros_ws/src/webots_ros/config/rviz_config.rviz
     ```
-8.  Open RViz:
+8.  Attach a new shell to the running container and teleoperate the tiago robot:
 
     ```bash
-    rviz -d ~/ros_ws/src/webots_ros/config/rviz_config.rviz
+    make exec
+    rosrun teleop_twist_keyboard teleop_twist_keyboard.py cmd_vel:=/diff_drive_controller/cmd_vel
     ```
 
 ## Notes:
